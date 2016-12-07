@@ -7,5 +7,8 @@ public interface IEntidadDatos<T> {
 	boolean actualizar();
 	boolean eliminar();
 	T buscar(int id);
-	List<T> listar();
+	default List<T> listar() {
+		return listar("");
+	}
+	List<T> listar(String textoBusqueda);
 }

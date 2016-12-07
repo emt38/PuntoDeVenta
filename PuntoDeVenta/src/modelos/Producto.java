@@ -90,9 +90,14 @@ public class Producto implements IEntidadDatos<Producto> {
 	public Producto() {
 		super();
 	}
-	
+
 	@Override
-	public List<Producto> listar() {
+	public Producto buscar(int id) {
+		return 	listar().get(id-1);
+	}
+
+	@Override
+	public List<Producto> listar(String textoBusqueda) {
 		ArrayList<Producto> productos = new ArrayList<>();
 		productos.add(new Producto(1, "Berenjena", "05905935303", 50.0f, 25.0f, 18f));
 		productos.add(new Producto(2, "Pan", "05905935304", 100.0f, 50f, 18f));
@@ -100,11 +105,6 @@ public class Producto implements IEntidadDatos<Producto> {
 		productos.add(new Producto(4, "Naranja", "05905935306", 250.0f, 125f, 18f));
 		productos.add(new Producto(5, "Riki Taqui", "05905935307", 300.0f, 150f, 18f));
 		return productos;
-	}
-
-	@Override
-	public Producto buscar(int id) {
-		return 	listar().get(id-1);
 	}
 
 }
