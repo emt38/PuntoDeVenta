@@ -1,5 +1,14 @@
 package principal;
 
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
+import vistas.Master;
+
 public class Program {
 	public static String getDBServer() {
 		return "MYSQL5015.HostBuddy.com";
@@ -14,6 +23,26 @@ public class Program {
 	}
 	
 	public static void main(String[] args) {
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Master window = new Master();
+					window.getFrame().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }
