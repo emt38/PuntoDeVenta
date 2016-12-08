@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+import javax.swing.JButton;
 
 public class Cliente extends JFrame {
 
@@ -44,7 +45,7 @@ public class Cliente extends JFrame {
 	public Cliente() {
 		setTitle("Cliente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 556, 217);
+		setBounds(100, 100, 556, 237);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -124,5 +125,17 @@ public class Cliente extends JFrame {
 		textField_5.setBounds(87, 110, 443, 20);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
+		
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.setBounds(441, 164, 89, 23);
+		contentPane.add(btnGuardar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(347, 164, 89, 23);
+		contentPane.add(btnCancelar);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBounds(248, 164, 89, 23);
+		contentPane.add(btnEditar);
 	}
 }
