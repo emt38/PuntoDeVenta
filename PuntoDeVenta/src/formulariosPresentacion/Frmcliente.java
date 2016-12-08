@@ -15,6 +15,7 @@ public class Frmcliente {
 
 	private JFrame frame;
 	private JTextField txtNombre;
+	private JTextField txtApellido;
 
 	/**
 	 * Launch the application.
@@ -55,14 +56,23 @@ public class Frmcliente {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		frame.getContentPane().add(lblNombre, "2, 4, right, default");
 		
 		txtNombre = new JTextField();
-		frame.getContentPane().add(txtNombre, "4, 4, left, default");
+		frame.getContentPane().add(txtNombre, "4, 4");
 		txtNombre.setColumns(10);
+		
+		JLabel lblApellido = new JLabel("Apellido:");
+		frame.getContentPane().add(lblApellido, "2, 6, right, default");
+		
+		txtApellido = new JTextField();
+		txtApellido.setColumns(10);
+		frame.getContentPane().add(txtApellido, "4, 6, fill, default");
 		
 		 
 	}
