@@ -16,7 +16,7 @@ import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import java.awt.Toolkit;
 
-public class Cliente extends JFrame {
+public class Proveedor extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -36,7 +36,7 @@ public class Cliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cliente frame = new Cliente();
+					Proveedor frame = new Proveedor();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,9 +48,9 @@ public class Cliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Cliente() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Cliente.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
-		setTitle("CLIENTE");
+	public Proveedor() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Proveedor.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
+		setTitle("PROVEEDOR");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 568, 289);
 		contentPane = new JPanel();
@@ -72,7 +72,7 @@ public class Cliente extends JFrame {
 		contentPane.add(btnGuardar_1);
 		
 		JButton btnNuevo = new JButton("NUEVO");
-		btnNuevo.setSelectedIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
+		btnNuevo.setSelectedIcon(new ImageIcon(Proveedor.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
 		btnNuevo.setBounds(5, 217, 101, 31);
 		contentPane.add(btnNuevo);
@@ -122,7 +122,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblCedulaRnc);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(133, 127, 164, 20);
+		textField_4.setBounds(133, 127, 144, 20);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
@@ -135,7 +135,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblTelefono);
 		
 		textField_5 = new JTextField();
-		textField_5.setBounds(133, 152, 164, 20);
+		textField_5.setBounds(133, 152, 144, 20);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		
@@ -157,7 +157,7 @@ public class Cliente extends JFrame {
 		textField_6.setColumns(10);
 		
 		textField_7 = new JTextField();
-		textField_7.setBounds(133, 177, 164, 20);
+		textField_7.setBounds(133, 177, 144, 20);
 		contentPane.add(textField_7);
 		textField_7.setColumns(10);
 		
@@ -179,31 +179,31 @@ public class Cliente extends JFrame {
 		contentPane.add(separator_1);
 		
 		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
+		btnNewButton.setIcon(new ImageIcon(Proveedor.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
 		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton.setBounds(260, 6, 56, 31);
 		contentPane.add(btnNewButton);
 		
 		JButton button = new JButton("");
-		button.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
+		button.setIcon(new ImageIcon(Proveedor.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
 		button.setHorizontalAlignment(SwingConstants.LEFT);
 		button.setBounds(315, 6, 56, 31);
 		contentPane.add(button);
 		
 		JButton button_1 = new JButton("");
-		button_1.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/Search.png")));
+		button_1.setIcon(new ImageIcon(Proveedor.class.getResource("/Iconos_E_Imagenes/Search.png")));
 		button_1.setHorizontalAlignment(SwingConstants.LEFT);
 		button_1.setBounds(370, 6, 56, 31);
 		contentPane.add(button_1);
 		
 		JButton button_2 = new JButton("");
-		button_2.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
+		button_2.setIcon(new ImageIcon(Proveedor.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
 		button_2.setHorizontalAlignment(SwingConstants.LEFT);
 		button_2.setBounds(425, 6, 56, 31);
 		contentPane.add(button_2);
 		
 		JButton button_3 = new JButton("");
-		button_3.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
+		button_3.setIcon(new ImageIcon(Proveedor.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
 		button_3.setHorizontalAlignment(SwingConstants.LEFT);
 		button_3.setBounds(480, 6, 56, 31);
 		contentPane.add(button_3);
