@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
+import java.awt.Toolkit;
 
 public class Cliente extends JFrame {
 
@@ -48,39 +49,41 @@ public class Cliente extends JFrame {
 	 * Create the frame.
 	 */
 	public Cliente() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Cliente.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
+		setTitle("CLIENTE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 568, 297);
+		setBounds(100, 100, 568, 289);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnGuardar = new JButton("SALIR");
-		btnGuardar.setBounds(357, 217, 90, 31);
+		btnGuardar.setBounds(451, 217, 101, 31);
 		contentPane.add(btnGuardar);
 		
 		JButton btnEditar = new JButton("CANCELAR");
-		btnEditar.setBounds(269, 217, 90, 31);
+		btnEditar.setBounds(269, 217, 101, 31);
 		contentPane.add(btnEditar);
 		
 		JButton btnGuardar_1 = new JButton("GUARDAR");
 		btnGuardar_1.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar_1.setBounds(182, 217, 90, 31);
+		btnGuardar_1.setBounds(182, 217, 101, 31);
 		contentPane.add(btnGuardar_1);
 		
 		JButton btnNuevo = new JButton("NUEVO");
 		btnNuevo.setSelectedIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
-		btnNuevo.setBounds(5, 217, 90, 31);
+		btnNuevo.setBounds(5, 217, 101, 31);
 		contentPane.add(btnNuevo);
 		
 		JButton btnModificar = new JButton("MODIFICAR");
-		btnModificar.setBounds(93, 217, 90, 31);
+		btnModificar.setBounds(93, 217, 101, 31);
 		contentPane.add(btnModificar);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(48, 11, 172, 20);
+		textField.setBounds(60, 11, 197, 20);
 		contentPane.add(textField);
 		
 		JLabel lblCodigo = new JLabel("CODIGO:");
@@ -92,7 +95,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblNomre);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(113, 52, 332, 20);
+		textField_1.setBounds(133, 52, 312, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -101,7 +104,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblApellido);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(113, 77, 332, 20);
+		textField_2.setBounds(133, 77, 312, 20);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -110,7 +113,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblDirecion);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(113, 102, 423, 20);
+		textField_3.setBounds(133, 102, 403, 20);
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -119,7 +122,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblCedulaRnc);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(113, 127, 144, 20);
+		textField_4.setBounds(133, 127, 144, 20);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
@@ -132,7 +135,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblTelefono);
 		
 		textField_5 = new JTextField();
-		textField_5.setBounds(113, 152, 144, 20);
+		textField_5.setBounds(133, 152, 144, 20);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		
@@ -154,12 +157,12 @@ public class Cliente extends JFrame {
 		textField_6.setColumns(10);
 		
 		textField_7 = new JTextField();
-		textField_7.setBounds(113, 177, 144, 20);
+		textField_7.setBounds(133, 177, 144, 20);
 		contentPane.add(textField_7);
 		textField_7.setColumns(10);
 		
 		JLabel lblFechaDeIngreso = new JLabel("FECHA DE INGRESO:");
-		lblFechaDeIngreso.setBounds(5, 180, 109, 14);
+		lblFechaDeIngreso.setBounds(5, 180, 118, 14);
 		contentPane.add(lblFechaDeIngreso);
 		
 		textField_8 = new JTextField();
@@ -174,5 +177,39 @@ public class Cliente extends JFrame {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(5, 208, 547, 14);
 		contentPane.add(separator_1);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
+		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton.setBounds(260, 6, 56, 31);
+		contentPane.add(btnNewButton);
+		
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
+		button.setHorizontalAlignment(SwingConstants.LEFT);
+		button.setBounds(315, 6, 56, 31);
+		contentPane.add(button);
+		
+		JButton button_1 = new JButton("");
+		button_1.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/Search.png")));
+		button_1.setHorizontalAlignment(SwingConstants.LEFT);
+		button_1.setBounds(370, 6, 56, 31);
+		contentPane.add(button_1);
+		
+		JButton button_2 = new JButton("");
+		button_2.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
+		button_2.setHorizontalAlignment(SwingConstants.LEFT);
+		button_2.setBounds(425, 6, 56, 31);
+		contentPane.add(button_2);
+		
+		JButton button_3 = new JButton("");
+		button_3.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
+		button_3.setHorizontalAlignment(SwingConstants.LEFT);
+		button_3.setBounds(480, 6, 56, 31);
+		contentPane.add(button_3);
+		
+		JButton btnEliminar = new JButton("ELIMINAR");
+		btnEliminar.setBounds(358, 217, 101, 31);
+		contentPane.add(btnEliminar);
 	}
 }
