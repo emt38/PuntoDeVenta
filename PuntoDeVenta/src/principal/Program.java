@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import vistas.Master;
+import vistas.MasterFrame;
 
 public class Program {
 	public static String getDBServer() {
@@ -37,7 +37,7 @@ public class Program {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Master window = new Master();
+					MasterFrame window = new MasterFrame();
 					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

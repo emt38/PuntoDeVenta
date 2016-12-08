@@ -16,7 +16,7 @@ import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import java.awt.Toolkit;
 
-public class Cliente extends JFrame {
+public class ClienteFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -48,10 +48,10 @@ public class Cliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Cliente() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Cliente.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
+	public ClienteFrame() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteFrame.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
 		setTitle("CLIENTE");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 568, 289);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,22 +63,23 @@ public class Cliente extends JFrame {
 		contentPane.add(btnGuardar);
 		
 		JButton btnEditar = new JButton("CANCELAR");
-		btnEditar.setBounds(269, 217, 101, 31);
+		btnEditar.setBounds(265, 217, 93, 31);
 		contentPane.add(btnEditar);
 		
 		JButton btnGuardar_1 = new JButton("GUARDAR");
 		btnGuardar_1.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar_1.setBounds(182, 217, 101, 31);
+		btnGuardar_1.setBounds(182, 217, 83, 31);
 		contentPane.add(btnGuardar_1);
 		
 		JButton btnNuevo = new JButton("NUEVO");
-		btnNuevo.setSelectedIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
+		btnNuevo.setIcon(null);
+		btnNuevo.setSelectedIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
-		btnNuevo.setBounds(5, 217, 101, 31);
+		btnNuevo.setBounds(5, 217, 83, 31);
 		contentPane.add(btnNuevo);
 		
 		JButton btnModificar = new JButton("MODIFICAR");
-		btnModificar.setBounds(93, 217, 101, 31);
+		btnModificar.setBounds(93, 217, 83, 31);
 		contentPane.add(btnModificar);
 		
 		textField = new JTextField();
@@ -157,12 +158,12 @@ public class Cliente extends JFrame {
 		textField_6.setColumns(10);
 		
 		textField_7 = new JTextField();
-		textField_7.setBounds(133, 177, 164, 20);
+		textField_7.setBounds(133, 173, 164, 27);
 		contentPane.add(textField_7);
 		textField_7.setColumns(10);
 		
 		JLabel lblFechaDeIngreso = new JLabel("FECHA DE INGRESO:");
-		lblFechaDeIngreso.setBounds(5, 180, 118, 14);
+		lblFechaDeIngreso.setBounds(5, 180, 118, 20);
 		contentPane.add(lblFechaDeIngreso);
 		
 		textField_8 = new JTextField();
@@ -179,37 +180,37 @@ public class Cliente extends JFrame {
 		contentPane.add(separator_1);
 		
 		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
+		btnNewButton.setIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
 		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton.setBounds(260, 6, 56, 31);
 		contentPane.add(btnNewButton);
 		
 		JButton button = new JButton("");
-		button.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
+		button.setIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
 		button.setHorizontalAlignment(SwingConstants.LEFT);
 		button.setBounds(315, 6, 56, 31);
 		contentPane.add(button);
 		
 		JButton button_1 = new JButton("");
-		button_1.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/Search.png")));
+		button_1.setIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/Search.png")));
 		button_1.setHorizontalAlignment(SwingConstants.LEFT);
 		button_1.setBounds(370, 6, 56, 31);
 		contentPane.add(button_1);
 		
 		JButton button_2 = new JButton("");
-		button_2.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
+		button_2.setIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
 		button_2.setHorizontalAlignment(SwingConstants.LEFT);
 		button_2.setBounds(425, 6, 56, 31);
 		contentPane.add(button_2);
 		
 		JButton button_3 = new JButton("");
-		button_3.setIcon(new ImageIcon(Cliente.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
+		button_3.setIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
 		button_3.setHorizontalAlignment(SwingConstants.LEFT);
 		button_3.setBounds(480, 6, 56, 31);
 		contentPane.add(button_3);
 		
 		JButton btnEliminar = new JButton("ELIMINAR");
-		btnEliminar.setBounds(358, 217, 101, 31);
+		btnEliminar.setBounds(358, 217, 83, 31);
 		contentPane.add(btnEliminar);
 	}
 }

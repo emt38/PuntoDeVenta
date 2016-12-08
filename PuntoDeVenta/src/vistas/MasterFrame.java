@@ -9,8 +9,11 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-public class Master {
+public class MasterFrame {
 
 	private JFrame frame;
 
@@ -28,7 +31,7 @@ public class Master {
 	/**
 	 * Create the application.
 	 */
-	public Master() {
+	public MasterFrame() {
 		initialize();
 	}
 
@@ -44,7 +47,7 @@ public class Master {
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Cliente temp = new Cliente();
+				ClienteFrame temp = new ClienteFrame();
 				temp.setVisible(true);
 			}
 		});
@@ -54,7 +57,7 @@ public class Master {
 		JButton btnProveedores = new JButton("Proveedores");
 		btnProveedores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Proveedor temp = new Proveedor();
+				SuplidoresFrame temp = new SuplidoresFrame();
 				temp.setVisible(true);
 			}
 		});
