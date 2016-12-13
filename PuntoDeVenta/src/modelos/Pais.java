@@ -1,6 +1,13 @@
 package modelos;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import principal.Utilidades;
 
 public class Pais implements IEntidadDatos<Pais> {
 	private int id;
@@ -27,27 +34,67 @@ public class Pais implements IEntidadDatos<Pais> {
 	}
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_Nombre", nombre);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			Utilidades.ejecutarCall("CALL AgregarPais(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idPais", id);
+		temp.put("_Nombre", nombre);
+		try (Connection gate = Utilidades.newConnection();) {
+			Utilidades.ejecutarCall("CALL ModificarPais(?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idPais", id);
+		try (Connection gate = Utilidades.newConnection();) {
+			Utilidades.ejecutarCall("CALL EliminarPais(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 	@Override
 	public Pais buscar(int id) {
-		// TODO Auto-generated method stub
+		List<Pais> paises = listar(String.format("WHERE idpais=%s", id));
+		if(paises.size() > 0)
+			return paises.get(0);
+		
 		return null;
 	}
+	
 	@Override
 	public List<Pais> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Pais> paises = new ArrayList<Pais>();
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT IdPais, Nombre FROM Paises " + textoBusqueda, state);
+			
+			while(datos.next()) {
+				paises.add(new Pais(datos.getInt("IdPais"), datos.getString("Nombre")));
+			}
+			return paises;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return paises;
+		}
 	}
 }

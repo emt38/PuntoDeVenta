@@ -1,20 +1,15 @@
 package principal;
 
 import java.awt.EventQueue;
-import java.util.List;
+import java.sql.DriverManager;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
-import modelos.IEntidadDatos;
-import modelos.Pais;
-import modelos.Producto;
-import modelos.Provincia;
 import vistas.MasterFrame;
 
 public class Program {
 	public static String getDBServer() {
-		return "MYSQL5015.HostBuddy.com";
+		return "jdbc:mysql://MYSQL5015.HostBuddy.com/db_a137dd_posdb";
 	}
 	
 	public static String getDBUser() {
@@ -25,8 +20,9 @@ public class Program {
 		return "Curne2016";
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		        if ("Nimbus".equals(info.getName())) {
 		            UIManager.setLookAndFeel(info.getClassName());
@@ -47,7 +43,5 @@ public class Program {
 				}
 			}
 		});
-		
-		
 	}
 }
