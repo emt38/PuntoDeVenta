@@ -38,7 +38,7 @@ public class Pais implements IEntidadDatos<Pais> {
 		temp.put("_Nombre", nombre);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			Utilidades.ejecutarCall("CALL AgregarPais(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL AgregarPais(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -51,7 +51,7 @@ public class Pais implements IEntidadDatos<Pais> {
 		temp.put("_idPais", id);
 		temp.put("_Nombre", nombre);
 		try (Connection gate = Utilidades.newConnection();) {
-			Utilidades.ejecutarCall("CALL ModificarPais(?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarPais(?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -63,7 +63,7 @@ public class Pais implements IEntidadDatos<Pais> {
 		HashMap<String, Object> temp = new HashMap<>();
 		temp.put("_idPais", id);
 		try (Connection gate = Utilidades.newConnection();) {
-			Utilidades.ejecutarCall("CALL EliminarPais(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL EliminarPais(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

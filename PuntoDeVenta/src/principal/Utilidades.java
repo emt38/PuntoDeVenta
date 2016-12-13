@@ -36,6 +36,42 @@ public final class Utilidades {
 		}
 	}
 	
+	public static boolean ejecutarCallByIndex(String query, Map<Integer, Object> parametros, Connection conexion) {
+		try (CallableStatement st = conexion.prepareCall(query);) {
+			parametros.forEach((Integer key, Object value) -> {
+				try {
+					st.setObject(key, value);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			return st.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static boolean ejecutarCallByIndex(CallableStatement st, Map<Integer, Object> parametros) {
+		try {
+			parametros.forEach((Integer key, Object value) -> {
+				try {
+					st.setObject(key, value);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			return st.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public static boolean ejecutarCall(String query, Map<String, Object> parametros, Connection conexion) {
 		try (CallableStatement st = conexion.prepareCall(query);) {
 			parametros.forEach((String key, Object value) -> {
