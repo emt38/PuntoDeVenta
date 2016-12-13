@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -32,18 +37,18 @@ public class SuplidoresFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Proveedor frame = new Proveedor();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SuplidoresFrame frame = new SuplidoresFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -139,9 +144,9 @@ public class SuplidoresFrame extends JFrame {
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(372, 127, 164, 20);
-		contentPane.add(comboBox);
+		JComboBox cmbSexo = new JComboBox();
+		cmbSexo.setBounds(372, 127, 164, 20);
+		contentPane.add(cmbSexo);
 		
 		JLabel lblSexo = new JLabel("SEXO:");
 		lblSexo.setBounds(302, 130, 46, 14);
@@ -178,35 +183,35 @@ public class SuplidoresFrame extends JFrame {
 		separator_1.setBounds(5, 208, 547, 14);
 		contentPane.add(separator_1);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
-		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton.setBounds(260, 6, 56, 31);
-		contentPane.add(btnNewButton);
+		JButton btnAnterior = new JButton("");
+		btnAnterior.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/ANTERIOR.JPG")));
+		btnAnterior.setHorizontalAlignment(SwingConstants.LEFT);
+		btnAnterior.setBounds(260, 6, 56, 31);
+		contentPane.add(btnAnterior);
 		
-		JButton button = new JButton("");
-		button.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
-		button.setHorizontalAlignment(SwingConstants.LEFT);
-		button.setBounds(315, 6, 56, 31);
-		contentPane.add(button);
+		JButton btnPrimero = new JButton("");
+		btnPrimero.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/PRIMERO.JPG")));
+		btnPrimero.setHorizontalAlignment(SwingConstants.LEFT);
+		btnPrimero.setBounds(315, 6, 56, 31);
+		contentPane.add(btnPrimero);
 		
-		JButton button_1 = new JButton("");
-		button_1.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/Search.png")));
-		button_1.setHorizontalAlignment(SwingConstants.LEFT);
-		button_1.setBounds(370, 6, 56, 31);
-		contentPane.add(button_1);
+		JButton btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/Search.png")));
+		btnBuscar.setHorizontalAlignment(SwingConstants.LEFT);
+		btnBuscar.setBounds(370, 6, 56, 31);
+		contentPane.add(btnBuscar);
 		
-		JButton button_2 = new JButton("");
-		button_2.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
-		button_2.setHorizontalAlignment(SwingConstants.LEFT);
-		button_2.setBounds(425, 6, 56, 31);
-		contentPane.add(button_2);
+		JButton btnUltimo = new JButton("");
+		btnUltimo.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/ULTIMO.JPG")));
+		btnUltimo.setHorizontalAlignment(SwingConstants.LEFT);
+		btnUltimo.setBounds(425, 6, 56, 31);
+		contentPane.add(btnUltimo);
 		
-		JButton button_3 = new JButton("");
-		button_3.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
-		button_3.setHorizontalAlignment(SwingConstants.LEFT);
-		button_3.setBounds(480, 6, 56, 31);
-		contentPane.add(button_3);
+		JButton btnSigte = new JButton("");
+		btnSigte.setIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/SIGUIENTE.JPG")));
+		btnSigte.setHorizontalAlignment(SwingConstants.LEFT);
+		btnSigte.setBounds(480, 6, 56, 31);
+		contentPane.add(btnSigte);
 		
 		JButton btnEliminar = new JButton("ELIMINAR");
 		btnEliminar.setBounds(358, 217, 101, 31);
