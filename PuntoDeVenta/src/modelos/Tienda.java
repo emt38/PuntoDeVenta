@@ -73,6 +73,11 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s", this.getNombre());
+	};
 
 	@Override
 	public List<Tienda> listar(String textoBusqueda) {

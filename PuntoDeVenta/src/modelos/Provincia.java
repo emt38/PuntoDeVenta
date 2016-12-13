@@ -24,6 +24,12 @@ public class Provincia implements IEntidadDatos<Provincia> {
 	}
 	private Pais pais;
 	private String nombre;
+	
+	@Override
+	public String toString() {
+		return String.format("%s", this.getNombre());
+	};
+	
 	@Override
 	public boolean insertar() {
 		// TODO Auto-generated method stub

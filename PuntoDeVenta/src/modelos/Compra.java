@@ -9,7 +9,9 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Interc
 	private Tienda tienda;
 	
 	public Suplidor getSuplidor() {
+		
 		return suplidor;
+		
 	}
 
 	public void setSuplidor(Suplidor suplidor) {
