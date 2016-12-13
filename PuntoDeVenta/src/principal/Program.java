@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.sql.DriverManager;
 import java.util.List;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import vistas.MasterFrame;
@@ -34,6 +36,7 @@ public class Program {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
+		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
