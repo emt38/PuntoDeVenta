@@ -46,6 +46,29 @@ public class Program {
 			}
 		});
 		
+		// Ejemplo de Clientes
+		
+//		Cliente temp = new Cliente();
+//		temp.setNombre("King");
+//		temp.setApellido("Enum");
+//		temp.setCelular("809-852-8745");
+//		temp.setSexo("Masculino");
+//		//temp.insertar();
+//		
+//		Cliente mod = temp.buscar(2);
+		//mod.setNombre("Lambda");
+		//mod.actualizar();
+//		Cliente del = temp.buscar(5);
+//		del.eliminar();
+//		
+//		List<Cliente> clientes = new Cliente().listar();
+//		
+//		for(Cliente c : clientes) {
+//			System.out.println(c.getNombre() + " " + c.getApellido());
+//		}
+		
+		// Ejemplo de Ubicaciones
+		
 //		List<Pais> paises = new Pais().listar();
 //		
 //		for(Pais p : paises) {
