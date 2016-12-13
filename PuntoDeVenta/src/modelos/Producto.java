@@ -99,11 +99,14 @@ public class Producto implements IEntidadDatos<Producto> {
 	@Override
 	public List<Producto> listar(String textoBusqueda) {
 		ArrayList<Producto> productos = new ArrayList<>();
-		productos.add(new Producto(1, "Berenjena", "05905935303", 50.0f, 25.0f, 18f));
-		productos.add(new Producto(2, "Pan", "05905935304", 100.0f, 50f, 18f));
-		productos.add(new Producto(3, "Bistec", "05905935305", 200.0f, 100f, 18f));
-		productos.add(new Producto(4, "Naranja", "05905935306", 250.0f, 125f, 18f));
-		productos.add(new Producto(5, "Riki Taqui", "05905935307", 300.0f, 150f, 18f));
+		productos.add(new Producto(1, "05905935303", "Berenjena", 50.0f, 25.0f, 18f));
+		productos.add(new Producto(2, "05905935304", "Pan", 100.0f, 50f, 18f));
+		productos.add(new Producto(3, "05905935305", "Bistec", 200.0f, 100f, 18f));
+		productos.add(new Producto(4, "05905935306", "Naranja", 250.0f, 125f, 18f));
+		productos.add(new Producto(5, "05905935307", "Riki Taqui", 300.0f, 150f, 18f));
+		productos.add(new Producto(6, "05905935308", "Batata", 6.5f, 4.5f, 18f));
+		productos.add(new Producto(7, "05905935309", "Patata", 5.5f, 4.0f, 18f));
+		
 		return productos;
 	}
 
