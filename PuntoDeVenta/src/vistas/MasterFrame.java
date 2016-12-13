@@ -63,5 +63,26 @@ public class MasterFrame {
 		});
 		btnProveedores.setBounds(269, 89, 89, 23);
 		frame.getContentPane().add(btnProveedores);
+		
+		JButton btnCiudades = new JButton("Ciudades");
+		btnCiudades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CiudadesFrame temp = new CiudadesFrame();
+				temp.setVisible(true);
+			}
+		});
+		btnCiudades.setBounds(50, 120, 85,23 );
+		frame.getContentPane().add(btnCiudades);
+	
+		
+		JButton btnTiendas = new JButton("Tiendas");
+		btnTiendas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TiendasFrame temp = new TiendasFrame();
+				temp.setVisible(true);
+			}
+		});
+		btnTiendas.setBounds(269, 120, 85,23 );
+		frame.getContentPane().add(btnTiendas);
 	}
 }
