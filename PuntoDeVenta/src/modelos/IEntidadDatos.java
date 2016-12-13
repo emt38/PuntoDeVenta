@@ -9,6 +9,8 @@ public interface IEntidadDatos<T> {
 	T buscar(int id);
 	default List<T> listar() {
 		return listar("");
+
 	}
+	
 	List<T> listar(String textoBusqueda);
 }

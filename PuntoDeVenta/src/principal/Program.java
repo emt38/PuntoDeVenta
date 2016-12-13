@@ -1,17 +1,19 @@
 package principal;
 
 import java.awt.EventQueue;
+import java.sql.DriverManager;
+import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
 import vistas.MasterFrame;
+import modelos.*;
 
 public class Program {
 	public static String getDBServer() {
-		return "MYSQL5015.HostBuddy.com";
+		return "jdbc:mysql://MYSQL5015.HostBuddy.com/db_a137dd_posdb";
 	}
 	
 	public static String getDBUser() {
@@ -22,8 +24,9 @@ public class Program {
 		return "Curne2016";
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		        if ("Nimbus".equals(info.getName())) {
 		            UIManager.setLookAndFeel(info.getClassName());
@@ -33,6 +36,7 @@ public class Program {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
+		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -44,5 +48,53 @@ public class Program {
 				}
 			}
 		});
+		
+		// Ejemplo de Clientes
+		
+//		Cliente temp = new Cliente();
+//		temp.setNombre("King");
+//		temp.setApellido("Enum");
+//		temp.setCelular("809-852-8745");
+//		temp.setSexo("Masculino");
+//		//temp.insertar();
+//		
+//		Cliente mod = temp.buscar(2);
+		//mod.setNombre("Lambda");
+		//mod.actualizar();
+//		Cliente del = temp.buscar(5);
+//		del.eliminar();
+//		
+//		List<Cliente> clientes = new Cliente().listar();
+//		
+//		for(Cliente c : clientes) {
+//			System.out.println(c.getNombre() + " " + c.getApellido());
+//		}
+		
+		// Ejemplo de Ubicaciones
+		
+//		List<Pais> paises = new Pais().listar();
+//		
+//		for(Pais p : paises) {
+//			System.out.println(p.getNombre());
+//		}
+//		
+//		System.out.println();
+//		
+//		List<Provincia> provincias = new Provincia().listar();
+//		
+//		for(Provincia p : provincias) {
+//			System.out.println(p.getNombre());
+//		}
+//		
+//		System.out.println();
+//		
+//		Ciudad temp = new Ciudad(0, provincias.get(0), "San Francisco de Macorís");
+//		//temp.insertar();
+//		
+//		List<Ciudad> ciudades = new Ciudad().listar();
+//		
+//		for(Ciudad c : ciudades) {
+//			System.out.println(c.getNombre());
+//		}
 	}
 }
