@@ -2,10 +2,6 @@ package principal;
 
 import java.awt.EventQueue;
 import java.sql.DriverManager;
-import java.util.List;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import vistas.MasterFrame;
@@ -24,6 +20,21 @@ public class Program {
 		return "Curne2016";
 	}
 	
+	public static Usuario getLoggedUser() {
+		return new Usuario(loggedUser.getId(), loggedUser.getNombreUsuario(), "", "", loggedUser.getNombreCompleto(), loggedUser.getTipo(), loggedUser.getTienda());
+	}
+	
+	public static boolean setLoggedUser(Usuario temp) {
+		if(temp.iniciarSesion()) {
+			loggedUser = temp;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private static Usuario loggedUser;
+	
 	public static void main(String[] args) {	
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -36,7 +47,7 @@ public class Program {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
-		
+		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.SysAdmin, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

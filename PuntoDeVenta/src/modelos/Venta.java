@@ -1,6 +1,16 @@
 package modelos;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import principal.Utilidades;
 
 public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> {
 	
@@ -61,19 +71,84 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 	
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idCliente", cliente.getId());
+		temp.put("_idTienda", tienda.getId());
+		temp.put("_idCajero", cajero.getId());
+		temp.put("_terminalVentas", terminalVentas);
+		temp.put("_efectivoRecibido", efectivoRecibido);
+		temp.put("_cambioDevuelto", cambioDevuelto);
+		temp.put("_subtotal", subTotal);
+		temp.put("_impuestos", impuestos);
+		temp.put("_descuentos", descuentos);
+		temp.put("_total", total);
+		temp.put("_efectuado", true);
+		
+		try (Connection gate = Utilidades.newConnection();
+			CallableStatement state = gate.prepareCall("CALL AgregarVentasEncabezado(?,?,?,?,?,?,?,?,?,?,?)");
+			CallableStatement detail = gate.prepareCall("CALL AgregarVentasDetalle(?,?,?,?,?,?)");) {
+			
+			Utilidades.ejecutarCall(state, temp);
+			List<Venta> laultima = this.listar("ORDER BY idcompra DESC LIMIT 0, 1");
+			noDocumento = laultima.get(0).getNoDocumento();
+			
+			for(Articulo a : articulos) {
+				temp.clear();
+				temp.put("_idVenta", noDocumento);
+				temp.put("_idProducto", a.getProducto().getId());
+				temp.put("_valor", a.getValor());
+				temp.put("_impuestos", a.getImpuestos());
+				temp.put("_subtotal", a.getSubTotal());
+				temp.put("_cantidad", a.getCantidad());
+				
+				Utilidades.ejecutarCall(detail, temp);
+				registrarInventario();
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idVenta", noDocumento);
+		temp.put("_idCliente", cliente.getId());
+		temp.put("_idTienda", tienda.getId());
+		temp.put("_idCajero", cajero.getId());
+		temp.put("_terminalVentas", terminalVentas);
+		temp.put("_efectivoRecibido", efectivoRecibido);
+		temp.put("_cambioDevuelto", cambioDevuelto);
+		temp.put("_subtotal", subTotal);
+		temp.put("_impuestos", impuestos);
+		temp.put("_descuentos", descuentos);
+		temp.put("_total", total);
+		temp.put("_efectuado", true);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			
+			Utilidades.ejecutarCall("CALL ModificarVentasEncabezado(?,?,?,?,?,?,?,?,?,?,?,?)", temp, gate);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idventa", noDocumento);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			
+			Utilidades.ejecutarCall("CALL EliminarVentasEncabezado(?)", temp, gate);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
@@ -85,8 +160,85 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 
 	@Override
 	public List<Venta> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Venta> ventas = new ArrayList<Venta>();
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcompra, idsuplidor, descuentos, efectuado, fecha, impuestos, idsupervisor, subtotal, idtienda, total FROM comprasencabezado " + textoBusqueda, state);
+			Venta itera;
+			
+			StringBuilder articulosSb = new StringBuilder("(");
+			StringBuilder clientesSb = new StringBuilder("(");
+			StringBuilder cajerosSb = new StringBuilder("(");
+			StringBuilder tiendaSb = new StringBuilder("(");
+			
+			while(datos.next()) {
+				itera = new Venta();
+				itera.cliente = new Cliente(datos.getInt("idsuplidor"), new Date(), 0f);
+				itera.descuentos = datos.getFloat("descuentos");
+				itera.efectuado = datos.getBoolean("efectuado");
+				itera.fecha = datos.getDate("fecha");
+				itera.impuestos = datos.getFloat("impuestos");
+				itera.noDocumento = datos.getInt("idcompra");
+				itera.subTotal = datos.getFloat("subtotal");
+				itera.cajero = new Usuario(datos.getInt("idsupervisor"), null, null, null, null, TipoUsuario.Administrador, null);
+				itera.tienda = new Tienda(datos.getInt("idtienda"), null, null, null, null);
+				itera.total = datos.getFloat("total");
+				ventas.add(itera);
+				articulosSb.append(String.format("%s,", datos.getInt("idcompra")));
+				clientesSb.append(String.format("%s,", datos.getInt("idcliente")));
+				cajerosSb.append(String.format("%s,", datos.getInt("idcajero")));
+				tiendaSb.append(String.format("%s,", datos.getInt("idtienda")));
+			}
+			
+			if(clientesSb.charAt(clientesSb.length() - 1) == ',')
+				clientesSb.setCharAt(clientesSb.length() - 1, ')');
+			else
+				clientesSb.append("0)");
+			
+			List<Cliente> clientes = new Cliente().listar(String.format("WHERE idcliente IN %s", clientesSb.toString()));
+			
+			for(Venta venta : ventas) {
+				clientes.forEach(s -> {
+					if(venta.getCliente().getId() == s.getId())
+						venta.setCliente(s);
+				});
+			}
+			
+			if(cajerosSb.charAt(cajerosSb.length() - 1) == ',')
+				cajerosSb.setCharAt(cajerosSb.length() - 1, ')');
+			else
+				cajerosSb.append("0)");
+			
+			List<Usuario> usuarios = new Usuario().listar(String.format("WHERE idusuario IN %s", clientesSb.toString()));
+			
+			for(Venta venta : ventas) {
+				usuarios.forEach(s -> {
+					if(venta.getCajero().getId() == s.getId())
+						venta.setCajero(s);
+				});
+			}
+			
+			if(tiendaSb.charAt(tiendaSb.length() - 1) == ',')
+				tiendaSb.setCharAt(tiendaSb.length() - 1, ')');
+			else
+				tiendaSb.append("0)");
+			
+			List<Tienda> tiendas = new Tienda().listar(String.format("WHERE idtienda IN %s", clientesSb.toString()));
+			
+			for(Venta venta : ventas) {
+				tiendas.forEach(t -> {
+					if(venta.getTienda().getId() == t.getId())
+						venta.setTienda(t);
+				});
+			}
+			
+			return ventas;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ventas;
+		}
 	}
 
 	@Override
