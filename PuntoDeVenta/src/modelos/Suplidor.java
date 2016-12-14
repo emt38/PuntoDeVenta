@@ -145,4 +145,5 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 			return suplidores;
 		}
 	}
+	
 }
