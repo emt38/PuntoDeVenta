@@ -1,6 +1,15 @@
 package modelos;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import principal.Utilidades;
 
 public class Tienda implements IEntidadDatos<Tienda> {
 	
@@ -52,25 +61,58 @@ public class Tienda implements IEntidadDatos<Tienda> {
 
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_nombre", nombre);
+		temp.put("_direccion", direccion);
+		temp.put("_slogan", slogan);
+		temp.put("_idciudad", ciudad);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL AgregarTienda(?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idTienda", id);
+		temp.put("_nombre", nombre);
+		temp.put("_direccion", direccion);
+		temp.put("_slogan", slogan);
+		temp.put("_idciudad", ciudad);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL ModificarTienda(?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idTienda", id);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarTienda(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public Tienda buscar(int id) {
-		// TODO Auto-generated method stub
+		List<Tienda> tiendas = listar(String.format("WHERE idtienda=%s", id));
+		
+		if(tiendas.size() > 0)
+			return tiendas.get(0);
+			
 		return null;
 	}
 	
@@ -81,8 +123,28 @@ public class Tienda implements IEntidadDatos<Tienda> {
 
 	@Override
 	public List<Tienda> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Tienda> tiendas = new ArrayList<Tienda>();
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idtienda, nombre, direccion, slogan, idciudad FROM tiendas " + textoBusqueda, state);
+			Tienda itera;
+			
+			while(datos.next()) {
+				itera = new Tienda();
+				itera.id = datos.getInt("idtienda");
+				itera.direccion = datos.getString("direccion");
+				itera.nombre = datos.getString("nombre");
+				itera.slogan = datos.getString("slogan");
+				itera.ciudad = datos.getString("idciudad");
+				tiendas.add(itera);
+			}
+			return tiendas;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return tiendas;
+		}
 	}
 
 	public Tienda(int id, String nombre, String direccion, String slogan, String ciudad) {

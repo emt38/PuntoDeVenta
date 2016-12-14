@@ -87,7 +87,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 		temp.put("_rnc", rnc);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL ModificarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarSuplidor(?,?,?,?,?,?,?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
