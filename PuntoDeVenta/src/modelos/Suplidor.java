@@ -1,6 +1,14 @@
 package modelos;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import principal.Utilidades;
 
 public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 	
@@ -46,32 +54,95 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 	
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("nom", nombre);
+		temp.put("ape", apellido);
+		temp.put("dir", direccion);
+		temp.put("tel", telefono);
+		temp.put("cel", celular);
+		temp.put("ident", identificacion);
+		temp.put("sex", sexo == "Masculino");
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL AgregarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("id", id);
+		temp.put("nom", nombre);
+		temp.put("ape", apellido);
+		temp.put("dir", direccion);
+		temp.put("tel", telefono);
+		temp.put("cel", celular);
+		temp.put("ident", identificacion);
+		temp.put("sex", sexo == "Masculino");
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL ModificarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("id", id);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarSuplidor(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public Suplidor buscar(int id) {
-		// TODO Auto-generated method stub
+		List<Suplidor> suplidores = listar(String.format("WHERE idsuplidor=%s", id));
+		
+		if(suplidores.size() > 0)
+			return suplidores.get(0);
+		
 		return null;
 	}
 
 	@Override
 	public List<Suplidor> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Suplidor> suplidores = new ArrayList<Suplidor>();
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idsuplidor, nombre, apellido, direccion, telefono, celular, identificacion, sexo, rnc, empresa FROM suplidores " + textoBusqueda, state);
+			Suplidor itera;
+			
+			while(datos.next()) {
+				itera = new Suplidor();
+				itera.id = datos.getInt("idsuplidor");
+				itera.nombre = datos.getString("nombre");
+				itera.apellido = datos.getString("apellido");
+				itera.telefono = datos.getString("telefono");
+				itera.celular = datos.getString("celular");
+				itera.identificacion = datos.getString("identificacion");
+				itera.sexo = datos.getBoolean("sexo") ? "Masculino" : "Femenino";
+				itera.rnc = datos.getString("rnc");
+				itera.empresa = datos.getString("empresa");
+				suplidores.add(itera);
+			}
+			return suplidores;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return suplidores;
+		}
 	}
-
 }
