@@ -46,8 +46,8 @@ public final class Utilidades {
 					e.printStackTrace();
 				}
 			});
-			
-			return st.execute();
+			st.execute();
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -64,8 +64,8 @@ public final class Utilidades {
 					e.printStackTrace();
 				}
 			});
-			
-			return st.execute();
+			st.execute();
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -82,8 +82,8 @@ public final class Utilidades {
 					e.printStackTrace();
 				}
 			});
-			
-			return st.execute();
+			st.execute();
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -100,8 +100,8 @@ public final class Utilidades {
 					e.printStackTrace();
 				}
 			});
-			
-			return st.execute();
+			st.execute();
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
