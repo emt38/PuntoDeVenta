@@ -1,6 +1,14 @@
 package modelos;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import principal.Utilidades;
 
 public class Usuario implements IEntidadDatos<Usuario> {
 	
@@ -23,7 +31,7 @@ public class Usuario implements IEntidadDatos<Usuario> {
 		this.tipo = tipo;
 		this.tienda = tienda;
 	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -82,32 +90,113 @@ public class Usuario implements IEntidadDatos<Usuario> {
 	
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_nombreUsuario", nombreUsuario);
+		temp.put("_hashClave", hashClave);
+		temp.put("_salesClave", salesClave);
+		temp.put("_nombreCompleto", nombreCompleto);
+		temp.put("_tipo", tipo);
+		temp.put("_idTienda", tienda); 
+		  
+		try (Connection gate = Utilidades.newConnection();) {
+			  return Utilidades.ejecutarCall("CALL AgregarUsuario(?,?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		  
 		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("idUsuario", id);
+		temp.put("_nombreUsuario", nombreUsuario);
+		temp.put("_hashClave", hashClave);
+		temp.put("_salesClave", salesClave);
+		temp.put("_nombreCompleto", nombreCompleto);
+		temp.put("_tipo", tipo);
+		temp.put("_idTienda", tienda); 
+		  
+		try (Connection gate = Utilidades.newConnection();) {
+			  return Utilidades.ejecutarCall("CALL ModificarUsuario(?,?,?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idUsuario", id);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarUsuario(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public Usuario buscar(int id) {
-		// TODO Auto-generated method stub
+		List<Usuario> usuarios = listar(String.format("WHERE idusuario=%s", id));
+		
+		if(usuarios.size() > 0)
+			return usuarios.get(0);
 		return null;
 	}
 
 	@Override
 	public List<Usuario> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idusuario, nombreusuario, hashClave, salesClave, nombreCompleto, tipo, idTienda  FROM usuarios " + textoBusqueda, state);
+			
+			StringBuilder tiposSb = new StringBuilder ("(");
+			StringBuilder tiendasSb = new StringBuilder("(");
+			while(datos.next()){
+				usuarios.add(new Usuario(datos.getInt("idusuario"), datos.getString("nombreusuario"), datos.getString("hashClave"), datos.getString("salesClave"), datos.getString("nombreCompleto"), tipo.values()[datos.getInt("tipo")], new Tienda(datos.getInt("idTienda"), null, null, null, null)));
+				tiposSb.append(String.format("%s,", datos.getInt("tipo")));
+				tiendasSb.append(String.format("%s,", datos.getInt("idTienda")));
+			}
+			
+			if(tiposSb.charAt(tiposSb.length()-1) == ',')
+				tiposSb.setCharAt(tiposSb.length()-1, ')');
+			else
+				tiposSb.append("0)");
+			
+			if(tiendasSb.charAt(tiendasSb.length()-1) == ',')
+				tiendasSb.setCharAt(tiendasSb.length()-1, ')');
+			else
+				tiendasSb.append("0)");
+			
+			TipoUsuario[] tipos = tipo.values();
+			
+			List<Tienda> tiendas = new Tienda().listar(String.format("WHERE idtienda IN %s", tiendasSb.toString()));
+			
+			for(Usuario usuario : usuarios) {
+				for(int  i = 0; i < 4; i++){
+					if (usuario.getTipo() == tipos[i])
+						usuario.setTipo(tipos[i]);
+				}
+				
+				tiendas.forEach(t -> {
+					if(usuario.getTienda().getId() == t.getId())
+						usuario.setTienda(t);
+				});
+			}
+			
+			return usuarios;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return usuarios;
+		}
 	}
 
 	public Usuario() {
