@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.sql.CallableStatement;
 
 import principal.Utilidades;
 
@@ -41,9 +43,55 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 		this.tienda = tienda;
 	}
 
+	public Compra() {
+		super();
+		this.articulos = new ArrayList<>();
+	}
+
+	public Compra(Suplidor suplidor, Usuario supervisor, Tienda tienda) {
+		super();
+		this.suplidor = suplidor;
+		this.supervisor = supervisor;
+		this.tienda = tienda;
+		this.articulos = new ArrayList<>();
+	}
+
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idsuplidor", suplidor.getId());
+		temp.put("_idtienda", tienda.getId());
+		temp.put("_idsupervisor", supervisor.getId());
+		temp.put("_subtotal", subTotal);
+		temp.put("_impuestos", impuestos);
+		temp.put("_descuentos", descuentos);
+		temp.put("_total", total);
+		temp.put("_efectuado", true);
+		
+		try (Connection gate = Utilidades.newConnection();
+			CallableStatement state = gate.prepareCall("CALL AgregarComprasEncabezado(?,?,?,?,?,?,?,?)");
+			CallableStatement detail = gate.prepareCall("CALL AgregarComprasDetalle(?,?,?,?,?,?,?,?)");) {
+			
+			Utilidades.ejecutarCall(state, temp);
+			List<Compra> laultima = this.listar("ORDER BY idcompra DESC LIMIT 0, 1");
+			noDocumento = laultima.get(0).getNoDocumento();
+			
+			for(Articulo a : articulos) {
+				temp.clear();
+				temp.put("idcomp", noDocumento);
+				temp.put("idprod", a.getProducto().getId());
+				temp.put("_valor", a.getValor());
+				temp.put("imp", a.getImpuestos());
+				temp.put("subt", a.getSubTotal());
+				temp.put("cant", a.getCantidad());
+				
+				Utilidades.ejecutarCall(detail, temp);
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 
@@ -71,7 +119,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 		try {
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
-			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcompra, idsuplidor, descuentos, efectuado, fecha, impuestos, idsupervisor, subtotal, idtienda, total FROM compras " + textoBusqueda, state);
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcompra, idsuplidor, descuentos, efectuado, fecha, impuestos, idsupervisor, subtotal, idtienda, total FROM comprasencabezado " + textoBusqueda, state);
 			Compra itera;
 			
 			StringBuilder suplidoresSb = new StringBuilder("(");
@@ -115,9 +163,9 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 			List<Usuario> usuarios = new Usuario().listar(String.format("WHERE idusuario IN %s", suplidoresSb.toString()));
 			
 			for(Compra compra : compras) {
-				suplidores.forEach(s -> {
-					if(compra.getSuplidor().getId() == s.getId())
-						compra.setSuplidor(s);
+				usuarios.forEach(s -> {
+					if(compra.getSupervisor().getId() == s.getId())
+						compra.setSupervisor(s);
 				});
 			}
 			
@@ -126,7 +174,14 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 			else
 				tiendaSb.append("0)");
 			
+			List<Tienda> tiendas = new Tienda().listar(String.format("WHERE idtienda IN %s", suplidoresSb.toString()));
 			
+			for(Compra compra : compras) {
+				tiendas.forEach(t -> {
+					if(compra.getTienda().getId() == t.getId())
+						compra.setTienda(t);
+				});
+			}
 			
 			return compras;
 		} catch (SQLException e) {
