@@ -61,7 +61,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 		temp.put("tel", telefono);
 		temp.put("cel", celular);
 		temp.put("ident", identificacion);
-		temp.put("sex", sexo == "Masculino");
+		temp.put("sex", sexo.toLowerCase() == "masculino");
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL AgregarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
@@ -82,7 +82,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 		temp.put("tel", telefono);
 		temp.put("cel", celular);
 		temp.put("ident", identificacion);
-		temp.put("sex", sexo == "Masculino");
+		temp.put("sex", sexo.toLowerCase() == "masculino");
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL ModificarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
