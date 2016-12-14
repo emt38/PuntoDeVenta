@@ -1,8 +1,9 @@
 package modelos;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelos.AcuerdoComercial> {
+public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<NotaDebito> {
 	
 	private Suplidor suplidor;
 	private String concepto;
@@ -52,14 +53,15 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelo
 	}
 
 	@Override
-	public modelos.AcuerdoComercial buscar(int id) {
+	public NotaDebito buscar(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<modelos.AcuerdoComercial> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
+	public List<NotaDebito> listar(String textoBusqueda) {
+		// Mi primer commit, ahora mira cómo
+		List<NotaDebito> notasDebito = new ArrayList<>();
 		return null;
 	}
 
