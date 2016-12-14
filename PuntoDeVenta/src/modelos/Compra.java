@@ -70,7 +70,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 		
 		try (Connection gate = Utilidades.newConnection();
 			CallableStatement state = gate.prepareCall("CALL AgregarComprasEncabezado(?,?,?,?,?,?,?,?)");
-			CallableStatement detail = gate.prepareCall("CALL AgregarComprasDetalle(?,?,?,?,?,?,?,?)");) {
+			CallableStatement detail = gate.prepareCall("CALL AgregarComprasDetalle(?,?,?,?,?,?)");) {
 			
 			Utilidades.ejecutarCall(state, temp);
 			List<Compra> laultima = this.listar("ORDER BY idcompra DESC LIMIT 0, 1");
@@ -86,6 +86,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 				temp.put("cant", a.getCantidad());
 				
 				Utilidades.ejecutarCall(detail, temp);
+				registrarInventario();
 			}
 			
 		} catch (Exception ex) {
@@ -97,19 +98,46 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("id", noDocumento);
+		temp.put("idsupl", suplidor.getId());
+		temp.put("idtie", tienda.getId());
+		temp.put("idsuperv", supervisor.getId());
+		temp.put("subt", subTotal);
+		temp.put("imp", impuestos);
+		temp.put("descuent", descuentos);
+		temp.put("tot", total);
+		temp.put("efectu", true);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL ModificarComprasEncabezado(?,?,?,?,?,?,?,?,?)", temp, gate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("id", noDocumento);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarComprasEncabezado(?)", temp, gate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public Compra buscar(int id) {
-		// TODO Auto-generated method stub
+		List<Compra> compras = listar(String.format("WHERE idcompra=%s", id));
+		if(compras.size() > 0)
+			return compras.get(0);
+		
 		return null;
 	}
 
@@ -122,6 +150,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcompra, idsuplidor, descuentos, efectuado, fecha, impuestos, idsupervisor, subtotal, idtienda, total FROM comprasencabezado " + textoBusqueda, state);
 			Compra itera;
 			
+			StringBuilder articulosSb = new StringBuilder("(");
 			StringBuilder suplidoresSb = new StringBuilder("(");
 			StringBuilder supervisoresSb = new StringBuilder("(");
 			StringBuilder tiendaSb = new StringBuilder("(");
@@ -139,6 +168,10 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 				itera.tienda = new Tienda(datos.getInt("idtienda"), null, null, null, null);
 				itera.total = datos.getFloat("total");
 				compras.add(itera);
+				articulosSb.append(String.format("%s,", datos.getInt("idcompra")));
+				suplidoresSb.append(String.format("%s,", datos.getInt("idsuplidor")));
+				supervisoresSb.append(String.format("%s,", datos.getInt("idsupervisor")));
+				tiendaSb.append(String.format("%s,", datos.getInt("idtienda")));
 			}
 			
 			if(suplidoresSb.charAt(suplidoresSb.length() - 1) == ',')
