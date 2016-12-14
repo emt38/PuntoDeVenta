@@ -55,13 +55,14 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 	@Override
 	public boolean insertar() {
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("nom", nombre);
-		temp.put("ape", apellido);
-		temp.put("dir", direccion);
-		temp.put("tel", telefono);
-		temp.put("cel", celular);
-		temp.put("ident", identificacion);
-		temp.put("sex", sexo.toLowerCase() == "masculino");
+		temp.put("_nombre", nombre);
+		temp.put("_apellido", apellido);
+		temp.put("_direccion", direccion);
+		temp.put("_telefono", telefono);
+		temp.put("_celular", celular);
+		temp.put("_sexo", sexo.toLowerCase() == "masculino");
+		temp.put("_empresa", empresa);
+		temp.put("_rnc", rnc);
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL AgregarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
@@ -75,14 +76,15 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 	@Override
 	public boolean actualizar() {
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("id", id);
-		temp.put("nom", nombre);
-		temp.put("ape", apellido);
-		temp.put("dir", direccion);
-		temp.put("tel", telefono);
-		temp.put("cel", celular);
-		temp.put("ident", identificacion);
-		temp.put("sex", sexo.toLowerCase() == "masculino");
+		temp.put("_idSuplidor", id);
+		temp.put("_nombre", nombre);
+		temp.put("_apellido", apellido);
+		temp.put("_direccion", direccion);
+		temp.put("_telefono", telefono);
+		temp.put("_celular", celular);
+		temp.put("_sexo", sexo.toLowerCase() == "masculino");
+		temp.put("_empresa", empresa);
+		temp.put("_rnc", rnc);
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL ModificarSuplidor(?,?,?,?,?,?,?,?)", temp, gate);
@@ -95,7 +97,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 	@Override
 	public boolean eliminar() {
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("id", id);
+		temp.put("_idSuplidor", id);
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL EliminarSuplidor(?)", temp, gate);
@@ -122,7 +124,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 		try {
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
-			ResultSet datos = Utilidades.ejecutarQuery("SELECT idsuplidor, nombre, apellido, direccion, telefono, celular, identificacion, sexo, rnc, empresa FROM suplidores " + textoBusqueda, state);
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idsuplidor, nombre, apellido, direccion, telefono, celular, sexo, rnc, empresa FROM suplidores " + textoBusqueda, state);
 			Suplidor itera;
 			
 			while(datos.next()) {
@@ -132,10 +134,9 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 				itera.apellido = datos.getString("apellido");
 				itera.telefono = datos.getString("telefono");
 				itera.celular = datos.getString("celular");
-				itera.identificacion = datos.getString("identificacion");
 				itera.sexo = datos.getBoolean("sexo") ? "Masculino" : "Femenino";
-				itera.rnc = datos.getString("rnc");
 				itera.empresa = datos.getString("empresa");
+				itera.rnc = datos.getString("rnc");
 				suplidores.add(itera);
 			}
 			return suplidores;
