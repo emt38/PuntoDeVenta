@@ -1,6 +1,10 @@
 package modelos;
 
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+
+import principal.Utilidades;
 
 public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelos.AcuerdoComercial> {
 	
@@ -36,18 +40,44 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelo
 	@Override
 	public boolean insertar() {
 		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idSuplidor", suplidor.getId());
+		temp.put("_concepto", concepto);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL AgregarNotaDebito(?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
 		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idSuplidor", suplidor);
+		temp.put("_concepto", concepto);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL ModificarNotaDebito(?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
 		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idSuplidor", suplidor);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarNotaDebito(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return false;
 	}
 
