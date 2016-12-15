@@ -79,6 +79,15 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<NotaDe
 	@Override
 	public NotaDebito buscar(int id) {
 		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_cliente", cliente);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarNotaCredito(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return null;
 	}
 
