@@ -248,4 +248,10 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 
 	}
 
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

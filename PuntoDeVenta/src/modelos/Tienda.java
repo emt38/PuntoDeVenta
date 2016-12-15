@@ -160,4 +160,10 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		super();
 	}
 
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

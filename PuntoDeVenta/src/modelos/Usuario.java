@@ -214,4 +214,10 @@ public class Usuario implements IEntidadDatos<Usuario> {
 	public boolean estaAutorizado() {
 		return true;
 	}
+
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
