@@ -129,4 +129,9 @@ public class Ciudad implements IEntidadDatos<Ciudad> {
 			return ciudades;
 		}
 	}
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -136,4 +136,10 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 		return null;
 	}
 
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

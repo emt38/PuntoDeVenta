@@ -97,4 +97,9 @@ public class Pais implements IEntidadDatos<Pais> {
 			return paises;
 		}
 	}
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

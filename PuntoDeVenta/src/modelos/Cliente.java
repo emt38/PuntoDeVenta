@@ -117,7 +117,6 @@ public class Cliente extends Persona implements IEntidadDatos<Cliente> {
 			
 		return null;
 	}
-
 	@Override
 	public List<Cliente> listar(String textoBusqueda) {
 		List<Cliente> clientes = new ArrayList<Cliente>();
@@ -125,6 +124,37 @@ public class Cliente extends Persona implements IEntidadDatos<Cliente> {
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
 			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcliente, nombre, apellido, direccion, telefono, celular, identificacion, sexo, tasaDescuento, clienteDesde FROM clientes " + textoBusqueda, state);
+			Cliente itera;
+			
+			while(datos.next()) {
+				itera = new Cliente();
+				itera.id = datos.getInt("idcliente");
+				itera.nombre = datos.getString("nombre");
+				itera.apellido = datos.getString("apellido");
+				itera.telefono = datos.getString("telefono");
+				itera.celular = datos.getString("celular");
+				itera.identificacion = datos.getString("identificacion");
+				itera.sexo = datos.getBoolean("sexo") ? "Masculino" : "Femenino";
+				itera.clienteDesde = datos.getDate("clienteDesde");
+				itera.tasaDescuento = datos.getFloat("tasaDescuento");
+				clientes.add(itera);
+			}
+			return clientes;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return clientes;
+		}
+	}
+
+	@Override
+	public List<Cliente> getAllTable() {
+     List<Cliente> clientes = new ArrayList<Cliente>();
+		
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcliente, nombre, apellido, direccion, telefono, celular, identificacion, sexo, tasaDescuento, clienteDesde FROM clientes " , state);
 			Cliente itera;
 			
 			while(datos.next()) {

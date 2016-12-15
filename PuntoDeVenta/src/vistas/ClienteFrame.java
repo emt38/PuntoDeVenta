@@ -89,12 +89,12 @@ public class ClienteFrame extends JFrame {
 		contentPane.add(btnSALIR);
 		
 		JButton btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setBounds(265, 217, 93, 31);
+		btnCancelar.setBounds(269, 217, 101, 31);
 		contentPane.add(btnCancelar);
 		
 		JButton btnGuardar = new JButton("GUARDAR");
 		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar.setBounds(182, 217, 83, 31);
+		btnGuardar.setBounds(182, 217, 101, 31);
 		contentPane.add(btnGuardar);
 		 btnGuardar.addActionListener(new ActionListener() {			
 			
@@ -110,20 +110,31 @@ public class ClienteFrame extends JFrame {
 						objCliente.setApellido(txtApellido.getText());
 						objCliente.setCelular(txtCelular.getText());
 						objCliente.setDireccion(txtDireccion.getText());
-						 objCliente.setIdentificacion(txtIdentificacion.getText()); 
+						objCliente.setIdentificacion(txtIdentificacion.getText()); 
 						objCliente.setNombre(txtNombre.getText()); 
 						objCliente.setSexo(cmbSexo.getSelectedItem().toString());
 						objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
 						objCliente.setTelefono(txtTelefono.getText());	
-					  if( objCliente.insertar()){
-						  JOptionPane.showConfirmDialog(null, "REGISTRO REGISTRADO CORRECTAMENTE","CONFIRMACION",
-								  JOptionPane.OK_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					  }
+					    objCliente.insertar();
+					    LimpiarCampos();
+					   JOptionPane.showConfirmDialog(null, "REGISTRO REGISTRADO CORRECTAMENTE","CONFIRMACION",
+								  JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
+					  
 					} 
-					
-					 
 				}
 				
+			}
+
+			private void LimpiarCampos() {
+				txtApellido.setText("");
+				txtCelular.setText("");
+				txtCodigo.setText("");
+				txtDireccion.setText("");
+				txtFechaIngreso.setText("");
+				txtIdentificacion.setText("");
+				txtNombre.setText("");
+				txtTasaDescuento.setText("");
+				txtTelefono.setText("");
 			}
 
 			private boolean ValidarCampos() {
@@ -188,11 +199,11 @@ public class ClienteFrame extends JFrame {
 		btnNuevo.setIcon(null);
 		btnNuevo.setSelectedIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
-		btnNuevo.setBounds(5, 217, 83, 31);
+		btnNuevo.setBounds(5, 217, 101, 31);
 		contentPane.add(btnNuevo);
 		
 		JButton btnModificar = new JButton("MODIFICAR");
-		btnModificar.setBounds(93, 217, 83, 31);
+		btnModificar.setBounds(93, 217, 101, 31);
 		contentPane.add(btnModificar);
 		
 		txtCodigo = new JTextField();
@@ -332,7 +343,7 @@ public class ClienteFrame extends JFrame {
 		contentPane.add(btnSigte);
 		
 		JButton btnEliminar = new JButton("ELIMINAR");
-		btnEliminar.setBounds(358, 217, 83, 31);
+		btnEliminar.setBounds(358, 217, 101, 31);
 		contentPane.add(btnEliminar);
 	}
 }

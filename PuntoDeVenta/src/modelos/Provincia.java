@@ -133,4 +133,9 @@ public class Provincia implements IEntidadDatos<Provincia> {
 			return provincias;
 		}
 	}
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

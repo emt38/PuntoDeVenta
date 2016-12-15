@@ -93,4 +93,10 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelo
 		return null;
 	}
 
+	@Override
+	public List<Cliente> getAllTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
