@@ -70,13 +70,6 @@ public class Pais implements IEntidadDatos<Pais> {
 		
 		return false;
 	}
-	
-	@Override
-	public String toString() {
-		return String.format("%s", this.getNombre());
-		// PAra que te salgan bien los datos tienes que sobreescribir el método toString de las clases
-	};
-	
 	@Override
 	public Pais buscar(int id) {
 		List<Pais> paises = listar(String.format("WHERE idpais=%s", id));
@@ -104,5 +97,4 @@ public class Pais implements IEntidadDatos<Pais> {
 			return paises;
 		}
 	}
-	
 }
