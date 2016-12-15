@@ -25,6 +25,15 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 		this.concepto = concepto;
 	}
 
+	public float getTotal() {
+		return total;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
+	}
+
+
 	public Cliente getCliente() {
 		return cliente;
 	}

@@ -2,8 +2,10 @@ package principal;
 
 import java.awt.EventQueue;
 import java.sql.DriverManager;
+
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
 import vistas.MasterFrame;
 import modelos.*;
 
@@ -47,6 +49,7 @@ public class Program {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
+		
 		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.SysAdmin, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
 		
 		EventQueue.invokeLater(new Runnable() {

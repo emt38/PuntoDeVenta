@@ -1,6 +1,9 @@
 package principal;
 
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,11 +13,37 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import org.apache.commons.codec.digest.Crypt;
+import org.apache.commons.codec.digest.Sha2Crypt;
 
 public final class Utilidades {
 	private Utilidades() {
 		// Esta clase es estática
 	}
+	
+	// Métodos Para Hashing
+	
+	public static String generarSales() {
+		byte[] salt = new byte[13];
+		Random random = new SecureRandom();
+		random.nextBytes(salt);
+		return "$5$" + new String(salt, StandardCharsets.UTF_8);
+	}
+	
+	public static boolean verificarHash(String clear, String hashed, String sales) {
+		return MessageDigest.isEqual( // constant time comparison
+		      hashed.getBytes( StandardCharsets.UTF_8 ),
+		      Crypt.crypt( clear.getBytes( StandardCharsets.UTF_8 ), hashed ).getBytes( StandardCharsets.UTF_8 )
+		  );
+	}
+	
+	public static String generarHash(String dato, String sales) {
+		return org.apache.commons.codec.digest.Sha2Crypt.sha256Crypt(dato.getBytes(), sales);
+	}
+	
+	// Fin Hashing
 	
 	public static Connection newConnection() {
 		try {

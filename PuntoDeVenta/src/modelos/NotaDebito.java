@@ -70,6 +70,7 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelo
 	@Override
 	public boolean eliminar() {
 		// TODO Auto-generated method stub
+
 		HashMap<String, Object> temp = new HashMap<>();
 		temp.put("_idSuplidor", suplidor);
 		
@@ -78,6 +79,8 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<modelo
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+
+		
 		return false;
 	}
 

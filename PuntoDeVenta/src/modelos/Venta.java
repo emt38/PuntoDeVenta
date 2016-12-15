@@ -154,7 +154,10 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 
 	@Override
 	public Venta buscar(int id) {
-		// TODO Auto-generated method stub
+		List<Venta> ventas = listar(String.format("WHERE idcompra=%s", id));
+		if(ventas.size() > 0)
+			return ventas.get(0);
+		
 		return null;
 	}
 
@@ -189,6 +192,24 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 				clientesSb.append(String.format("%s,", datos.getInt("idcliente")));
 				cajerosSb.append(String.format("%s,", datos.getInt("idcajero")));
 				tiendaSb.append(String.format("%s,", datos.getInt("idtienda")));
+			}
+			
+			if(articulosSb.charAt(articulosSb.length() - 1) == ',')
+				articulosSb.setCharAt(articulosSb.length() - 1, ')');
+			else
+				articulosSb.append("0)");
+			
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idventa AS id, idproducto, valor, impuestos, subtotal, cantidad FROM ventasdetalle" + articulosSb.toString(), state);
+			List<Articulo> articulos = new ArrayList<Articulo>();
+			
+			while(articulosRs.next()) {
+				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f),articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), articulosRs.getFloat("tasaImpuestos"), articulosRs.getFloat("impuestos"), articulosRs.getFloat("subTotal")));
+				for(Venta venta : ventas) {
+					if(venta.noDocumento == articulosRs.getInt("id")) {
+						venta.articulos.add(articulos.get(articulos.size()-1));
+						break;
+					}
+				}
 			}
 			
 			if(clientesSb.charAt(clientesSb.length() - 1) == ',')
