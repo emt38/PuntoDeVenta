@@ -60,7 +60,7 @@ public class Cliente extends Persona implements IEntidadDatos<Cliente> {
 		temp.put("tel", telefono);
 		temp.put("cel", celular);
 		temp.put("ident", identificacion);
-		temp.put("sex", sexo == "Masculino");
+		temp.put("sex", sexo.toLowerCase() == "masculino");
 		temp.put("tasadesc", tasaDescuento);
 		
 		try (Connection gate = Utilidades.newConnection();) {
@@ -82,7 +82,7 @@ public class Cliente extends Persona implements IEntidadDatos<Cliente> {
 		temp.put("tel", telefono);
 		temp.put("cel", celular);
 		temp.put("ident", identificacion);
-		temp.put("sex", sexo == "Masculino");
+		temp.put("sex", sexo.toLowerCase() == "masculino");
 		temp.put("tasadesc", tasaDescuento);
 		
 		try (Connection gate = Utilidades.newConnection();) {

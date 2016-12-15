@@ -6,9 +6,24 @@ public class Articulo {
 	private float cantidad;
 	private float valor;
 	private float tasaImpuestos;
+	public Articulo() {
+		super();
+	}
+
 	private float impuestos;
 	private float subTotal;
 	
+	public Articulo(Producto producto, float cantidad, float valor, float tasaImpuestos, float impuestos,
+			float subTotal) {
+		super();
+		this.producto = producto;
+		this.cantidad = cantidad;
+		this.valor = valor;
+		this.tasaImpuestos = tasaImpuestos;
+		this.impuestos = impuestos;
+		this.subTotal = subTotal;
+	}
+
 	public void totalizar() {
 		impuestos = valor * producto.getTasaImpuesto() / 100 * cantidad;
 		subTotal = valor * cantidad - impuestos;
