@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -21,6 +22,8 @@ import javax.swing.table.DefaultTableModel;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
 import modelos.Cliente;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ConsultarClienteFrame extends JFrame {
 
@@ -68,6 +71,16 @@ public class ConsultarClienteFrame extends JFrame {
 		txtBuscarCliente.setColumns(10);
 		
 		JButton btnSalir = new JButton("SALIR");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int opcion =JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?","Alerta!", 
+						JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+				if (opcion == 0){
+				dispose();
+				}
+			}
+		});
 		btnSalir.setBounds(533, 230, 113, 23);
 		contentPane.add(btnSalir);
 		
