@@ -162,7 +162,7 @@ public class Usuario implements IEntidadDatos<Usuario> {
 			while(datos.next()){
 				usuarios.add(new Usuario(datos.getInt("idusuario"), datos.getString("nombreusuario"), datos.getString("hashClave"), datos.getString("salesClave"), datos.getString("nombreCompleto"), tipo.values()[datos.getInt("tipo")], new Tienda(datos.getInt("idTienda"), null, null, null, null)));
 				tiposSb.append(String.format("%s,", datos.getInt("tipo")));
-				tiendasSb.append(String.format("%s,", datos.getInt("idTienda")));
+				tiendasSb.append(String.format("%s,", datos.getInt("idtienda")));
 			}
 			
 			if(tiposSb.charAt(tiposSb.length()-1) == ',')
@@ -204,7 +204,6 @@ public class Usuario implements IEntidadDatos<Usuario> {
 	}
 	
 	public boolean iniciarSesion() {
-		
 		return true;
 	}
 	
