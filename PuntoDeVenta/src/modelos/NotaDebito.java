@@ -73,12 +73,24 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<NotaDe
 	@Override
 	public boolean eliminar() {
 		// TODO Auto-generated method stub
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_suplidor", suplidor);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarNotaCredito(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public NotaDebito buscar(int id) {
 		// TODO Auto-generated method stub
+		List<AcuerdoComercial> NotasDebito = listar(String.format("WHERE suplidor=%s", id));
+		if(NotasDebito.size() > 0)
+			return NotasDebito.get(0);
 		return null;
 	}
 
