@@ -80,6 +80,11 @@ public class Pais implements IEntidadDatos<Pais> {
 	}
 	
 	@Override
+	public String toString() {
+		return String.format("%s", this.getNombre());
+	};
+	
+	@Override
 	public List<Pais> listar(String textoBusqueda) {
 		List<Pais> paises = new ArrayList<Pais>();
 		try {
