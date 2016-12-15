@@ -174,6 +174,24 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 				tiendaSb.append(String.format("%s,", datos.getInt("idtienda")));
 			}
 			
+			if(articulosSb.charAt(articulosSb.length() - 1) == ',')
+				articulosSb.setCharAt(articulosSb.length() - 1, ')');
+			else
+				articulosSb.append("0)");
+			
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad FROM ventasdetalle" + articulosSb.toString(), state);
+			List<Articulo> articulos = new ArrayList<Articulo>();
+			
+			while(articulosRs.next()) {
+				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f),articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), articulosRs.getFloat("tasaImpuestos"), articulosRs.getFloat("impuestos"), articulosRs.getFloat("subTotal")));
+				for(Compra compra : compras) {
+					if(compra.noDocumento == articulosRs.getInt("id")) {
+						compra.articulos.add(articulos.get(articulos.size()-1));
+						break;
+					}
+				}
+			}
+			
 			if(suplidoresSb.charAt(suplidoresSb.length() - 1) == ',')
 				suplidoresSb.setCharAt(suplidoresSb.length() - 1, ')');
 			else
