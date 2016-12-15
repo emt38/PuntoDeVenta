@@ -282,11 +282,5 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 	public Venta() {
 		super();
 	}
-
-	@Override
-	public List<Cliente> getAllTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }

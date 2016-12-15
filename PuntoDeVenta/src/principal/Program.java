@@ -1,9 +1,18 @@
 package principal;
 
 import java.awt.EventQueue;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.sql.DriverManager;
+import java.util.Random;
+
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import org.apache.commons.codec.digest.Crypt;
+import org.apache.commons.codec.digest.Sha2Crypt;
+
 import vistas.MasterFrame;
 import modelos.*;
 
@@ -32,7 +41,14 @@ public class Program {
 			return false;
 		}
 	}
-	
+	public static boolean verifyLinuxSaltedPassword(String clear, String hashed, String sales) {
+		System.out.println(hashed);
+		System.out.println(Sha2Crypt.sha256Crypt( clear.getBytes( StandardCharsets.UTF_8 ), sales ));
+		return MessageDigest.isEqual( // constant time comparison
+		      hashed.getBytes( StandardCharsets.UTF_8 ),
+		      Crypt.crypt( clear.getBytes( StandardCharsets.UTF_8 ), hashed ).getBytes( StandardCharsets.UTF_8 )
+		  );
+		}
 	private static Usuario loggedUser;
 	
 	public static void main(String[] args) {	
@@ -47,8 +63,21 @@ public class Program {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
-		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.SysAdmin, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
 		
+		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.SysAdmin, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
+		byte[] salt = new byte[16];
+		Random RANDOM = new SecureRandom();
+		RANDOM.nextBytes(salt);
+		String sales = "$5$f";
+		String var = org.apache.commons.codec.digest.Sha2Crypt.sha256Crypt("Curne2016".getBytes(), sales);
+		String var2 = org.apache.commons.codec.digest.Sha2Crypt.sha256Crypt("Curne2016".getBytes(), var);
+		System.out.println("$5$fdmfkdfldf$frvnGARUJLapfZ0k6TnQVr0LRCmxVFf3Js69FJ4m/l.");
+		System.out.println(var2);
+		
+		org.apache.commons.codec.digest.DigestUtils.getSha256Digest();
+		
+		
+		System.out.println(verifyLinuxSaltedPassword("Curne2016", var, sales));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

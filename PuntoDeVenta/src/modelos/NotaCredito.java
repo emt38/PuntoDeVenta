@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,10 +12,6 @@ import principal.Utilidades;
 
 public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<AcuerdoComercial> {
 	
-	private int idNotaCredito;
-	private Date fecha;
-	private float total;
-	private float efectuado;
 	private Cliente cliente;
 	private String concepto;
 	
@@ -24,30 +19,10 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 		super();
 	}
 
-	public NotaCredito(int idNotaCredito, Date fecha, float total, float efectuado, Cliente cliente, String concepto) {
+	public NotaCredito(Cliente cliente, String concepto) {
 		super();
-		this.idNotaCredito = idNotaCredito;
-		this.fecha = fecha;
-		this.total = total;
-		this.efectuado = efectuado;
-		this.cliente = cliente;		
+		this.cliente = cliente;
 		this.concepto = concepto;
-	}
-	
-	public int getIdNotaCredito() {
-		return idNotaCredito;
-	}
-
-	public void setIdNotaCredito(int idNotaCredito) {
-		this.idNotaCredito = idNotaCredito;
-	}
-
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
 	}
 
 	public float getTotal() {
@@ -58,13 +33,6 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 		this.total = total;
 	}
 
-	public float getEfectuado() {
-		return efectuado;
-	}
-
-	public void setEfectuado(float efectuado) {
-		this.efectuado = efectuado;
-	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -86,11 +54,7 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 	public boolean insertar() {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("_idNotaCredito", idNotaCredito);
-		temp.put("_fecha", fecha);
-		temp.put("_total", total);
-		temp.put("_efectuado", efectuado);
-		temp.put("_idcliente", cliente.getId());
+		temp.put("_idCliente", cliente.getId());
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
@@ -98,6 +62,7 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
 		return false;
 	}
 
@@ -105,15 +70,11 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 	public boolean actualizar() {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("_idNotaCredito", idNotaCredito);
-		temp.put("_fecha", fecha);
-		temp.put("_total", total);
-		temp.put("_efectuado", efectuado);
-		temp.put("_cliente", cliente.getId());
+		temp.put("_idCliente", cliente);
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL ModificarNotaCredito(?,?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarNotaDebito(?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -125,38 +86,39 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 	public boolean eliminar() {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("_cliente", cliente);
+		temp.put("_idCliente", cliente);
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL EliminarNotaCredito(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
 		return false;
 	}
 
 	@Override
 	public AcuerdoComercial buscar(int id) {
 		// TODO Auto-generated method stub
-		List<AcuerdoComercial> NotasCreditos = listar(String.format("WHERE cliente=%s", id));
-		if(NotasCreditos.size() > 0)
-			return NotasCreditos.get(0);
+		List<AcuerdoComercial> acuerdosComerciales = listar(String.format("WHERE idCliente=%s", id));
+		if(acuerdosComerciales.size() > 0)
+			return acuerdosComerciales.get(0);
 		return null;
 	}
 
 	@Override
 	public List<AcuerdoComercial> listar(String textoBusqueda) {
 		// TODO Auto-generated method stub
-		/*List<AcuerdoComercial> notasCredito = new ArrayList<AcuerdoComercial>();
+		//DEBO TERMINARLO LUEGO ATT: FRANKLYN
+		/*
+		List<AcuerdoComercial> acuerdosComerciales = new ArrayList<AcuerdoComercial>();
 		try {
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
-			ResultSet datos = Utilidades.ejecutarQuery("SELECT idnotacredito, fecha, total, efectuado, idcliente, concepto FROM notascredito " + textoBusqueda, state);
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idprovincia, idpais, nombre FROM Provincias " + textoBusqueda, state);
 			
 			StringBuilder paisesSb = new StringBuilder("(");
 			while(datos.next()) {
-				//notasCredito.add(new NotaCredito(datos.getInt("idprovincia"), new Pais(datos.getInt("idpais"), null), datos.getString("nombre")));
+				provincias.add(new Provincia(datos.getInt("idprovincia"), new Pais(datos.getInt("idpais"), null), datos.getString("nombre")));
 				paisesSb.append(String.format("%s,", datos.getInt("idprovincia")));
 			}
 			

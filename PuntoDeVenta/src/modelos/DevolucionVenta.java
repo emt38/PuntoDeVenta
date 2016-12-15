@@ -77,10 +77,4 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 		return null;
 	}
 
-	@Override
-	public List<Cliente> getAllTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

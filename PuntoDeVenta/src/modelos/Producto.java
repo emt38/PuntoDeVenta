@@ -110,10 +110,4 @@ public class Producto implements IEntidadDatos<Producto> {
 		return productos;
 	}
 
-	@Override
-	public List<Cliente> getAllTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

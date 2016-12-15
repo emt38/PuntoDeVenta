@@ -22,7 +22,6 @@ import javax.swing.JComboBox;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.channels.NonWritableChannelException;
 import java.text.DecimalFormat;
 
 public class ClienteFrame extends JFrame {
@@ -60,74 +59,6 @@ public class ClienteFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void LimpiarCampos() {
-		txtApellido.setText("");
-		txtCelular.setText("");
-		txtCodigo.setText("");
-		txtDireccion.setText("");
-		txtFechaIngreso.setText("");
-		txtIdentificacion.setText("");
-		txtNombre.setText("");
-		txtTasaDescuento.setText("");
-		txtTelefono.setText("");
-	}
-
-	private boolean ValidarCampos() {
-		if(modificar)
-		{
-			if(txtCodigo.getText().length()==0)
-			{
-				
-				txtCodigo.requestFocus();
-				return false;
-			}
-			 
-		}
-		if(txtNombre.getText().length()==0)
-		{
-			
-			txtNombre.requestFocus();
-			return false;
-		}if(txtApellido.getText().length()==0)
-		{
-			
-			txtApellido.requestFocus();
-			return false;
-		}
-		if(txtIdentificacion.getText().length()==0)
-		{
-			
-			txtIdentificacion.requestFocus();
-			return false;
-		}
-		if(txtTasaDescuento.getText().length()==0)
-		{
-			
-			txtTasaDescuento.requestFocus();
-			return false;
-		}
-		if(txtTasaDescuento.getText().length()!=0)
-		{
-			if(ValidaNumeros(txtTasaDescuento.getText()))
-				return true;
-			else {
-				txtTasaDescuento.requestFocus();
-				return false;
-			}
-			
-		}
-		return true;
-	}
-
-	private boolean ValidaNumeros(String cadena) {
-		try {
-			Integer.parseInt(cadena);
-			return true;
-		} catch (NumberFormatException nfe){
-			return false;
-		}
-		 
-	}
 	public ClienteFrame() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteFrame.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
 		setTitle("CLIENTE");
@@ -158,12 +89,12 @@ public class ClienteFrame extends JFrame {
 		contentPane.add(btnSALIR);
 		
 		JButton btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setBounds(269, 217, 101, 31);
+		btnCancelar.setBounds(265, 217, 93, 31);
 		contentPane.add(btnCancelar);
 		
 		JButton btnGuardar = new JButton("GUARDAR");
 		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar.setBounds(182, 217, 101, 31);
+		btnGuardar.setBounds(182, 217, 83, 31);
 		contentPane.add(btnGuardar);
 		 btnGuardar.addActionListener(new ActionListener() {			
 			
@@ -179,63 +110,89 @@ public class ClienteFrame extends JFrame {
 						objCliente.setApellido(txtApellido.getText());
 						objCliente.setCelular(txtCelular.getText());
 						objCliente.setDireccion(txtDireccion.getText());
-						objCliente.setIdentificacion(txtIdentificacion.getText()); 
+						 objCliente.setIdentificacion(txtIdentificacion.getText()); 
 						objCliente.setNombre(txtNombre.getText()); 
 						objCliente.setSexo(cmbSexo.getSelectedItem().toString());
 						objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
 						objCliente.setTelefono(txtTelefono.getText());	
-					    objCliente.insertar();
-					    LimpiarCampos();
-					   JOptionPane.showConfirmDialog(null, "REGISTRO REGISTRADO CORRECTAMENTE","CONFIRMACION",
-								  JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					  
+					  if( objCliente.insertar()){
+						  JOptionPane.showConfirmDialog(null, "REGISTRO REGISTRADO CORRECTAMENTE","CONFIRMACION",
+								  JOptionPane.OK_OPTION,JOptionPane.INFORMATION_MESSAGE);
+					  }
 					} 
+					
+					 
 				}
 				
 			}
 
-			
+			private boolean ValidarCampos() {
+				if(modificar)
+				{
+					if(txtCodigo.getText().length()==0)
+					{
+						
+						txtCodigo.requestFocus();
+						return false;
+					}
+					 
+				}
+				if(txtNombre.getText().length()==0)
+				{
+					
+					txtNombre.requestFocus();
+					return false;
+				}if(txtApellido.getText().length()==0)
+				{
+					
+					txtApellido.requestFocus();
+					return false;
+				}
+				if(txtIdentificacion.getText().length()==0)
+				{
+					
+					txtIdentificacion.requestFocus();
+					return false;
+				}
+				if(txtTasaDescuento.getText().length()==0)
+				{
+					
+					txtTasaDescuento.requestFocus();
+					return false;
+				}
+				if(txtTasaDescuento.getText().length()!=0)
+				{
+					if(ValidaNumeros(txtTasaDescuento.getText()))
+						return true;
+					else {
+						txtTasaDescuento.requestFocus();
+						return false;
+					}
+					
+				}
+				return true;
+			}
+
+			private boolean ValidaNumeros(String cadena) {
+				try {
+					Integer.parseInt(cadena);
+					return true;
+				} catch (NumberFormatException nfe){
+					return false;
+				}
+				 
+			}
 		});
 		   
 		JButton btnNuevo = new JButton("NUEVO");
 		btnNuevo.setIcon(null);
 		btnNuevo.setSelectedIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
-		btnNuevo.setBounds(5, 217, 101, 31);
+		btnNuevo.setBounds(5, 217, 83, 31);
 		contentPane.add(btnNuevo);
 		
 		JButton btnModificar = new JButton("MODIFICAR");
-		btnModificar.setBounds(93, 217, 101, 31);
-		btnModificar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(ValidarCampos())
-				{
-					int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea modificar el cliente?","Registro de Cliente",
-							JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);					
-
-					if (opcion == 0){
-						objCliente = new Cliente();
-						objCliente.setApellido(txtApellido.getText());
-						objCliente.setCelular(txtCelular.getText());
-						objCliente.setDireccion(txtDireccion.getText());
-						objCliente.setIdentificacion(txtIdentificacion.getText()); 
-						objCliente.setNombre(txtNombre.getText()); 
-						objCliente.setSexo(cmbSexo.getSelectedItem().toString());
-						objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
-						objCliente.setTelefono(txtTelefono.getText());	
-						objCliente.setId(Integer.parseInt(txtCodigo.getText()));
-					    objCliente.actualizar();
-					    LimpiarCampos();
-					   JOptionPane.showConfirmDialog(null, "REGISTRO ATUALIAZDO CORRECTAMENTE","CONFIRMACION",
-								  JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					  
-					} 
-				}
-				
-			}
-		});
+		btnModificar.setBounds(93, 217, 83, 31);
 		contentPane.add(btnModificar);
 		
 		txtCodigo = new JTextField();
@@ -375,7 +332,7 @@ public class ClienteFrame extends JFrame {
 		contentPane.add(btnSigte);
 		
 		JButton btnEliminar = new JButton("ELIMINAR");
-		btnEliminar.setBounds(358, 217, 101, 31);
+		btnEliminar.setBounds(358, 217, 83, 31);
 		contentPane.add(btnEliminar);
 	}
 }

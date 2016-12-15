@@ -146,11 +146,5 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 			return suplidores;
 		}
 	}
-
-	@Override
-	public List<Cliente> getAllTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
