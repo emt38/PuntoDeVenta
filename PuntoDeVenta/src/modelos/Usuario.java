@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import principal.Program;
 import principal.Utilidades;
 
 public class Usuario implements IEntidadDatos<Usuario> {
@@ -222,8 +223,11 @@ public class Usuario implements IEntidadDatos<Usuario> {
 		this.salesClave = "";
 	}
 	
-	public boolean iniciarSesion() {
-		return true;
+	public boolean iniciarSesion(String clave) {
+		if(Utilidades.verificarHash(clave, hashClave, salesClave)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean cerrarSesion() {

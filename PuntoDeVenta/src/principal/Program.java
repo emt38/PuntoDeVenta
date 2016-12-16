@@ -1,11 +1,13 @@
 package principal;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.EventQueue;
 import java.sql.DriverManager;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import vistas.LoginDialog;
 import vistas.MasterFrame;
 import modelos.*;
 
@@ -26,13 +28,8 @@ public class Program {
 		return new Usuario(loggedUser.getId(), loggedUser.getNombreUsuario(), "", "", loggedUser.getNombreCompleto(), loggedUser.getTipo(), loggedUser.getTienda());
 	}
 	
-	public static boolean setLoggedUser(Usuario temp) {
-		if(temp.iniciarSesion()) {
-			loggedUser = temp;
-			return true;
-		} else {
-			return false;
-		}
+	private static void setLoggedUser(Usuario temp) {
+		loggedUser = temp;
 	}
 	
 	private static Usuario loggedUser;
@@ -50,7 +47,17 @@ public class Program {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
 		
-		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.Gerente, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
+		LoginDialog login = new LoginDialog();
+		login.setModalityType(ModalityType.APPLICATION_MODAL);
+		
+		login.setVisible(true);
+		
+		Usuario user = login.getLoggedUser();
+		
+		if(user == null)
+			return;
+		
+		setLoggedUser(user);
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
