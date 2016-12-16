@@ -32,22 +32,6 @@ public class AgregarArticuloFrame extends JFrame implements ActionListener {
 
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AgregarArticuloFrame frame = new AgregarArticuloFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public AgregarArticuloFrame() {

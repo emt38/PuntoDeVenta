@@ -40,17 +40,12 @@ public class CajaFrame extends JFrame implements ActionListener {
 		});			
 		
 		
-		String[] camposObviados = {"TasaImpuestos"};
-		Object[][] temp = Utilidades.listToBidiArray(listaArticulos(), camposObviados);
-		Object[][] datos = temp;
+		String[] camposObviados = {"producto", "cantidad", "valor", "impuestos", "subtotal"};
+		Object[][] datos = Utilidades.listToBidiArray(listaArticulos(), camposObviados);
 		
-//		for(int i = 0; i<temp.length; i++){
-//			datos[i][0] = ((Producto) temp[i][2]).getDescripcion();
-//			datos[i][1] = temp[i][3];
-//			datos[i][2] = temp[i][1];
-//			datos[i][3] = temp[i][1];
-//			datos[i][4] = temp[i][4];
-//		}
+		for (int i = 0; i < datos.length; i++){
+			datos[i][0] = ((Producto) datos[i][0]).getDescripcion();
+		}
 		
 		String[] columnas = {"ARTICULO", "CANTIDAD", "VALOR", "IMPUESTOS", "SUBTOTAL" };
 		
