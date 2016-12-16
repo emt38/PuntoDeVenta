@@ -95,8 +95,8 @@ public class Usuario implements IEntidadDatos<Usuario> {
 		temp.put("_hashClave", hashClave);
 		temp.put("_salesClave", salesClave);
 		temp.put("_nombreCompleto", nombreCompleto);
-		temp.put("_tipo", tipo);
-		temp.put("_idTienda", tienda); 
+		temp.put("_tipo", tipo.ordinal());
+		temp.put("_idTienda", tienda.getId()); 
 		  
 		try (Connection gate = Utilidades.newConnection();) {
 			  return Utilidades.ejecutarCall("CALL AgregarUsuario(?,?,?,?,?,?)", temp, gate);
@@ -115,8 +115,8 @@ public class Usuario implements IEntidadDatos<Usuario> {
 		temp.put("_hashClave", hashClave);
 		temp.put("_salesClave", salesClave);
 		temp.put("_nombreCompleto", nombreCompleto);
-		temp.put("_tipo", tipo);
-		temp.put("_idTienda", tienda); 
+		temp.put("_tipo", tipo.ordinal());
+		temp.put("_idTienda", tienda.getId()); 
 		  
 		try (Connection gate = Utilidades.newConnection();) {
 			  return Utilidades.ejecutarCall("CALL ModificarUsuario(?,?,?,?,?,?,?)", temp, gate);
@@ -160,7 +160,7 @@ public class Usuario implements IEntidadDatos<Usuario> {
 			StringBuilder tiposSb = new StringBuilder ("(");
 			StringBuilder tiendasSb = new StringBuilder("(");
 			while(datos.next()){
-				usuarios.add(new Usuario(datos.getInt("idusuario"), datos.getString("nombreusuario"), datos.getString("hashClave"), datos.getString("salesClave"), datos.getString("nombreCompleto"), tipo.values()[datos.getInt("tipo")], new Tienda(datos.getInt("idTienda"), null, null, null, null)));
+				usuarios.add(new Usuario(datos.getInt("idusuario"), datos.getString("nombreusuario"), datos.getString("hashClave"), datos.getString("salesClave"), datos.getString("nombreCompleto"), TipoUsuario.values()[datos.getInt("tipo")], new Tienda(datos.getInt("idTienda"), null, null, null, null)));
 				tiposSb.append(String.format("%s,", datos.getInt("tipo")));
 				tiendasSb.append(String.format("%s,", datos.getInt("idtienda")));
 			}
@@ -175,7 +175,7 @@ public class Usuario implements IEntidadDatos<Usuario> {
 			else
 				tiendasSb.append("0)");
 			
-			TipoUsuario[] tipos = tipo.values();
+			TipoUsuario[] tipos = TipoUsuario.values();
 			
 			List<Tienda> tiendas = new Tienda().listar(String.format("WHERE idtienda IN %s", tiendasSb.toString()));
 			
@@ -198,9 +198,28 @@ public class Usuario implements IEntidadDatos<Usuario> {
 			return usuarios;
 		}
 	}
+	
+	public boolean esValido(List<String> listaErrores) {
+		listaErrores.clear();
+		
+		if(nombreCompleto.length() <= 0)
+			listaErrores.add("El campo nombre es obligatorio");
+		if(nombreUsuario.length() < 3)
+			listaErrores.add("Su nombre de usuario debe tener al menos 3 caracteres");
+		if(hashClave.length() < 6)
+			listaErrores.add("Su contraseña debe tener al menos 6 caracteres");
+		if(!salesClave.equals(hashClave))
+			listaErrores.add("Las claves no coinciden");
+		
+		return listaErrores.size() == 0;
+	}
 
 	public Usuario() {
 		super();
+		this.nombreCompleto = "";
+		this.nombreUsuario = "";
+		this.hashClave = "";
+		this.salesClave = "";
 	}
 	
 	public boolean iniciarSesion() {

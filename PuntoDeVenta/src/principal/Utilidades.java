@@ -29,7 +29,7 @@ public final class Utilidades {
 		byte[] salt = new byte[13];
 		Random random = new SecureRandom();
 		random.nextBytes(salt);
-		return "$5$" + new String(salt, StandardCharsets.UTF_8);
+		return "$5$f" + new String(salt, StandardCharsets.UTF_8);
 	}
 	
 	public static boolean verificarHash(String clear, String hashed, String sales) {

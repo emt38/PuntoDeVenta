@@ -1,8 +1,8 @@
 package modelos;
 
 public enum TipoUsuario {
-	SysAdmin,
-	Gerente,
 	Administrador,
-	Cajero
+	Cajero,
+	Gerente,
+	SysAdmin,
 }

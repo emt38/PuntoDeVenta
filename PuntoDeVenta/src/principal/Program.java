@@ -50,7 +50,7 @@ public class Program {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
 		
-		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.SysAdmin, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
+		loggedUser = new Usuario(1,"sysadmin","","","Usuario de Prueba", TipoUsuario.Gerente, new Tienda(1, "asd1", "asd1", "asd1", "San Francisco"));
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -62,6 +62,13 @@ public class Program {
 				}
 			}
 		});
+		
+		String sales = Utilidades.generarSales();
+		String clave = "Curne2016";
+		String hash = Utilidades.generarHash(clave, sales);
+		
+		if(Utilidades.verificarHash("Curne2016", hash, sales))
+			System.out.println("Se inició sesión");
 		
 		// Ejemplo de Clientes
 		
