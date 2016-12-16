@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.codec.digest.Crypt;
-import org.apache.commons.codec.digest.Sha2Crypt;
 
 public final class Utilidades {
 	private Utilidades() {
@@ -169,7 +168,7 @@ public final class Utilidades {
 		return listToBidiArray(lista, new String[]{});
 	}
 	
-	public static <T> Object[][] listToBidiArray(List<T> lista, String[] camposObviados) {
+	public static <T> Object[][] listToBidiArray(List<T> lista, String[] camposSeleccionados) {
 		if(lista.size() <= 0)
 			return new Object[0][0];
 		
@@ -177,33 +176,23 @@ public final class Utilidades {
 		Class<?> clase = evaluar.getClass();
 		
 		Method[] metodos = clase.getMethods();
-		List<Method> metodosGet = new ArrayList<Method>();
+		List<Method> metodosGet = new ArrayList<>();
 		
 		List<Object> valores;
-		List<Object[]> bidi = new ArrayList<Object[]>();
+		List<Object[]> bidi = new ArrayList<>();
 		
 		String methodName;
 		
-		for(Method metodo : metodos) {
-			methodName = metodo.getName();
-			
-			if(methodName.startsWith("get"))
-				metodosGet.add(metodo);		
-			
-		}
-		
-		List<Method> eval = new ArrayList<Method>(metodosGet);
-		
-		for(Method metodo : eval) {
-			methodName = metodo.getName().substring(3);
-			for(String o : camposObviados) {
-				if(o.equals(methodName)) {
-					metodosGet.remove(metodo);
-				}
+		for(String c : camposSeleccionados) {
+			for(Method metodo : metodos) {
+				methodName = metodo.getName();
 				
+				if(methodName.startsWith("get") && methodName.substring(3).toLowerCase().equals(c.toLowerCase()))
+					metodosGet.add(metodo);
 			}
 		}
-		metodosGet.removeIf(m -> m.getName() == "getClass");
+
+		metodosGet.removeIf(m -> m.getName().equals("getClass"));
 		Object retorno;
 		
 		for(T elemento : lista) {
@@ -222,4 +211,6 @@ public final class Utilidades {
 		
 		return bidi.toArray(new Object[0][0]);
 	}
+	
+	
 }

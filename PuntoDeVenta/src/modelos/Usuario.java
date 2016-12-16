@@ -39,6 +39,14 @@ public class Usuario implements IEntidadDatos<Usuario> {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
 
 	public String getNombreUsuario() {
 		return nombreUsuario;
@@ -62,14 +70,6 @@ public class Usuario implements IEntidadDatos<Usuario> {
 
 	public void setSalesClave(String salesClave) {
 		this.salesClave = salesClave;
-	}
-
-	public String getNombreCompleto() {
-		return nombreCompleto;
-	}
-
-	public void setNombreCompleto(String nombreCompleto) {
-		this.nombreCompleto = nombreCompleto;
 	}
 
 	public TipoUsuario getTipo() {

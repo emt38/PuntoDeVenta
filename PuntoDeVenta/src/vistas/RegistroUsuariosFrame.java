@@ -98,9 +98,7 @@ public class RegistroUsuariosFrame extends JFrame {
 			super.setVisible(false);
 			JOptionPane.showMessageDialog(this, "Usted no está autorizado para continuar", "Desautorizado", JOptionPane.INFORMATION_MESSAGE);
 		}
-
-		
-	};
+	}
 
 	/**
 	 * Create the frame.
@@ -111,7 +109,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		
 		setBackground(SystemColor.desktop);
 		setBounds(100, 100, 491, 421);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNombreDeUsuario = new JLabel("Nombre Completo");
@@ -181,7 +179,7 @@ public class RegistroUsuariosFrame extends JFrame {
 				validar();
 			}
 		});
-		txtClave.setToolTipText("El usuario con el cual acceder\u00E1 al sistema");
+		txtClave.setToolTipText("Escriba su contrase\u00F1a");
 		txtClave.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txtClave.setColumns(10);
 		txtClave.setBounds(145, 151, 186, 31);
@@ -195,7 +193,7 @@ public class RegistroUsuariosFrame extends JFrame {
 				validar();
 			}
 		});
-		txtConfirmacion.setToolTipText("El usuario con el cual acceder\u00E1 al sistema");
+		txtConfirmacion.setToolTipText("Vuelva a Escribir su contrase\u00F1a");
 		txtConfirmacion.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txtConfirmacion.setColumns(10);
 		txtConfirmacion.setBounds(145, 185, 186, 31);
