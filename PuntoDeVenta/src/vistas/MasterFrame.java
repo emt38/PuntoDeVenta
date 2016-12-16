@@ -84,5 +84,15 @@ public class MasterFrame {
 		});
 		btnTiendas.setBounds(269, 120, 85,23 );
 		frame.getContentPane().add(btnTiendas);
+		
+		JButton btnUsuarios = new JButton("Usuarios");
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoUsuariosFrame temp = new ListadoUsuariosFrame();
+				temp.setVisible(true);
+			}
+		});
+		btnUsuarios.setBounds(157, 120, 89, 23);
+		frame.getContentPane().add(btnUsuarios);
 	}
 }
