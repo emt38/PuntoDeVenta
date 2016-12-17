@@ -5,12 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import principal.Utilidades;
 
-public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<AcuerdoComercial> {
+public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<NotaCredito> {
 	
 	private Cliente cliente;
 	private String concepto;
@@ -52,41 +53,41 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 
 	@Override
 	public boolean insertar() {
-		// TODO Auto-generated method stub
 		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_total", total);
+		temp.put("_efectuado", efectuado);
 		temp.put("_idCliente", cliente.getId());
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL AgregarNotaCredito(?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL AgregarNotaCredito(?,?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
 		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("_idCliente", cliente);
+		temp.put("_idNotaCredito", noDocumento);
+		temp.put("_total", total);
+		temp.put("_efectuado", efectuado);
+		temp.put("_idCliente", cliente.getId());
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL ModificarNotaDebito(?,?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarNotaCredito(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
 		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("_idCliente", cliente);
+		temp.put("_idNotaCredito", noDocumento);
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL EliminarNotaCredito(?)", temp, gate);
@@ -97,52 +98,57 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<Acuer
 	}
 
 	@Override
-	public AcuerdoComercial buscar(int id) {
-		// TODO Auto-generated method stub
-		List<AcuerdoComercial> acuerdosComerciales = listar(String.format("WHERE idCliente=%s", id));
-		if(acuerdosComerciales.size() > 0)
-			return acuerdosComerciales.get(0);
+	public NotaCredito buscar(int id) {
+		List<NotaCredito> notasCredito = listar(String.format("WHERE idnotacredito=%s", id));
+		
+		if(notasCredito.size() > 0)
+			return notasCredito.get(0);
+		
 		return null;
 	}
 
 	@Override
-	public List<AcuerdoComercial> listar(String textoBusqueda) {
-		// TODO Auto-generated method stub
-		//DEBO TERMINARLO LUEGO ATT: FRANKLYN
-		/*
-		List<AcuerdoComercial> acuerdosComerciales = new ArrayList<AcuerdoComercial>();
+	public List<NotaCredito> listar(String textoBusqueda) {
+		List<NotaCredito> notasCredito = new ArrayList<>();
 		try {
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
-			ResultSet datos = Utilidades.ejecutarQuery("SELECT idprovincia, idpais, nombre FROM Provincias " + textoBusqueda, state);
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idnotacredito as id, fecha, total, efectuado, idcliente, concepto FROM notascredito " + textoBusqueda, state);
 			
-			StringBuilder paisesSb = new StringBuilder("(");
+			StringBuilder clientesSb = new StringBuilder("(");
+			NotaCredito itera;
 			while(datos.next()) {
-				provincias.add(new Provincia(datos.getInt("idprovincia"), new Pais(datos.getInt("idpais"), null), datos.getString("nombre")));
-				paisesSb.append(String.format("%s,", datos.getInt("idprovincia")));
+				itera = new NotaCredito();
+				itera.noDocumento = datos.getInt("id");
+				itera.concepto = datos.getString("concepto");
+				itera.fecha =datos.getDate("fecha");
+				itera.cliente = new Cliente(datos.getInt("idcliente"), new Date(), 0f);
+				itera.total = datos.getFloat("total");
+				itera.efectuado = datos.getBoolean("efectuado");
+				notasCredito.add(itera);
+				clientesSb.append(String.format("%s,", datos.getInt("idsuplidor")));
 			}
 			
-			if(paisesSb.charAt(paisesSb.length() - 1) == ',')
-				paisesSb.setCharAt(paisesSb.length() - 1, ')');
+			if(clientesSb.charAt(clientesSb.length() - 1) == ',')
+				clientesSb.setCharAt(clientesSb.length() - 1, ')');
 			else
-				paisesSb.append("0)");
+				clientesSb.append("0)");
 			
-			List<Pais> paises = new Pais().listar(String.format("WHERE idpais IN %s", paisesSb.toString()));
+			List<Cliente> clientes = new Cliente().listar(String.format("WHERE idcliente IN %s", clientesSb.toString()));
 			
-			for(Provincia provincia : provincias) {
-				paises.forEach(p -> {
-					if(provincia.getPais().getId() == p.getId())
-						provincia.setPais(p);
+			for(NotaCredito notaDebito : notasCredito) {
+				clientes.forEach(s -> {
+					if(notaDebito.getCliente().getId() == s.getId())
+						notaDebito.setCliente(s);
 				});
 			}
 			
-			return provincias;
+			return notasCredito;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return provincias;
-		}*/
-		return null;
+			return notasCredito;
+		}
 	}
 
 }
