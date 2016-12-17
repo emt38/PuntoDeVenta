@@ -203,7 +203,7 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			List<Articulo> articulos = new ArrayList<Articulo>();
 			
 			while(articulosRs.next()) {
-				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f),articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), articulosRs.getFloat("tasaImpuestos"), articulosRs.getFloat("impuestos"), articulosRs.getFloat("subTotal")));
+				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f, 0f),articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), articulosRs.getFloat("tasaImpuestos"), articulosRs.getFloat("impuestos"), articulosRs.getFloat("subTotal")));
 				for(Venta venta : ventas) {
 					if(venta.noDocumento == articulosRs.getInt("id")) {
 						venta.articulos.add(articulos.get(articulos.size()-1));
