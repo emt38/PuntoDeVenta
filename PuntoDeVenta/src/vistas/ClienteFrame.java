@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import modelos.Cliente;
 
@@ -71,6 +72,7 @@ public class ClienteFrame extends JFrame {
     private  ArrayList<Cliente> misClientes;
     private int conteo=0;
     private int opcion=0;
+    private static DefaultTableModel modelo;
     
     
 
@@ -156,18 +158,20 @@ public class ClienteFrame extends JFrame {
     	txtNombre.setText(misClientes.get(conteo).getNombre()+ "");
     	txtTasaDescuento.setText(misClientes.get(conteo).getTasaDescuento()+ "");
     	txtTelefono.setText(misClientes.get(conteo).getTelefono()+ "");
-         /*String aux =misClientes.get(2).getSexo()+ "";
-         String sexo=aux.toLowerCase();
-         String femenino="femenino";
+         String aux =misClientes.get(2).getSexo()+ "";
+         String sexo=aux.toUpperCase();
+          
       
-         if(sexo == femenino){
-        	  cmbSexo.setSelectedIndex(0) ;
-        	   
-         }
-         else {
-        	 cmbSexo.setSelectedIndex(2);
-        	  
-		}*/
+         switch (sexo) {
+		case "FEMENINO":
+			 cmbSexo.setSelectedIndex(1) ;
+			break;
+
+		default:
+			cmbSexo.setSelectedIndex(2);
+			break;
+		}
+         
     }
 	private boolean ValidarCampos() {
 		if(modificar)
@@ -453,9 +457,10 @@ public class ClienteFrame extends JFrame {
 							objCliente.setDireccion(txtDireccion.getText());
 							 objCliente.setIdentificacion(txtIdentificacion.getText()); 
 							objCliente.setNombre(txtNombre.getText()); 
-							objCliente.setSexo(cmbSexo.getSelectedItem().toString());
+							objCliente.setSexo(cmbSexo.getSelectedItem()+ "");
 							objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
-							objCliente.setTelefono(txtTelefono.getText());	
+							objCliente.setTelefono(txtTelefono.getText());
+							 
 						   objCliente.actualizar();
 							  JOptionPane.showConfirmDialog(null, "REGISTRO ACTUALIZADO CORRECTAMENTE","CONFIRMACION",
 									  JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);	
@@ -477,9 +482,10 @@ public class ClienteFrame extends JFrame {
 							objCliente.setDireccion(txtDireccion.getText());
 							 objCliente.setIdentificacion(txtIdentificacion.getText()); 
 							objCliente.setNombre(txtNombre.getText()); 
-							objCliente.setSexo(cmbSexo.getSelectedItem().toString());
+							objCliente.setSexo(cmbSexo.getSelectedItem()+ "");
 							objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
-							objCliente.setTelefono(txtTelefono.getText());	
+							objCliente.setTelefono(txtTelefono.getText());
+							System.out.println(cmbSexo.getSelectedItem());
 						    objCliente.insertar();
 							  JOptionPane.showConfirmDialog(null, "REGISTRO REGISTRADO CORRECTAMENTE","CONFIRMACION",
 									  JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
