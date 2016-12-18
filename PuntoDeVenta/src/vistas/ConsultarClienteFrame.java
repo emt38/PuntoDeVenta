@@ -106,14 +106,15 @@ public class ConsultarClienteFrame extends JFrame {
 		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION", "CELULAR", "CEDULA/RNC", "SEXO", "%DESC", "FECHA"};
 		String datos[][]=getDatosMatriz();
 		objTable = new JTable(datos,titulo);
+		
 		scrollPane.setViewportView(objTable);
 		
 	}
 
 	private String[][] getDatosMatriz() {
 		Cliente objCliente = new Cliente();
-		  ArrayList<Cliente> misClientes=(ArrayList<Cliente>)objCliente.listar("");
-		 
+	    ArrayList<Cliente> misClientes=(ArrayList<Cliente>)objCliente.listar("");
+	 
 		String matrizInf[][]= new String [misClientes.size()][9];
 		
 		for(int i=0; i< misClientes.size(); i++){
