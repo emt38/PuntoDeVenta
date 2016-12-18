@@ -132,6 +132,7 @@ public class Cliente extends Persona implements IEntidadDatos<Cliente> {
 				itera.id = datos.getInt("idcliente");
 				itera.nombre = datos.getString("nombre");
 				itera.apellido = datos.getString("apellido");
+				itera.direccion = datos.getString("direccion");
 				itera.telefono = datos.getString("telefono");
 				itera.celular = datos.getString("celular");
 				itera.identificacion = datos.getString("identificacion");
