@@ -1,7 +1,15 @@
 package modelos;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import principal.Program;
+import principal.Utilidades;
 
 public class Producto implements IEntidadDatos<Producto> {
 	//test Commit  to server
@@ -11,6 +19,7 @@ public class Producto implements IEntidadDatos<Producto> {
 	private float precio;
 	private float costo;
 	private float tasaImpuesto;
+	private float inventario;
 	
 	public int getId() {
 		return id;
@@ -62,22 +71,56 @@ public class Producto implements IEntidadDatos<Producto> {
 
 	@Override
 	public boolean insertar() {
-		return true;
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_codigo", codigo);
+		temp.put("_descripcion", descripcion);
+		temp.put("_costo", costo);
+		temp.put("_precio", precio);
+		temp.put("_tasaImpuesto", tasaImpuesto);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL AgregarProducto(?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
 	}
 
 	@Override
 	public boolean actualizar() {
-		// TODO Auto-generated method stub
-		return true;
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idProducto", id);
+		temp.put("_codigo", codigo);
+		temp.put("_descripcion", descripcion);
+		temp.put("_costo", costo);
+		temp.put("_precio", precio);
+		temp.put("_tasaImpuesto", tasaImpuesto);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL ModificarProducto(?,?,?,?,?,?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
 	}
 
 	@Override
 	public boolean eliminar() {
-		// TODO Auto-generated method stub
-		return true;
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idProducto", id);
+		
+		try (Connection gate = Utilidades.newConnection();) {
+			return Utilidades.ejecutarCall("CALL EliminarProducto(?)", temp, gate);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
 	}
 
-	public Producto(int id, String codigo, String descripcion, float precio, float costo, float tasaImpuesto) {
+	public Producto(int id, String codigo, String descripcion, float precio, float costo, float tasaImpuesto, float inventario) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -85,6 +128,7 @@ public class Producto implements IEntidadDatos<Producto> {
 		this.precio = precio;
 		this.costo = costo;
 		this.tasaImpuesto = tasaImpuesto;
+		this.setInventario(inventario);
 	}
 	
 	public Producto() {
@@ -93,21 +137,38 @@ public class Producto implements IEntidadDatos<Producto> {
 
 	@Override
 	public Producto buscar(int id) {
-		return 	listar().get(id-1);
+		List<Producto> productos = listar(String.format("WHERE p.idproducto=%s", id));
+		if(productos.size() > 0)
+			return productos.get(0);
+		
+		return null;
 	}
 
 	@Override
 	public List<Producto> listar(String textoBusqueda) {
-		ArrayList<Producto> productos = new ArrayList<>();
-		productos.add(new Producto(1, "05905935303", "Berenjena", 50.0f, 25.0f, 18f));
-		productos.add(new Producto(2, "05905935304", "Pan", 100.0f, 50f, 18f));
-		productos.add(new Producto(3, "05905935305", "Bistec", 200.0f, 100f, 18f));
-		productos.add(new Producto(4, "05905935306", "Naranja", 250.0f, 125f, 18f));
-		productos.add(new Producto(5, "05905935307", "Riki Taqui", 300.0f, 150f, 18f));
-		productos.add(new Producto(6, "05905935308", "Batata", 6.5f, 4.5f, 18f));
-		productos.add(new Producto(7, "05905935309", "Patata", 5.5f, 4.0f, 18f));
-		
-		return productos;
+		List<Producto> productos = new ArrayList<Producto>();
+		try {
+			Connection gate = Utilidades.newConnection();
+			Statement state = gate.createStatement();
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT p.idproducto, p.codigo, p.descripcion, p.costo, p.precio, p.tasaImpuesto, IFNULL(i.inventario, 0) as inventario  FROM productos AS p LEFT OUTER JOIN inventarioproductos AS i ON  p.idproducto = i.idproducto AND i.idtienda=" + Program.getLoggedUser().getTienda().getId() + " " + textoBusqueda, state);
+			
+			while(datos.next()) {
+				productos.add(new Producto(datos.getInt("idproducto"), datos.getString("codigo"), datos.getString("descripcion"), datos.getFloat("precio"), datos.getFloat("costo"), datos.getFloat("tasaImpuesto"), datos.getFloat("inventario")));
+			}
+			return productos;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return productos;
+		}
+	}
+
+	public float getInventario() {
+		return inventario;
+	}
+
+	public void setInventario(float inventario) {
+		this.inventario = inventario;
 	}
 
 }

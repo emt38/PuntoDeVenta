@@ -97,7 +97,7 @@ public class SuplidoresFrame extends JFrame {
 		
 		JButton btnNuevo = new JButton("NUEVO");
 		btnNuevo.setSelectedIcon(new ImageIcon(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
-		btnNuevo.setMaximumSize(new Dimension(20, 9));
+		 
 		btnNuevo.setBounds(5, 217, 101, 31);
 		contentPane.add(btnNuevo);
 		

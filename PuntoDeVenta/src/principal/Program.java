@@ -70,13 +70,6 @@ public class Program {
 			}
 		});
 		
-		String sales = Utilidades.generarSales();
-		String clave = "Curne2016";
-		String hash = Utilidades.generarHash(clave, sales);
-		
-		if(Utilidades.verificarHash("Curne2016", hash, sales))
-			System.out.println("Se inició sesión");
-		
 		// Ejemplo de Clientes
 		
 //		Cliente temp = new Cliente();

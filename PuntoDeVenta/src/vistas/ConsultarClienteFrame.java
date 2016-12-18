@@ -14,16 +14,19 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.List;
 import java.util.ArrayList;
-
+import java.util.Date;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.omg.CORBA.DATA_CONVERSION;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
 import modelos.Cliente;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import principal.Utilidades;
 
@@ -33,6 +36,8 @@ public class ConsultarClienteFrame extends JFrame {
 	private JTextField txtBuscarCliente;
 	private JTable objTable;
 	private JScrollPane scrollPane ; 
+	private Cliente objCliente;
+	private SimpleDateFormat formato;
 		
 	 
 
@@ -55,6 +60,20 @@ public class ConsultarClienteFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	  public static Date ParseFecha(String fecha)
+	    {
+	        SimpleDateFormat formato = new SimpleDateFormat("yyy-mm-dd");
+	        Date fechaDate = null;
+	        try {
+	            fechaDate = formato.parse(fecha);
+	        } 
+	        catch (ParseException ex) 
+	        {
+	            System.out.println(ex);
+	        }
+	        return fechaDate;
+	    }
 	public ConsultarClienteFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 662, 300);
@@ -100,20 +119,45 @@ public class ConsultarClienteFrame extends JFrame {
 		scrollPane.setBounds(0, 35, 646, 154);
 		contentPane.add(scrollPane);		
 		construirTabla();
+		objTable.addMouseListener(new java.awt.event.MouseAdapter(){
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+			      if(e.getClickCount()==2){
+			    	  objCliente = new Cliente();
+			    	 
+			    	  objCliente.setId(Integer.parseInt(objTable.getValueAt(objTable.getSelectedRow(),0).toString()));
+			    	  objCliente.setNombre(objTable.getValueAt(objTable.getSelectedRow(),1)+"");
+			    	  objCliente.setApellido(objTable.getValueAt(objTable.getSelectedRow(),2)+"");
+			    	  objCliente.setDireccion(objTable.getValueAt(objTable.getSelectedRow(),3)+"");
+			    	  objCliente.setCelular(objTable.getValueAt(objTable.getSelectedRow(),4)+"");
+			    	  objCliente.setIdentificacion(objTable.getValueAt(objTable.getSelectedRow(),5)+"");
+			    	  objCliente.setSexo(objTable.getValueAt(objTable.getSelectedRow(),6)+"");
+			    	  objCliente.setTasaDescuento(Float.parseFloat
+			    			  ((objTable.getValueAt(objTable.getSelectedRow(),7).toString())));
+			    	  String strFecha = (objTable.getValueAt(objTable.getSelectedRow(),8).toString());
+			      
+			    	  objCliente.setClienteDesde(ParseFecha(strFecha));
+			         System.out.println(objCliente.getClienteDesde());
+			      }
+			       
+			}});
 	}
 
 	private void construirTabla() {
 		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION", "CELULAR", "CEDULA/RNC", "SEXO", "%DESC", "FECHA"};
 		String datos[][]=getDatosMatriz();
-		objTable = new JTable(datos,titulo);
+		objTable = new JTable(datos,titulo){
+	        public boolean isCellEditable(int rowIndex, int vColIndex) {
+	            return false;
+	        }}; //return false: Desabilitar edicion 
+		
 		scrollPane.setViewportView(objTable);
 		
 	}
 
 	private String[][] getDatosMatriz() {
 		Cliente objCliente = new Cliente();
-		  ArrayList<Cliente> misClientes=(ArrayList<Cliente>)objCliente.listar("");
-		 
+	    ArrayList<Cliente> misClientes=(ArrayList<Cliente>)objCliente.listar("");
+	 
 		String matrizInf[][]= new String [misClientes.size()][9];
 		
 		for(int i=0; i< misClientes.size(); i++){
