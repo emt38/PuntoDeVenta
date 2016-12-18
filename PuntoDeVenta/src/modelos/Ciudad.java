@@ -57,6 +57,12 @@ public class Ciudad implements IEntidadDatos<Ciudad> {
 		
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s", this.getNombre());
+	};
+	
 	@Override
 	public boolean actualizar() {
 		HashMap<String, Object> temp = new HashMap<>();
