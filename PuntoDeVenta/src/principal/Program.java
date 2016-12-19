@@ -53,10 +53,6 @@ public class Program {
 		
 		login.setVisible(true);
 		
-		List<Producto> productos = new Producto().listar();
-		
-		System.out.println(productos);
-		
 		Usuario user = login.getLoggedUser();
 		
 		if(user == null)
