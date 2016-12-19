@@ -111,7 +111,7 @@ public class Usuario implements IEntidadDatos<Usuario> {
 	@Override
 	public boolean actualizar() {
 		HashMap<String, Object> temp = new HashMap<>();
-		temp.put("idUsuario", id);
+		temp.put("_idUsuario", id);
 		temp.put("_nombreUsuario", nombreUsuario);
 		temp.put("_hashClave", hashClave);
 		temp.put("_salesClave", salesClave);
