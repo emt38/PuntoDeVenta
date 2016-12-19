@@ -22,6 +22,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.omg.CORBA.DATA_CONVERSION;
 import org.omg.CORBA.PRIVATE_MEMBER;
+import org.omg.PortableInterceptor.ObjectReferenceTemplateSeqHolder;
+
+import com.toedter.calendar.JDateChooser;
 
 import modelos.Cliente;
 import java.awt.event.ActionListener;
@@ -36,14 +39,41 @@ public class ConsultarClienteFrame extends JFrame {
 	private JTextField txtBuscarCliente;
 	private JTable objTable;
 	private JScrollPane scrollPane ; 
-	private Cliente objCliente;
-	private SimpleDateFormat formato;
+	public  Cliente objCliente;	
+	private ArrayList<Cliente> misClientes;
+	private JButton btnSalir ;
+	private JButton btnSelecionar;
+	
 		
 	 
 
 	/**
 	 * Launch the application.
 	 */
+	private void seleccionarFila(){
+		
+		int Id=(Integer.parseInt(objTable.getValueAt(objTable.getSelectedRow(),0).toString()));
+  	  for(int i=0; i < misClientes.size(); i++)
+  	  {
+  		  if(misClientes.get(i).getId() ==Id){
+  			  objCliente = new Cliente();
+  			  objCliente.setApellido(misClientes.get(i).getApellido());
+  			  objCliente.setCelular(misClientes.get(i).getCelular());
+  			  objCliente.setClienteDesde(misClientes.get(i).getClienteDesde());
+  			  objCliente.setDireccion(misClientes.get(i).getDireccion());
+  			  objCliente.setId(Id);
+  			  objCliente.setIdentificacion(misClientes.get(i).getIdentificacion());
+  			  objCliente.setNombre(misClientes.get(i).getNombre());
+  			  objCliente.setSexo(misClientes.get(i).getSexo());
+  			  objCliente.setTasaDescuento(misClientes.get(i).getTasaDescuento());
+  			  objCliente.setTelefono(misClientes.get(i).getTelefono());
+  			   break;
+  			  
+  		  }
+  			  
+  	  }
+  
+	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,18 +91,21 @@ public class ConsultarClienteFrame extends JFrame {
 	 * Create the frame.
 	 */
 	
-	  public static Date ParseFecha(String fecha)
+	  public static Date ParseFecha(String srtFecha)
 	    {
-	        SimpleDateFormat formato = new SimpleDateFormat("yyy-mm-dd");
-	        Date fechaDate = null;
-	        try {
-	            fechaDate = formato.parse(fecha);
-	        } 
-	        catch (ParseException ex) 
-	        {
-	            System.out.println(ex);
-	        }
-	        return fechaDate;
+		  SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+		  //String strFecha1 = "2007-12-25";
+		  Date fecha = null;
+		  try {
+
+		  fecha = formatoDelTexto.parse(srtFecha);
+
+		  } catch (ParseException ex) {
+
+		  ex.printStackTrace();
+
+		  }
+		  return fecha;
 	    }
 	public ConsultarClienteFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +124,7 @@ public class ConsultarClienteFrame extends JFrame {
 		contentPane.add(txtBuscarCliente);
 		txtBuscarCliente.setColumns(10);
 		
-		JButton btnSalir = new JButton("SALIR");
+		btnSalir= new JButton("SALIR");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int opcion =JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?","Alerta!", 
@@ -105,9 +138,28 @@ public class ConsultarClienteFrame extends JFrame {
 		btnSalir.setBounds(533, 230, 113, 23);
 		contentPane.add(btnSalir);
 		
-		JButton btnSelecionar = new JButton("SELECIONAR");
+		btnSelecionar = new JButton("SELECIONAR");
 		btnSelecionar.setBounds(422, 230, 113, 23);
 		contentPane.add(btnSelecionar);
+		
+		btnSelecionar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				
+				switch (objTable.getSelectedRowCount()) {
+				case 0:
+					JOptionPane.showConfirmDialog(null, "¿Tiene que selecionar una fila?","Alerta!", 
+							JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					 
+					break;
+
+				default:
+					seleccionarFila();
+					break;
+				}
+			}
+		});
 		
 		JLabel lblConsultaDeClientes = new JLabel("CONSULTA DE CLIENTES");
 		lblConsultaDeClientes.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -115,31 +167,21 @@ public class ConsultarClienteFrame extends JFrame {
 		lblConsultaDeClientes.setBounds(209, 11, 228, 14);
 		contentPane.add(lblConsultaDeClientes);
 		
-		  scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 35, 646, 154);
 		contentPane.add(scrollPane);		
 		construirTabla();
 		objTable.addMouseListener(new java.awt.event.MouseAdapter(){
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-			      if(e.getClickCount()==2){
-			    	  objCliente = new Cliente();
+			      if(e.getClickCount()==2){			    	 
 			    	 
-			    	  objCliente.setId(Integer.parseInt(objTable.getValueAt(objTable.getSelectedRow(),0).toString()));
-			    	  objCliente.setNombre(objTable.getValueAt(objTable.getSelectedRow(),1)+"");
-			    	  objCliente.setApellido(objTable.getValueAt(objTable.getSelectedRow(),2)+"");
-			    	  objCliente.setDireccion(objTable.getValueAt(objTable.getSelectedRow(),3)+"");
-			    	  objCliente.setCelular(objTable.getValueAt(objTable.getSelectedRow(),4)+"");
-			    	  objCliente.setIdentificacion(objTable.getValueAt(objTable.getSelectedRow(),5)+"");
-			    	  objCliente.setSexo(objTable.getValueAt(objTable.getSelectedRow(),6)+"");
-			    	  objCliente.setTasaDescuento(Float.parseFloat
-			    			  ((objTable.getValueAt(objTable.getSelectedRow(),7).toString())));
-			    	  String strFecha = (objTable.getValueAt(objTable.getSelectedRow(),8).toString());
-			      
-			    	  objCliente.setClienteDesde(ParseFecha(strFecha));
-			         System.out.println(objCliente.getClienteDesde());
+			    	  seleccionarFila();
+			    	
 			      }
 			       
-			}});
+			}
+
+			});
 	}
 
 	private void construirTabla() {
@@ -155,8 +197,8 @@ public class ConsultarClienteFrame extends JFrame {
 	}
 
 	private String[][] getDatosMatriz() {
-		Cliente objCliente = new Cliente();
-	    ArrayList<Cliente> misClientes=(ArrayList<Cliente>)objCliente.listar("");
+		  objCliente = new Cliente();
+		misClientes =(ArrayList<Cliente>)objCliente.listar("");
 	 
 		String matrizInf[][]= new String [misClientes.size()][9];
 		

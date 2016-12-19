@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.toedter.calendar.JDateChooser;
+
 import modelos.Cliente;
 
 import javax.swing.JLabel;
@@ -43,6 +45,8 @@ public class ClienteFrame extends JFrame {
 	private JComboBox cmbSexo;
 	private boolean modificar=false;
 	private Cliente objCliente;
+	private JDateChooser objtSelectFecha;
+	private ConsultarClienteFrame objFrmConsultaCliente;
 	
 	
 	//Declaracion de Botones Y LABEL
@@ -387,12 +391,17 @@ public class ClienteFrame extends JFrame {
 		contentPane.add(txtCelular);
 		txtCelular.setColumns(10);
 		
-		txtFechaIngreso = new JTextField();
-		txtFechaIngreso.setBounds(133, 173, 164, 27);
-	
-		contentPane.add(txtFechaIngreso);
-		txtFechaIngreso.setColumns(10);
+		/*objtSelectFecha= new JDateChooser();
+		objtSelectFecha.setBounds(133, 173, 164, 27);
+		contentPane.add(objtSelectFecha);*/
 		
+		txtFechaIngreso = new JTextField();
+		txtFechaIngreso.setBounds(133, 173, 164, 27);	
+		contentPane.add(txtFechaIngreso);		
+		//txtFechaIngreso.setColumns(10);
+		
+		
+		 
 		lblFechaDeIngreso= new JLabel("FECHA DE INGRESO:");
 		lblFechaDeIngreso.setBounds(5, 180, 118, 20);
 		contentPane.add(lblFechaDeIngreso);
@@ -478,8 +487,6 @@ public class ClienteFrame extends JFrame {
 							  conteo=0;
 							  misClientes=null;
 							  mostrarRegistros();
-							  
-						  
 						} 
 					}
 					else {
@@ -513,9 +520,6 @@ public class ClienteFrame extends JFrame {
 						  
 						} 
 					}
-									
-
-					
 				}
 				
 			}
@@ -526,8 +530,6 @@ public class ClienteFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				habilitarEdicion();
 				modificar=true;
-				 
-				
 			}
 		});
 		btnCancelar.addActionListener(new ActionListener() {
@@ -537,8 +539,6 @@ public class ClienteFrame extends JFrame {
 				limpiarCampos();
 				deshabilitarEdicion();
 				mostrarRegistros();
-				
-				
 			}
 		});
 		btnEliminar.addActionListener(new ActionListener() {
@@ -613,8 +613,20 @@ public class ClienteFrame extends JFrame {
 				
 			}
 		});
-		
-		
-		
+		btnBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				objFrmConsultaCliente = new ConsultarClienteFrame();
+				objFrmConsultaCliente.setAlwaysOnTop(true);
+				objFrmConsultaCliente.setVisible(true);
+				
+				objCliente=objFrmConsultaCliente.objCliente;
+				
+				System.out.println(objCliente.getApellido());
+				
+			}
+		});
 	}
 }
