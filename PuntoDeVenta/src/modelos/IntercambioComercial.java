@@ -13,8 +13,8 @@ public abstract class IntercambioComercial extends AcuerdoComercial {
 	public float getDescuentos() {
 		return descuentos;
 	}
-	public float setDescuentos() {
-		return descuentos;
+	public void setDescuentos(float descuento) {
+		this.descuentos = descuento;
 	}
 	public List<Articulo> getArticulos() {
 		return articulos;
