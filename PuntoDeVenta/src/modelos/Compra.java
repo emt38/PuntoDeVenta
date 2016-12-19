@@ -179,7 +179,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 			else
 				articulosSb.append("0)");
 			
-			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad FROM ventasdetalle" + articulosSb.toString(), state);
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad FROM comprasdetalle " + articulosSb.toString(), state);
 			List<Articulo> articulos = new ArrayList<Articulo>();
 			
 			while(articulosRs.next()) {

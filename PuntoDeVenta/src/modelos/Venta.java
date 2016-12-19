@@ -199,7 +199,7 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			else
 				articulosSb.append("0)");
 			
-			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idventa AS id, idproducto, valor, impuestos, subtotal, cantidad FROM ventasdetalle" + articulosSb.toString(), state);
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idventa AS id, idproducto, valor, impuestos, subtotal, cantidad FROM ventasdetalle " + articulosSb.toString(), state);
 			List<Articulo> articulos = new ArrayList<Articulo>();
 			
 			while(articulosRs.next()) {

@@ -3,6 +3,7 @@ package principal;
 import java.awt.Dialog.ModalityType;
 import java.awt.EventQueue;
 import java.sql.DriverManager;
+import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -51,6 +52,10 @@ public class Program {
 		login.setModalityType(ModalityType.APPLICATION_MODAL);
 		
 		login.setVisible(true);
+		
+		List<Producto> productos = new Producto().listar();
+		
+		System.out.println(productos);
 		
 		Usuario user = login.getLoggedUser();
 		

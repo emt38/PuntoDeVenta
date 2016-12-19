@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import principal.Program;
+
 import principal.Utilidades;
 
 public class Usuario implements IEntidadDatos<Usuario> {
