@@ -457,7 +457,17 @@ public class ClienteFrame extends JFrame {
 							objCliente.setDireccion(txtDireccion.getText());
 							 objCliente.setIdentificacion(txtIdentificacion.getText()); 
 							objCliente.setNombre(txtNombre.getText()); 
-							objCliente.setSexo(cmbSexo.getSelectedItem()+ "");
+							System.out.println(cmbSexo.getSelectedIndex());
+							switch(cmbSexo.getSelectedIndex())
+							{
+							case 1:
+								objCliente.setSexo("Femenino");
+								break;
+								default:
+									objCliente.setSexo("Masculino");
+									break;								
+							}
+							
 							objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
 							objCliente.setTelefono(txtTelefono.getText());
 							 
@@ -476,16 +486,23 @@ public class ClienteFrame extends JFrame {
 						  opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea registrar el cliente?","Registro de Cliente",
 								JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);	
 						if (opcion == 0){
-							objCliente = new Cliente();
 							objCliente.setApellido(txtApellido.getText());
 							objCliente.setCelular(txtCelular.getText());
 							objCliente.setDireccion(txtDireccion.getText());
 							 objCliente.setIdentificacion(txtIdentificacion.getText()); 
 							objCliente.setNombre(txtNombre.getText()); 
-							objCliente.setSexo(cmbSexo.getSelectedItem()+ "");
+							switch(cmbSexo.getSelectedIndex())
+							{
+							case 1:
+								objCliente.setSexo("Femenino");
+								break;
+								default:
+									objCliente.setSexo("Masculino");
+									break;								
+							}
+							
 							objCliente.setTasaDescuento(Float.parseFloat(txtTasaDescuento.getText()));
 							objCliente.setTelefono(txtTelefono.getText());
-							System.out.println(cmbSexo.getSelectedItem());
 						    objCliente.insertar();
 							  JOptionPane.showConfirmDialog(null, "REGISTRO REGISTRADO CORRECTAMENTE","CONFIRMACION",
 									  JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
