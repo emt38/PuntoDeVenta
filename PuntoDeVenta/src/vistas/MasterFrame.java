@@ -13,9 +13,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import principal.ConnectionDB;
+
 public class MasterFrame {
 
 	private JFrame frame;
+	private static ConnectionDB conn;
 
 	public JFrame getFrame() {
 		return frame;
@@ -27,7 +30,28 @@ public class MasterFrame {
 //	public static void main(String[] args) {
 //
 //	}
-
+	private static void connectToDataBase(){
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://MYSQL5015.HostBuddy.com/";
+		String db = "db_a137dd_posdb";
+		
+		conn = new ConnectionDB(driver, db, url);
+		conn.connect();
+	}
+	private static void openReportFrame()
+	{
+		EventQueue.invokeLater(new Runnable(){
+		public void run(){
+			try{
+				ReportesFrame frame =  new ReportesFrame(conn.getConn());
+				frame.setVisible(true);
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		});
+	}
 	/**
 	 * Create the application.
 	 */
@@ -96,5 +120,16 @@ public class MasterFrame {
 		btnCiudades.setBounds(50, 120, 85,23 );
 		frame.getContentPane().add(btnCiudades);
 		
+		JButton btnReportes = new JButton("Reportes");
+		btnReportes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				connectToDataBase();
+				openReportFrame();
+			}
+		});
+		btnReportes.setBounds(50, 89, 89, 123);
+		frame.getContentPane().add(btnReportes);
 	}
-}
+		
+	}
+
