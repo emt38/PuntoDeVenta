@@ -163,6 +163,18 @@ public class Tienda implements IEntidadDatos<Tienda> {
 			return tiendas;
 		}
 	}
+	
+	public boolean esValida(List<String> errores) {
+		errores.clear();
+		
+		if(nombre == null || nombre.length() <= 0)
+			errores.add("El campo de nombre no puede estar vacío.");
+		
+		if(ciudad == null)
+			errores.add("Debe seleccionar una ciudad.");
+		
+		return errores.size() > 0;
+	}
 
 	public Tienda(int id, String nombre, String direccion, String slogan, Ciudad ciudad) {
 		super();

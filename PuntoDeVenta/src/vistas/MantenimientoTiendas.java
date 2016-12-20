@@ -16,6 +16,8 @@ import principal.ModoFormulario;
 import principal.Utilidades;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,9 +26,14 @@ import java.util.List;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MantenimientoTiendas extends JDialog {
 	private Tienda tienda;
+	private Tienda back;
 	private ModoFormulario modo;
 	private JTextField txtNombre;
 	private JTextField txtSlogan;
@@ -39,6 +46,7 @@ public class MantenimientoTiendas extends JDialog {
 	private List<Pais> paises = new ArrayList<>();
 	private List<Provincia> provincias = new ArrayList<>();
 	private List<Ciudad> ciudades = new ArrayList<>();
+	private List<String> errores = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -75,11 +83,38 @@ public class MantenimientoTiendas extends JDialog {
 			btnFinalizar.setText("Agregar");
 			break;
 			
+		case Visualizar:
+			cbPais.removeAllItems();
+			cbProvincia.removeAllItems();
+			cbCiudad.removeAllItems();
+			Provincia prov = tienda.getCiudad().getProvincia();
+			Pais pa = prov.getPais();
+			cbPais.addItem(pa);
+			cbCiudad.addItem(tienda.getCiudad());
+			cbProvincia.addItem(prov);
+			
+			cbPais.setSelectedIndex(0);
+			cbCiudad.setSelectedIndex(0);
+			cbProvincia.setSelectedIndex(0);
+			txtDireccion.setText(back.getDireccion());
+			txtNombre.setText(back.getNombre());
+			txtSlogan.setText(back.getSlogan());
+			
+			cbPais.setEnabled(false);
+			cbCiudad.setEnabled(false);
+			cbProvincia.setEnabled(false);
+			txtDireccion.setEnabled(false);
+			txtNombre.setEnabled(false);
+			txtSlogan.setEnabled(false);
+			btnLimpiarCampos.setEnabled(false);
+			btnFinalizar.setText("Cerrar");
+			break;
+			
 		case Editar:
 			cbPais.removeAllItems();
 			cbProvincia.removeAllItems();
 			cbCiudad.removeAllItems();
-			Provincia pro = tienda.getCiudad().getProvincia();
+			Provincia pro = back.getCiudad().getProvincia();
 			Pais pais = pro.getPais();
 			btnFinalizar.setText("Guardar Cambios");
 			
@@ -104,9 +139,9 @@ public class MantenimientoTiendas extends JDialog {
 					index = i;
 			}
 			cbCiudad.setSelectedIndex(index);
-			txtDireccion.setText(tienda.getDireccion());
-			txtNombre.setText(tienda.getNombre());
-			txtSlogan.setText(tienda.getSlogan());
+			txtDireccion.setText(back.getDireccion());
+			txtNombre.setText(back.getNombre());
+			txtSlogan.setText(back.getSlogan());
 			break;
 			
 		case Eliminar:
@@ -123,16 +158,30 @@ public class MantenimientoTiendas extends JDialog {
 	public void agregarTienda() {
 		this.tienda = new Tienda();
 		setModo(ModoFormulario.Agregar);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setVisible(true);
 	}
 	
 	public void editarTienda(Tienda tienda) {
 		this.tienda = tienda;
+		this.back = tienda;
 		setModo(ModoFormulario.Editar);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setVisible(true);
 	}
 	
 	public void eliminarTienda(Tienda tienda) {
 		this.tienda = tienda;
 		setModo(ModoFormulario.Eliminar);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setVisible(true);
+	}
+	
+	public void visualizarTienda(Tienda tienda) {
+		this.tienda = tienda;
+		setModo(ModoFormulario.Visualizar);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setVisible(true);
 	}
 
 	/**
@@ -168,25 +217,86 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(label_3);
 		
 		btnFinalizar = new JButton("Agregar");
+		btnFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(modo == ModoFormulario.Visualizar)
+					MantenimientoTiendas.this.dispose();
+					
+				if(!tienda.esValida(errores))
+					JOptionPane.showMessageDialog(MantenimientoTiendas.this, errores, "Validez de Datos", JOptionPane.WARNING_MESSAGE);
+				
+				switch(modo) {
+				default:
+				case Agregar:
+					if(tienda.insertar()) {
+						JOptionPane.showMessageDialog(MantenimientoTiendas.this, "¡Se ha agregado la tienda satisfactoriamente!", "Éxito :)", JOptionPane.PLAIN_MESSAGE);
+						MantenimientoTiendas.this.dispose();
+					}
+					
+					break;
+					
+				case Editar:
+					if(tienda.actualizar()) {
+						JOptionPane.showMessageDialog(MantenimientoTiendas.this, "¡Se han guardado los cambios satisfactoriamente!", "Éxito :)", JOptionPane.PLAIN_MESSAGE);
+						MantenimientoTiendas.this.dispose();
+					}
+					break;
+					
+				case Eliminar:
+					if(tienda.eliminar()) {
+						JOptionPane.showMessageDialog(MantenimientoTiendas.this, "¡Se ha eliminado la tienda satisfactoriamente!", "Éxito :)", JOptionPane.WARNING_MESSAGE);
+						MantenimientoTiendas.this.dispose();
+					}
+					break;
+					
+				}
+				
+				JOptionPane.showMessageDialog(MantenimientoTiendas.this, "Ha ocurrido un error inesperado", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		btnFinalizar.setBounds(328, 174, 157, 36);
 		getContentPane().add(btnFinalizar);
 		
 		txtNombre = new JTextField();
+		txtNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				tienda.setNombre(txtNombre.getText());
+			}
+		});
 		txtNombre.setBounds(93, 27, 392, 28);
 		getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		txtSlogan = new JTextField();
+		txtSlogan.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				tienda.setSlogan(txtSlogan.getText());
+			}
+		});
 		txtSlogan.setColumns(10);
 		txtSlogan.setBounds(94, 57, 392, 28);
 		getContentPane().add(txtSlogan);
 		
 		txtDireccion = new JTextField();
+		txtDireccion.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				tienda.setDireccion(txtDireccion.getText());
+			}
+		});
 		txtDireccion.setColumns(10);
 		txtDireccion.setBounds(94, 86, 392, 28);
 		getContentPane().add(txtDireccion);
 		
 		cbCiudad = new JComboBox<>();
+		cbCiudad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tienda.setCiudad((Ciudad)cbCiudad.getSelectedItem());
+			}
+		});
 		cbCiudad.setEnabled(false);
 		cbCiudad.setBounds(93, 183, 225, 26);
 		getContentPane().add(cbCiudad);
@@ -198,6 +308,20 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(lblPas);
 		
 		cbPais = new JComboBox<>();
+		cbPais.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cbPais.getSelectedIndex() != -1) {
+					cbCiudad.removeAllItems();
+					cbCiudad.setEnabled(false);
+					cbProvincia.removeAllItems();
+					List<Provincia> pros = Utilidades.provinciasDePais((Pais)cbPais.getSelectedItem(), provincias);
+					for(Provincia p : pros) {
+						cbProvincia.addItem(p);
+					}
+					cbProvincia.setEnabled(true);
+				}
+			}
+		});
 		cbPais.setBounds(93, 118, 225, 26);
 		getContentPane().add(cbPais);
 		
@@ -208,11 +332,28 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(lblProvinciaOEstado);
 		
 		cbProvincia = new JComboBox<>();
+		cbProvincia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cbProvincia.getSelectedIndex() != -1) {
+					cbCiudad.removeAllItems();
+					cbCiudad.setEnabled(true);
+					List<Ciudad> cities = Utilidades.ciudadesDeProvincia((Provincia)cbProvincia.getSelectedItem(), ciudades); 
+					for(Ciudad c : cities) {
+						cbCiudad.addItem(c);
+					}
+				}
+			}
+		});
 		cbProvincia.setEnabled(false);
 		cbProvincia.setBounds(93, 150, 225, 26);
 		getContentPane().add(cbProvincia);
 		
 		btnLimpiarCampos = new JButton("Limpiar Campos");
+		btnLimpiarCampos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setModo(modo);
+			}
+		});
 		btnLimpiarCampos.setBounds(328, 126, 157, 36);
 		getContentPane().add(btnLimpiarCampos);
 		
