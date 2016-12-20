@@ -1,5 +1,7 @@
 package reportes;
 import java.sql.Connection;
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.JasperReport;
@@ -14,11 +16,13 @@ public abstract class AbstractJasperReports {
 	private static JasperReport report;
 	private static JasperPrint reportFilled;
 	private static JasperViewer viewer;
+	private static Map<String, Object> parameters;
 	
 	public static void createReport(Connection conn, String path){
+		
 		try{
 			report = (JasperReport) JRLoader.loadObjectFromFile(path);
-			reportFilled = JasperFillManager.fillReport(report, null, conn);
+			reportFilled = JasperFillManager.fillReport(report, parameters, conn);
 					
 		}
 		catch(JRException ex){
