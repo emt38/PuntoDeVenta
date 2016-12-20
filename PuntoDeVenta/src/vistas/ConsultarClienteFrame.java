@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.awt.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,7 +25,7 @@ import org.omg.CORBA.DATA_CONVERSION;
 import org.omg.CORBA.PRIVATE_MEMBER;
 import org.omg.PortableInterceptor.ObjectReferenceTemplateSeqHolder;
 
-import com.toedter.calendar.JDateChooser;
+ 
 
 import modelos.Cliente;
 import java.awt.event.ActionListener;
@@ -50,6 +51,40 @@ public class ConsultarClienteFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
+	private void construirTabla() {
+		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION", "CELULAR", "CEDULA/RNC", "SEXO", "%DESC", "FECHA"};
+		String datos[][]=getDatosMatriz();
+		
+		objTable = new JTable(datos,titulo){
+	        public boolean isCellEditable(int rowIndex, int vColIndex) {
+	            return false;
+	        }}; //return false: Desabilitar edicion 
+		
+		scrollPane.setViewportView(objTable);
+		
+	}
+
+	private String[][] getDatosMatriz() {
+		  objCliente = new Cliente();
+		misClientes =(ArrayList<Cliente>)objCliente.listar("");
+	 
+		String matrizInf[][]= new String [misClientes.size()][9];
+		
+		for(int i=0; i< misClientes.size(); i++){
+			matrizInf[i][0]=misClientes.get(i).getId()+"";
+			matrizInf[i][1]=misClientes.get(i).getNombre()+"";
+			matrizInf[i][2]=misClientes.get(i).getApellido()+"";
+			matrizInf[i][3]=misClientes.get(i).getDireccion()+"";
+			matrizInf[i][4]=misClientes.get(i).getCelular()+"";
+			matrizInf[i][5]=misClientes.get(i).getIdentificacion()+"";
+			matrizInf[i][6]=misClientes.get(i).getSexo()+"";
+			matrizInf[i][7]=misClientes.get(i).getTasaDescuento()+"";
+			matrizInf[i][8]=misClientes.get(i).getClienteDesde()+"";
+		}
+		return matrizInf;
+		 
+	}
 	private void seleccionarFila(){
 		
 		int Id=(Integer.parseInt(objTable.getValueAt(objTable.getSelectedRow(),0).toString()));
@@ -71,7 +106,8 @@ public class ConsultarClienteFrame extends JFrame {
   			  
   		  }
   			  
-  	  }
+  	  } 
+	ClienteFrame.objClienteObtenido=objCliente;
   
 	}
 	public static void main(String[] args) {
@@ -90,23 +126,6 @@ public class ConsultarClienteFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
-	  public static Date ParseFecha(String srtFecha)
-	    {
-		  SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-		  //String strFecha1 = "2007-12-25";
-		  Date fecha = null;
-		  try {
-
-		  fecha = formatoDelTexto.parse(srtFecha);
-
-		  } catch (ParseException ex) {
-
-		  ex.printStackTrace();
-
-		  }
-		  return fecha;
-	    }
 	public ConsultarClienteFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 662, 300);
@@ -121,8 +140,10 @@ public class ConsultarClienteFrame extends JFrame {
 		
 		txtBuscarCliente = new JTextField();
 		txtBuscarCliente.setBounds(71, 200, 575, 20);
+		
 		contentPane.add(txtBuscarCliente);
 		txtBuscarCliente.setColumns(10);
+		 
 		
 		btnSalir= new JButton("SALIR");
 		btnSalir.addActionListener(new ActionListener() {
@@ -155,7 +176,9 @@ public class ConsultarClienteFrame extends JFrame {
 					break;
 
 				default:
-					seleccionarFila();
+					seleccionarFila();					
+					dispose();			 
+					 
 					break;
 				}
 			}
@@ -176,7 +199,7 @@ public class ConsultarClienteFrame extends JFrame {
 			      if(e.getClickCount()==2){			    	 
 			    	 
 			    	  seleccionarFila();
-			    	
+			    	  dispose();
 			      }
 			       
 			}
@@ -184,36 +207,5 @@ public class ConsultarClienteFrame extends JFrame {
 			});
 	}
 
-	private void construirTabla() {
-		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION", "CELULAR", "CEDULA/RNC", "SEXO", "%DESC", "FECHA"};
-		String datos[][]=getDatosMatriz();
-		objTable = new JTable(datos,titulo){
-	        public boolean isCellEditable(int rowIndex, int vColIndex) {
-	            return false;
-	        }}; //return false: Desabilitar edicion 
-		
-		scrollPane.setViewportView(objTable);
-		
-	}
-
-	private String[][] getDatosMatriz() {
-		  objCliente = new Cliente();
-		misClientes =(ArrayList<Cliente>)objCliente.listar("");
-	 
-		String matrizInf[][]= new String [misClientes.size()][9];
-		
-		for(int i=0; i< misClientes.size(); i++){
-			matrizInf[i][0]=misClientes.get(i).getId()+"";
-			matrizInf[i][1]=misClientes.get(i).getNombre()+"";
-			matrizInf[i][2]=misClientes.get(i).getApellido()+"";
-			matrizInf[i][3]=misClientes.get(i).getDireccion()+"";
-			matrizInf[i][4]=misClientes.get(i).getCelular()+"";
-			matrizInf[i][5]=misClientes.get(i).getIdentificacion()+"";
-			matrizInf[i][6]=misClientes.get(i).getSexo()+"";
-			matrizInf[i][7]=misClientes.get(i).getTasaDescuento()+"";
-			matrizInf[i][8]=misClientes.get(i).getClienteDesde()+"";
-		}
-		return matrizInf;
-		 
-	}
+	
 }
