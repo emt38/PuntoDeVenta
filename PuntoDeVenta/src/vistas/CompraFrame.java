@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,19 @@ import javax.swing.table.DefaultTableModel;
 
 import modelos.Articulo;
 import modelos.Compra;
+import modelos.Producto;
 import modelos.Suplidor;
+import principal.Program;
 import principal.Utilidades;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 public class CompraFrame extends JFrame {
 
@@ -37,12 +45,15 @@ public class CompraFrame extends JFrame {
 	private JTextField txtCambiardesc;
 	
 	private Compra compra = new Compra();
-	private JButton btnRefrescar;
 	
-	protected void ReloadAll() {
-		String[] columnas = {"Cantidad2", "Producto", "Costo", "Impuestos", "Subtotal"};
+	private void ReloadAll() {
+		String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 		String[] campos = {"cantidad", "producto","valor", "impuestos", "subtotal"};  
 		Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
+		
+		for(int i = 0; i< datos.length; i++){
+			datos[i][1] = ((Producto) datos[i][1]).getDescripcion(); 
+		}
 		
 		DefaultTableModel modelo = new DefaultTableModel(datos, columnas)
 		//Para evitar que las celdas sean editables
@@ -56,10 +67,9 @@ public class CompraFrame extends JFrame {
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
 		
-		txtTotal = new JTextField();
-		txtTotalImpuestos = new JTextField();
-		txtTotalDescuento = new JTextField();
-		
+		txtTotalDescuento.setText(String.format("%.2f", compra.getDescuentos()));
+		txtTotalImpuestos.setText(String.format("%.2f", compra.getImpuestos()));
+		txtTotal.setText(String.format("%.2f", compra.getTotal()));
 	}
 	
 	public CompraFrame() {
@@ -70,6 +80,29 @@ public class CompraFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		Suplidor suplidor = new Suplidor();
+		List<Suplidor> suplidores = new ArrayList<>();
+		List<String> nombreSuplidores = new ArrayList<String>();
+		JComboBox cbxSuplidores = new JComboBox();
+		
+		suplidores.addAll(new Suplidor().listar("ORDER BY Nombre"));
+		
+		if( suplidores.size() > 0 ){
+			for(Suplidor supl: suplidores){
+				nombreSuplidores.add(supl.getNombre());
+			}
+			cbxSuplidores = new JComboBox(nombreSuplidores.toArray());
+			suplidor = suplidor.listar("WHERE nombre='" + cbxSuplidores.getSelectedItem() + "'").get(0);
+			compra = new Compra(suplidor, Program.getLoggedUser(), Program.getLoggedUser().getTienda());
+			
+		}else{
+			
+		}
+		
+		cbxSuplidores.setBounds(379, 11, 167, 20);
+		contentPane.add(cbxSuplidores);
+		
 		
 		tabla = new JTable();
 		tabla.setModel(new DefaultTableModel(
@@ -129,54 +162,77 @@ public class CompraFrame extends JFrame {
 		contentPane.add(btnCambiarDesc);
 		btnCambiarDesc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (isNumeric(txtCambiardesc.getText())){
+				if (isFloat(txtCambiardesc.getText())){
 					compra.setDescuentos(Float.parseFloat(txtCambiardesc.getText()));
+					compra.totalizar();
 					txtTotalDescuento.setText(String.format("%.2f", compra.getDescuentos()));
+					ReloadAll();
 				}
 				
 			}
 		});
 		
-		JButton btnBuscarArticulo = new JButton("Buscar Articulo");
-		btnBuscarArticulo.addActionListener(new ActionListener() {
+		JButton btnAgregarArticulo = new JButton("Agregar Articulo");
+		btnAgregarArticulo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AgregarArticuloDialog agregarArticulo = new AgregarArticuloDialog();
+				agregarArticulo.setModal(true);
 				agregarArticulo.setVisible(true);
 				agregarArticulo.setResizable(false);
+				
+				if(agregarArticulo.articuloAgregado){
+					compra.agregarArticulo((Articulo) objeto);
+					ReloadAll();
+				}
 			}
 		});
-		btnBuscarArticulo.setBounds(10, 13, 148, 23);
-		contentPane.add(btnBuscarArticulo);
+		btnAgregarArticulo.setBounds(10, 13, 148, 23);
+		contentPane.add(btnAgregarArticulo);
 		
-		
-		
-		List<Suplidor> suplidores = new ArrayList<>();
-		Suplidor defaultSuplidor = new Suplidor();
-		defaultSuplidor.setNombre("Suplidor no identificado");
-		suplidores.add(defaultSuplidor);
-		suplidores.addAll(new Suplidor().listar("ORDER BY Nombre"));
-		
-		
-		JComboBox cbxSuplidores = new JComboBox(suplidores.toArray(new Suplidor[0]));
-		cbxSuplidores.setSelectedIndex(0);
-		cbxSuplidores.setBounds(379, 11, 167, 20);
-		contentPane.add(cbxSuplidores);
-		
-		btnRefrescar = new JButton("Refrescar");
-		btnRefrescar.setBounds(210, 10, 90, 28);
-		contentPane.add(btnRefrescar);
-		btnRefrescar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				compra.agregarArticulo((Articulo) objeto);
-				ReloadAll();
-				System.out.println("Se refresco!");
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompraFrame.this.dispose();
 			}
 		});
+		btnSalir.setBounds(419, 297, 127, 30);
+		getContentPane().add(btnSalir);
 		
+		JLabel lblNotaborrararticulo = new JLabel("*Para borrar un articulo presione la tecla \"Delete\"");
+		lblNotaborrararticulo.setBounds(284, 209, 262, 14);
+		contentPane.add(lblNotaborrararticulo);
 		
+		//////
+		  int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+		  InputMap inputMap = tabla.getInputMap(condition);
+		  ActionMap actionMap = tabla.getActionMap();
+		  
+		  final String DELETE = "Delete";
+
+		  inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), DELETE);
+		  actionMap.put(DELETE, new AbstractAction() {
+		     public void actionPerformed(ActionEvent e) {
+		    	 
+		    	 Articulo articuloABorrar= new Articulo ();
+		    	 String productoDescripcion = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
+		    	 
+		         
+		         String[] campos =  {"producto"};
+		         Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
+		 		
+		 		for(int i = 0; i< datos.length; i++){
+		 			if (productoDescripcion == compra.getArticulos().get(i).getProducto().getDescripcion())
+		 				articuloABorrar = compra.getArticulos().get(i);
+		 		}
+		 		
+		 		compra.retirarArticulo(articuloABorrar);
+		 		ReloadAll();
+		     }
+		  });
+
 	}
 	
-	public static boolean isNumeric(String cadena){
+	public static boolean isFloat(String cadena){
 		try {
 			Float.parseFloat(cadena);
 			return true;
@@ -186,7 +242,18 @@ public class CompraFrame extends JFrame {
 		}
 	}
 	
+	public static boolean isInt(String cadena){
+		try {
+			Integer.parseInt(cadena);
+			return true;
+		}
+		catch (NumberFormatException nfe){
+			return false;
+		}
+	}
+	
 	static Object objeto;
+	
 	public static void pasarObjeto(Object object){
 		objeto = object;
 	}
