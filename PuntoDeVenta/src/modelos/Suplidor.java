@@ -135,8 +135,8 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 				itera.telefono = datos.getString("telefono");
 				itera.celular = datos.getString("celular");
 				itera.sexo = datos.getBoolean("sexo") ? "Masculino" : "Femenino";
-				itera.empresa = datos.getString("empresa");
 				itera.rnc = datos.getString("rnc");
+				itera.empresa = datos.getString("empresa");				
 				suplidores.add(itera);
 			}
 			return suplidores;
