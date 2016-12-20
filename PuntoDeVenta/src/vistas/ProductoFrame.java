@@ -529,9 +529,9 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				// objFrmConsultaCliente = new ConsultarClienteFrame();
-				// objFrmConsultaCliente.setAlwaysOnTop(false);
-				// objFrmConsultaCliente.setVisible(true);
+				 ConsultarProductosFrame frame = new ConsultarProductosFrame();
+				 frame.setAlwaysOnTop(false);
+				 frame.setVisible(true);
 
 			}
 		});
