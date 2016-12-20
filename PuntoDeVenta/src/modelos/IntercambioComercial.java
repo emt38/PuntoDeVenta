@@ -1,11 +1,16 @@
 package modelos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class IntercambioComercial extends AcuerdoComercial {
 	protected float subTotal;
 	public float getSubTotal() {
 		return subTotal;
+	}
+	public IntercambioComercial() {
+		super();
+		this.articulos = new ArrayList<>();
 	}
 	public float getImpuestos() {
 		return impuestos;

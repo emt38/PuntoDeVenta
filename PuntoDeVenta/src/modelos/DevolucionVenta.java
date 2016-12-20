@@ -19,11 +19,43 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 	private NotaCredito notaCredito;
 	private List<Articulo> articulos;
 	
-	public void devolverArticulo(Articulo articulo, float cantidad) {
-		if(cantidad > 0 && cantidad <= articulo.getCantidad() )
+	public DevolucionVenta() {
+		super();
+		this.articulos = new ArrayList<>();
+	}
+
+	public DevolucionVenta(int id, Venta venta, Usuario supervisor, NotaCredito notaCredito, List<Articulo> articulos) {
+		super();
+		this.id = id;
+		this.venta = venta;
+		this.supervisor = supervisor;
+		this.notaCredito = notaCredito;
+		this.articulos = articulos;
+	}
+
+	public List<Articulo> getArticulos() {
+		return articulos;
+	}
+
+	public boolean devolverArticulo(Articulo articulo, float cantidad) {
+		if(cantidad > 0 && cantidad <= articulo.getCantidad() ) {
 			articulo.setCantidad(cantidad);
+			articulo.totalizar();
+			articulos.add(articulo);
+			return true;
+		}
+		return false;
+	}
+	
+	public float calcularTotal()
+	{
+		float total = 0f;
 		
-		articulo.totalizar();
+		for(Articulo item : articulos) {
+			total += item.getSubTotal();
+		}
+		
+		return total;
 	}
 	
 	public void generarNotaCredito() {
