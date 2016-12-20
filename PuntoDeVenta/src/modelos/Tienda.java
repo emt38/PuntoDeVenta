@@ -17,7 +17,7 @@ public class Tienda implements IEntidadDatos<Tienda> {
 	private String nombre;
 	private String direccion;
 	private String slogan;
-	private String ciudad;
+	private Ciudad ciudad;
 	
 	public int getId() {
 		return id;
@@ -51,11 +51,11 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		this.slogan = slogan;
 	}
 
-	public String getCiudad() {
+	public Ciudad getCiudad() {
 		return ciudad;
 	}
 
-	public void setCiudad(String ciudad) {
+	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 	}
 
@@ -65,7 +65,7 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		temp.put("_nombre", nombre);
 		temp.put("_direccion", direccion);
 		temp.put("_slogan", slogan);
-		temp.put("_idciudad", ciudad);
+		temp.put("_idciudad", ciudad.getId());
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL AgregarTienda(?,?,?,?)", temp, gate);
@@ -83,7 +83,7 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		temp.put("_nombre", nombre);
 		temp.put("_direccion", direccion);
 		temp.put("_slogan", slogan);
-		temp.put("_idciudad", ciudad);
+		temp.put("_idciudad", ciudad.getId());
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL ModificarTienda(?,?,?,?,?)", temp, gate);
@@ -130,15 +130,32 @@ public class Tienda implements IEntidadDatos<Tienda> {
 			ResultSet datos = Utilidades.ejecutarQuery("SELECT idtienda, nombre, direccion, slogan, idciudad FROM tiendas " + textoBusqueda, state);
 			Tienda itera;
 			
+			StringBuilder ciudadesSb = new StringBuilder("(");
+			
 			while(datos.next()) {
 				itera = new Tienda();
 				itera.id = datos.getInt("idtienda");
 				itera.direccion = datos.getString("direccion");
 				itera.nombre = datos.getString("nombre");
 				itera.slogan = datos.getString("slogan");
-				itera.ciudad = datos.getString("idciudad");
+				itera.ciudad = new Ciudad(datos.getInt("idciudad"), null, null);
 				tiendas.add(itera);
 			}
+			
+			if(ciudadesSb.charAt(ciudadesSb.length() - 1) == ',')
+				ciudadesSb.setCharAt(ciudadesSb.length() - 1, ')');
+			else
+				ciudadesSb.append("0)");
+			
+			List<Ciudad> ciudades = new Ciudad().listar(String.format("WHERE idciudad IN %s", ciudadesSb.toString()));
+			
+			for(Tienda tienda : tiendas) {
+				ciudades.forEach(c -> {
+					if(tienda.getCiudad().getId() == c.getId())
+						tienda.setCiudad(c);
+				});
+			}
+			
 			return tiendas;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -147,7 +164,7 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		}
 	}
 
-	public Tienda(int id, String nombre, String direccion, String slogan, String ciudad) {
+	public Tienda(int id, String nombre, String direccion, String slogan, Ciudad ciudad) {
 		super();
 		this.id = id;
 		this.nombre = nombre;

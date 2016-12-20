@@ -21,6 +21,11 @@ public class Producto implements IEntidadDatos<Producto> {
 	private float tasaImpuesto;
 	private float inventario;
 	
+	@Override
+	public String toString() {
+		return String.format("%s - %s", descripcion, codigo);
+	}
+	
 	public int getId() {
 		return id;
 	}

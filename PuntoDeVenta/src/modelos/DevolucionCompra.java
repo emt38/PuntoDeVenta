@@ -19,6 +19,32 @@ public class DevolucionCompra implements IEntidadDatos<DevolucionCompra> {
 		return id;
 	}
 
+	public DevolucionCompra() {
+		super();
+		this.articulos = new ArrayList<>();
+	}
+	
+	public float calcularTotal()
+	{
+		float total = 0f;
+		
+		for(Articulo item : articulos) {
+			total += item.getSubTotal();
+		}
+		
+		return total;
+	}
+
+	public DevolucionCompra(int id, Compra compra, Usuario supervisor, NotaDebito notaDebito,
+			List<Articulo> articulos) {
+		super();
+		this.id = id;
+		this.compra = compra;
+		this.supervisor = supervisor;
+		this.notaDebito = notaDebito;
+		this.articulos = articulos;
+	}
+
 	public List<Articulo> getArticulos() {
 		return articulos;
 	}
@@ -31,11 +57,14 @@ public class DevolucionCompra implements IEntidadDatos<DevolucionCompra> {
 	private NotaDebito notaDebito;
 	private List<Articulo> articulos;
 	
-	public void devolverArticulo(Articulo articulo, float cantidad) {
-		if(cantidad > 0 && cantidad <= articulo.getCantidad() )
+	public boolean devolverArticulo(Articulo articulo, float cantidad) {
+		if(cantidad > 0 && cantidad <= articulo.getCantidad() ) {
 			articulo.setCantidad(cantidad);
-		
-		articulo.totalizar();
+			articulo.totalizar();
+			articulos.add(articulo);
+			return true;
+		}
+		return false;
 	}
 	
 	public void generarNotaDebito() {
