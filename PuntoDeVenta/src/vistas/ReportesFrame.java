@@ -29,8 +29,6 @@ public class ReportesFrame extends JFrame{
 	JPanel panel = new JPanel();
 	public ReportesFrame(Connection _conn) {
 		this.conn = _conn;
-	public ReportesFrame(Connection conn) {
-		AbstractJasperReports.createReport(conn, "src/Compras.jasper");
 		initComponents();
 	}
 	private void initComponents()
@@ -47,7 +45,7 @@ public class ReportesFrame extends JFrame{
 		btnGenerarCompras.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.createReport(conn, "C:\\Users\\franklyn\\git\\PuntoDeVenta\\PuntoDeVenta\\Compras.jasper");
+				AbstractJasperReports.createReport(conn, "src/Compras.jasper");
 				AbstractJasperReports.showViewer();
 			}
 		});
@@ -58,7 +56,8 @@ public class ReportesFrame extends JFrame{
 		btnGenerarVentas.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.createReport(conn, "C:\\Users\\franklyn\\git\\PuntoDeVenta\\PuntoDeVenta\\ventas2.jasper");
+
+				AbstractJasperReports.createReport(conn, "src/ventas2.jasper");
 				AbstractJasperReports.showViewer();
 			}
 		});
