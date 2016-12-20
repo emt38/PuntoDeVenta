@@ -25,9 +25,10 @@ import principal.Utilidades;
 import reportes.AbstractJasperReports;
 public class ReportesFrame extends JFrame{
 	
+	private Connection conn;
 	JPanel panel = new JPanel();
-	public ReportesFrame(Connection conn) {
-		AbstractJasperReports.createReport(conn, "C:\\Users\\franklyn\\git\\PuntoDeVenta\\PuntoDeVenta\\Compras.jasper");
+	public ReportesFrame(Connection _conn) {
+		this.conn = _conn;
 		initComponents();
 	}
 	private void initComponents()
@@ -37,41 +38,71 @@ public class ReportesFrame extends JFrame{
 		getContentPane().setLayout(null);
 		( (JPanel) getContentPane()).setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(null);
-		this.setSize(new Dimension(800,600));
+		this.setSize(new Dimension(475,250));
 
 
 		JButton btnGenerarCompras = new JButton("Reporte de Compras");
-		//btnGenerarCompras.setLayout(new GridLayout(1,3,200,0));
-		//btnGenerarCompras.add(panel);
 		btnGenerarCompras.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
+				AbstractJasperReports.createReport(conn, "C:\\Users\\franklyn\\git\\PuntoDeVenta\\PuntoDeVenta\\Compras.jasper");
 				AbstractJasperReports.showViewer();
 			}
 		});
-		btnGenerarCompras.setBounds(44, 31, 110, 46);
+		btnGenerarCompras.setBounds(44, 31, 175, 46);
 		getContentPane().add(btnGenerarCompras);
 		
 		JButton btnGenerarVentas = new JButton("Reporte de Ventas");
 		btnGenerarVentas.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
+				AbstractJasperReports.createReport(conn, "C:\\Users\\franklyn\\git\\PuntoDeVenta\\PuntoDeVenta\\ventas2.jasper");
 				AbstractJasperReports.showViewer();
 			}
 		});
-		btnGenerarVentas.setBounds(118, 83, 110, 46);
+		btnGenerarVentas.setBounds(44, 75, 175, 46);
 		getContentPane().add(btnGenerarVentas);
 		
-		
-		
-		JButton btnExportarPdf = new JButton("Exportar PDF");
-		btnExportarPdf.addActionListener(new ActionListener()
+		JButton btnGenerarUtilidades = new JButton("Reporte de Utilidades");
+		btnGenerarUtilidades.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\report.pdf" );
+				AbstractJasperReports.showViewer();
 			}
 		});
-		btnExportarPdf.setBounds(197, 31, 110, 46);
-		getContentPane().add(btnExportarPdf);
+		btnGenerarUtilidades.setBounds(44, 119, 175, 46);
+		getContentPane().add(btnGenerarUtilidades);
+		
+		
+		
+		JButton btnExportarCompras = new JButton("Exportar Compras PDF");
+		btnExportarCompras.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\reporteCompras.pdf" );
+			}
+		});
+		btnExportarCompras.setBounds(220, 31, 171, 46);
+		getContentPane().add(btnExportarCompras);
+		
+		JButton btnExportarVentas = new JButton("Exportar Ventas PDF");
+		btnExportarVentas.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\reporteVentas.pdf" );
+			}
+		});
+		btnExportarVentas.setBounds(220, 75, 171, 46);
+		getContentPane().add(btnExportarVentas);
+		
+		JButton btnExportarUtilidades = new JButton("Exportar Utilidades PDF");
+		btnExportarUtilidades.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) {
+				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\reporteUtilidades.pdf" );
+			}
+		});
+		btnExportarUtilidades.setBounds(220, 119, 171, 46);
+		getContentPane().add(btnExportarUtilidades);
 	}
 }

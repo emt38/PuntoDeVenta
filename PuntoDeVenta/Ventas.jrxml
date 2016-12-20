@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-12-20T10:18:48 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ventas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="acb2c29a-8fe5-48d3-acf0-bbf3aba03e58">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PuntoVentaDataAdapter "/>
+	<queryString language="SQL">
+		<![CDATA[SELECT  db_a137dd_posdb.viewventas.idventa,
+ 				 db_a137dd_posdb.viewventas.idproducto,
+ 				  db_a137dd_posdb.viewventas.valor,
+ 				   db_a137dd_posdb.viewventas.impuestos,
+ 				    db_a137dd_posdb.viewventas.subtotal,
+ 				     db_a137dd_posdb.viewventas.descripcion
+ FROM db_a137dd_posdb.viewventas]]>
+	</queryString>
+	<field name="idventa" class="java.lang.Integer"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="valor" class="java.lang.Float"/>
+	<field name="impuestos" class="java.lang.Float"/>
+	<field name="subtotal" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="37" splitType="Stretch">
+			<frame>
+				<reportElement x="70" y="0" width="420" height="36" uuid="c669ba81-cc32-45cc-894d-8c74e768f8a8"/>
+				<staticText>
+					<reportElement x="61" y="0" width="313" height="36" uuid="f244112e-f887-4aa3-8d82-0e1ebad4c633"/>
+					<textElement textAlignment="Center">
+						<font fontName="Segoe UI" size="24" isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Reporte de Ventas]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<frame>
+				<reportElement x="-20" y="4" width="580" height="24" uuid="f106c03c-1ec3-4b0c-aeb4-35cc4820540e"/>
+				<staticText>
+					<reportElement x="20" y="3" width="20" height="21" uuid="c5b4bc8e-571e-45e4-8162-463d12a374af"/>
+					<textElement textAlignment="Right">
+						<font fontName="Segoe UI" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="188" y="2" width="39" height="17" uuid="76a465b6-e188-47de-81d3-4d7d81490b15">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Segoe UI" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VALOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="51" y="3" width="79" height="18" uuid="48eba843-15cb-4af7-b005-275fd40149e5"/>
+					<textElement>
+						<font fontName="Segoe UI" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DESCRIPCION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="282" y="2" width="70" height="22" uuid="dace10b5-d8ce-49d5-9ffc-3dd38cbf478f"/>
+					<textElement>
+						<font fontName="Segoe UI" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IMPUESTOS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="499" y="2" width="65" height="18" uuid="80a95a6b-3b49-4839-bede-7930f1132960"/>
+					<textElement>
+						<font fontName="Segoe UI" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SUBTOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="397" y="2" width="61" height="17" uuid="73820142-f7fb-4925-b992-6304e7c7bb8e"/>
+					<textElement>
+						<font fontName="Segoe UI" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CANTIDAD]]></text>
+				</staticText>
+				<line>
+					<reportElement x="18" y="18" width="562" height="1" uuid="bdf635d4-1cd3-477d-817a-060fb7f94218"/>
+				</line>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<frame>
+				<reportElement x="-20" y="0" width="595" height="30" uuid="e7a9e78f-1c3b-4640-a01f-fe28375de235"/>
+				<textField>
+					<reportElement x="50" y="0" width="85" height="30" uuid="be15ef32-c63a-47ee-861f-b58494238cbe"/>
+					<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="1" width="31" height="30" uuid="be15ef32-c63a-47ee-861f-b58494238cbe"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{idventa}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="397" y="3" width="85" height="30" uuid="73dc7032-c406-4c09-af93-18d848a85dcf"/>
+				</textField>
+				<textField>
+					<reportElement x="283" y="2" width="85" height="30" uuid="af8a4583-e3fc-4744-ac84-49e3c495f872"/>
+					<textFieldExpression><![CDATA[$F{impuestos}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="188" y="2" width="85" height="30" uuid="e3204377-ed60-4256-96f7-dcf35ad7d116"/>
+					<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="502" y="1" width="85" height="30" uuid="8b056589-0785-46c5-a9cc-0f0f6698544f"/>
+					<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="250" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
