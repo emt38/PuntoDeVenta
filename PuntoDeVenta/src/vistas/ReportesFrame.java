@@ -27,7 +27,7 @@ public class ReportesFrame extends JFrame{
 	
 	JPanel panel = new JPanel();
 	public ReportesFrame(Connection conn) {
-		AbstractJasperReports.createReport(conn, "C:\\Users\\franklyn\\git\\PuntoDeVenta\\PuntoDeVenta\\Compras.jasper");
+		AbstractJasperReports.createReport(conn, "src/Compras.jasper");
 		initComponents();
 	}
 	private void initComponents()
@@ -68,7 +68,7 @@ public class ReportesFrame extends JFrame{
 		btnExportarPdf.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\report.pdf" );
+				AbstractJasperReports.exportToPDF( "src/report.pdf" );
 			}
 		});
 		btnExportarPdf.setBounds(197, 31, 110, 46);

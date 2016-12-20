@@ -109,9 +109,9 @@ public class TiendasFrame extends JFrame{
 				}
 			}
 		});
+		List<Tienda> tiendas = new Tienda().listar();
 		tblCiudades.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
+				Utilidades.listToBidiArray(tiendas, new String[] { "nombre", "direccion"}),
 			new String[] {
 				"Tienda", "Direcci\u00F3n"
 			}
