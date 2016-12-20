@@ -29,6 +29,8 @@ public class ReportesFrame extends JFrame{
 	JPanel panel = new JPanel();
 	public ReportesFrame(Connection _conn) {
 		this.conn = _conn;
+	public ReportesFrame(Connection conn) {
+		AbstractJasperReports.createReport(conn, "src/Compras.jasper");
 		initComponents();
 	}
 	private void initComponents()

@@ -149,32 +149,32 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 		cmbSexo.setEnabled(true);
 	}
 
-	public static void llamarEventos() {
-
-	}
-
 	private void mostrarSuplidorObtenido() {
 		limpiarCampos();
-		/*
-		 * txtCodigo.setText(objClienteObtenido.getId() + "");
-		 * txtApellido.setText(objClienteObtenido.getApellido() + "");
-		 * txtCelular.setText(objClienteObtenido.getCelular() + "");
-		 * txtDireccion.setText(objClienteObtenido.getDireccion() + "");
-		 * txtFechaIngreso.setText(objClienteObtenido.getClienteDesde() + "");
-		 * txtIdentificacion.setText(objClienteObtenido.getIdentificacion() +
-		 * ""); txtNombre.setText(objClienteObtenido.getNombre() + "");
-		 * txtTasaDescuento.setText(objClienteObtenido.getTasaDescuento() + "");
-		 * txtTelefono.setText(objClienteObtenido.getTelefono() + ""); String
-		 * aux = objClienteObtenido.getSexo() + ""; String sexo =
-		 * aux.toUpperCase();
-		 * 
-		 * 
-		 * 
-		 * switch (sexo) { case "FEMENINO": cmbSexo.setSelectedIndex(1); break;
-		 * 
-		 * default: cmbSexo.setSelectedIndex(2); break; } objClienteObtenido =
-		 * null;
-		 */
+
+		txtCodigo.setText(objSuplidorObtenido.getId() + "");
+		txtApellido.setText(objSuplidorObtenido.getApellido() + "");
+		txtCelular.setText(objSuplidorObtenido.getCelular() + "");
+		txtDireccion.setText(objSuplidorObtenido.getDireccion() + "");
+		txtEmpresa.setText(objSuplidorObtenido.getEmpresa() + "");
+		txtIdentificacion.setText(objSuplidorObtenido.getIdentificacion() + "");
+		txtNombre.setText(objSuplidorObtenido.getNombre() + "");
+		txtRnc.setText(objSuplidorObtenido.getRnc() + "");
+		txtTelefono.setText(objSuplidorObtenido.getTelefono() + "");
+		String aux = objSuplidorObtenido.getSexo() + "";
+		String sexo = aux.toUpperCase();
+
+		switch (sexo) {
+		case "FEMENINO":
+			cmbSexo.setSelectedIndex(1);
+			break;
+
+		default:
+			cmbSexo.setSelectedIndex(2);
+			break;
+		}
+		objSuplidorObtenido = null;
+		conteo=0;
 
 	}
 
@@ -183,7 +183,7 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 			objSuplidor = new Suplidor();
 			misSuplidor = (ArrayList<Suplidor>) objSuplidor.listar("");
 		}
-		if (misSuplidor.size() > 0) {
+		
 			txtCodigo.setText(misSuplidor.get(conteo).getId() + "");
 			txtApellido.setText(misSuplidor.get(conteo).getApellido() + "");
 			txtCelular.setText(misSuplidor.get(conteo).getCelular() + "");
@@ -193,7 +193,7 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 			txtNombre.setText(misSuplidor.get(conteo).getNombre() + "");
 			txtRnc.setText(misSuplidor.get(conteo).getRnc() + "");
 			txtTelefono.setText(misSuplidor.get(conteo).getTelefono() + "");
-			String aux = misSuplidor.get(2).getSexo() + "";
+			String aux = misSuplidor.get(conteo).getSexo() + "";
 			String sexo = aux.toUpperCase();
 
 			switch (sexo) {
@@ -205,10 +205,10 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 				cmbSexo.setSelectedIndex(2);
 				break;
 			}
+			
 		}
-
-	}
-
+			
+		
 	private boolean ValidarCampos() {
 		if (modificar) {
 			if (txtCodigo.getText().length() == 0) {
@@ -233,11 +233,10 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 			txtIdentificacion.requestFocus();
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	
 	private void limpiarCampos() {
 		txtApellido.setText("");
 		txtCelular.setText("");
@@ -400,12 +399,9 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 		contentPane.add(txtCelular);
 		txtCelular.setColumns(10);
 
-		
-
 		txtEmpresa = new JTextField();
 		txtEmpresa.setBounds(133, 173, 164, 27);
 		contentPane.add(txtEmpresa);
-		
 
 		lblFechaDeIngreso = new JLabel("EMPRESA:");
 		lblFechaDeIngreso.setBounds(5, 180, 118, 20);
@@ -454,7 +450,7 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 			public void actionPerformed(ActionEvent e) {
 
 				if (ValidarCampos()) {
-					//objSuplidor = new Suplidor();
+					// objSuplidor = new Suplidor();
 					if (modificar) {
 						opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea actualizar el suplidor?",
 								"Actualizacion de Suplidor", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -463,10 +459,11 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 							objSuplidor.setId(Integer.parseInt(txtCodigo.getText()));
 							objSuplidor.setApellido(txtApellido.getText());
 							objSuplidor.setCelular(txtCelular.getText());
-							objSuplidor.setDireccion(txtDireccion.getText());							
+							objSuplidor.setDireccion(txtDireccion.getText());
 							objSuplidor.setNombre(txtNombre.getText());
 							objSuplidor.setEmpresa(txtEmpresa.getText());
 							objSuplidor.setRnc(txtRnc.getText());
+							objSuplidor.setIdentificacion(txtIdentificacion.getText());
 							objSuplidor.setTelefono(txtTelefono.getText());
 							switch (cmbSexo.getSelectedIndex()) {
 							case 1:
@@ -491,10 +488,11 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 							objSuplidor = new Suplidor();
 							objSuplidor.setApellido(txtApellido.getText());
 							objSuplidor.setCelular(txtCelular.getText());
-							objSuplidor.setDireccion(txtDireccion.getText());							
+							objSuplidor.setDireccion(txtDireccion.getText());
 							objSuplidor.setNombre(txtNombre.getText());
 							objSuplidor.setEmpresa(txtEmpresa.getText());
 							objSuplidor.setRnc(txtRnc.getText());
+							objSuplidor.setIdentificacion(txtIdentificacion.getText());
 							objSuplidor.setTelefono(txtTelefono.getText());
 							switch (cmbSexo.getSelectedIndex()) {
 							case 1:
@@ -515,7 +513,7 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 						}
 					}
 				}
-     
+
 			}
 		});
 		btnModificar.addActionListener(new ActionListener() {

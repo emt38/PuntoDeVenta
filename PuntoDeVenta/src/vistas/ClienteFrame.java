@@ -168,7 +168,7 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 		String aux = objClienteObtenido.getSexo() + "";
 		String sexo = aux.toUpperCase();
 
-		System.out.println(objClienteObtenido.getApellido());
+		 
 
 		switch (sexo) {
 		case "FEMENINO":
@@ -212,14 +212,14 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 	}
 
 	private boolean ValidarCampos() {
-		if (modificar) {
+		
 			if (txtCodigo.getText().length() == 0) {
 
 				txtCodigo.requestFocus();
 				return false;
 			}
 
-		}
+		
 		if (txtNombre.getText().length() == 0) {
 
 			txtNombre.requestFocus();
@@ -281,6 +281,7 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		//AGREGANDO EL ESCUCHADOR DE EVENTOS PARA QUE DETECTE CUANDO EL FRM TENGA FOCUS
 		addWindowFocusListener(this);
 
 		// AGREGANDO COMPONENTES A EL FORMULARIO
@@ -420,15 +421,12 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 		contentPane.add(txtCelular);
 		txtCelular.setColumns(10);
 
-		/*
-		 * objtSelectFecha= new JDateChooser(); objtSelectFecha.setBounds(133,
-		 * 173, 164, 27); contentPane.add(objtSelectFecha);
-		 */
+	
 
 		txtFechaIngreso = new JTextField();
 		txtFechaIngreso.setBounds(133, 173, 164, 27);
 		contentPane.add(txtFechaIngreso);
-		// txtFechaIngreso.setColumns(10);
+		
 
 		lblFechaDeIngreso = new JLabel("FECHA DE INGRESO:");
 		lblFechaDeIngreso.setBounds(5, 180, 118, 20);
