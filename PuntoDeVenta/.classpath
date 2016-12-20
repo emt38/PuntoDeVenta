@@ -5,18 +5,16 @@
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="lib" path="commons-codec-1.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/commons-codec-1.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/commons-collections-3.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/commons-digester-2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/itextpdf-5.5.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/itext-pdfa-5.5.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/jasperreports-6.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/jgoodies-common-1.8.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/jgoodies-common-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/jgoodies-forms-1.8.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/jgoodies-forms-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/mariadb-java-client-1.1.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/franklyn/git/PuntoDeVenta/PuntoDeVenta/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="itext-pdfa-5.5.4.jar"/>
+	<classpathentry kind="lib" path="itextpdf-5.5.4.jar"/>
+	<classpathentry kind="lib" path="jasperreports-6.0.0.jar"/>
+	<classpathentry kind="lib" path="jgoodies-common-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="jgoodies-common-1.8.0.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar"/>
+	<classpathentry kind="lib" path="mariadb-java-client-1.1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
