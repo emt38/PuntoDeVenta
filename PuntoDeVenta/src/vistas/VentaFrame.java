@@ -21,6 +21,7 @@ import modelos.Producto;
 import principal.Program;
 import principal.Utilidades;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
@@ -209,12 +210,23 @@ public class VentaFrame extends JFrame {
 		JButton btnRealizarVenta = new JButton("Realizar Venta");
 		btnRealizarVenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ReloadAll();
-				venta.setCliente(cliente);
-				venta.setCajero(Program.getLoggedUser());
-				venta.setTerminalVentas(0);
-				venta.setTienda(Program.getLoggedUser().getTienda());
-				venta.efectuar();
+				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la venta?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (opcion == 0){
+					try{
+						ReloadAll();
+						venta.setCliente(cliente);
+						venta.setCajero(Program.getLoggedUser());
+						venta.setTerminalVentas(0);
+						venta.setTienda(Program.getLoggedUser().getTienda());
+						//venta.efectuar();
+						JOptionPane.showMessageDialog(null, "La venta se realizao correctamente!");
+					}catch(Exception e){
+					}
+					
+				}
+
+				
 			}
 		});
 		btnRealizarVenta.setBounds(282, 297, 127, 30);
@@ -223,7 +235,11 @@ public class VentaFrame extends JFrame {
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentaFrame.this.dispose();
+				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (opcion == 0){
+					VentaFrame.this.dispose();
+				}
 			}
 		});
 		btnSalir.setBounds(419, 297, 127, 30);

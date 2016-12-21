@@ -22,6 +22,7 @@ import modelos.Suplidor;
 import principal.Program;
 import principal.Utilidades;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
@@ -197,7 +198,12 @@ public class CompraFrame extends JFrame {
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CompraFrame.this.dispose();
+				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (opcion == 0){
+					CompraFrame.this.dispose();
+				}
+				
 			}
 		});
 		btnSalir.setBounds(419, 297, 127, 30);
@@ -211,7 +217,17 @@ public class CompraFrame extends JFrame {
 		btnRealizarCompra.setBounds(282, 297, 127, 30);
 		btnRealizarCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				compra.efectuar();
+				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la compra?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (opcion == 0){
+					try{
+						//compra.efectuar();
+						JOptionPane.showMessageDialog(null, "La compra se realizao correctamente!");
+					}catch(Exception ex){
+						
+					}
+					
+				}
 			}
 		});
 		contentPane.add(btnRealizarCompra);
