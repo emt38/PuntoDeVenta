@@ -16,7 +16,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import modelos.Articulo;
-import modelos.Compra;
+import modelos.Cliente;
+import modelos.Venta;
 import modelos.Producto;
 import modelos.Suplidor;
 import principal.Program;
@@ -31,7 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-public class CompraFrame extends JFrame {
+public class VentaFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tabla;
@@ -39,18 +40,39 @@ public class CompraFrame extends JFrame {
 	private JLabel lblTotalImpuesto;
 	private JLabel lblTotalDescuento;
 	private JLabel lblTotal;
-	private JTextField txtTotalImpuestos;
-	private JTextField txtTotalDescuento;
-	private JTextField txtTotal;
-	private JTextField txtCambiardesc;
+	private JLabel lblEfectivoRecibido;
+	private JLabel lblCambioDevuelto;
+	private JTextField txtTotalImpuestos = new JTextField();
+	private JTextField txtTotalDescuento = new JTextField();
+	private JTextField txtTotal = new JTextField();
+	private JTextField txtCambiardesc = new JTextField();
+	private JTextField txtEfectivoRecibido = new JTextField();
+	private JTextField txtCambioDevuelto = new JTextField();
 	
-	private Compra compra = new Compra();
-	private JButton btnRealizarCompra;
+	private Venta venta = new Venta();
+	
+	Cliente cliente = new Cliente();
+	List<Cliente> clientes = new ArrayList<>();
+	List<String> nombreClientes = new ArrayList<String>();
+	JComboBox cbxClientes = new JComboBox();
 	
 	private void ReloadAll() {
+		clientes.addAll(new Cliente().listar("ORDER BY Nombre"));
+		
+		if( clientes.size() > 0 ){
+			for(Cliente supl: clientes){
+				nombreClientes.add(supl.getNombre());
+			}
+			cbxClientes = new JComboBox(nombreClientes.toArray());
+			cliente = cliente.listar("WHERE nombre='" + cbxClientes.getSelectedItem() + "'").get(0);
+			//venta = new Venta();
+		}else{
+			
+		}
+		
 		String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 		String[] campos = {"cantidad", "producto","valor", "impuestos", "subtotal"};  
-		Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
+		Object[][] datos = Utilidades.listToBidiArray(venta.getArticulos(), campos);
 		
 		for(int i = 0; i< datos.length; i++){
 			datos[i][1] = ((Producto) datos[i][1]).getDescripcion(); 
@@ -68,42 +90,22 @@ public class CompraFrame extends JFrame {
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
 		
-		txtTotalDescuento.setText(String.format("%.2f", compra.getDescuentos()));
-		txtTotalImpuestos.setText(String.format("%.2f", compra.getImpuestos()));
-		txtTotal.setText(String.format("%.2f", compra.getTotal()));
+		txtEfectivoRecibido.setText(Integer.toString(venta.getEfectivoRecibido()));
+		
+		txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
+		txtTotalImpuestos.setText(String.format("%.2f", venta.getImpuestos()));
+		txtTotal.setText(String.format("%.2f", venta.getTotal()));
 	}
 	
-	public CompraFrame() {
-		setTitle("Compra");
+	public VentaFrame() {
+		setTitle("Venta");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 572, 376);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		Suplidor suplidor = new Suplidor();
-		List<Suplidor> suplidores = new ArrayList<>();
-		List<String> nombreSuplidores = new ArrayList<String>();
-		JComboBox cbxSuplidores = new JComboBox();
-		
-		suplidores.addAll(new Suplidor().listar("ORDER BY Nombre"));
-		
-		if( suplidores.size() > 0 ){
-			for(Suplidor supl: suplidores){
-				nombreSuplidores.add(supl.getNombre());
-			}
-			cbxSuplidores = new JComboBox(nombreSuplidores.toArray());
-			suplidor = suplidor.listar("WHERE nombre='" + cbxSuplidores.getSelectedItem() + "'").get(0);
-			compra = new Compra(suplidor, Program.getLoggedUser(), Program.getLoggedUser().getTienda());
-			
-		}else{
-			
-		}
-		
-		cbxSuplidores.setBounds(379, 11, 167, 20);
-		contentPane.add(cbxSuplidores);
-		
 		
 		tabla = new JTable();
 		tabla.setModel(new DefaultTableModel(
@@ -120,17 +122,54 @@ public class CompraFrame extends JFrame {
 		scrollPane.setBounds(10, 86, 536, 112);
 		contentPane.add(scrollPane);
 		
+		ReloadAll();
+		
+		cbxClientes.setBounds(379, 11, 167, 20);
+		contentPane.add(cbxClientes);
+		
 		lblTotalImpuesto = new JLabel("Total impuesto: ");
-		lblTotalImpuesto.setBounds(10, 209, 104, 14);
+		lblTotalImpuesto.setBounds(320, 212, 104, 14);
 		contentPane.add(lblTotalImpuesto);
 		
 		lblTotalDescuento = new JLabel("Total descuento: ");
-		lblTotalDescuento.setBounds(10, 234, 104, 14);
+		lblTotalDescuento.setBounds(320, 237, 104, 14);
 		contentPane.add(lblTotalDescuento);
 		
 		lblTotal = new JLabel("Total: ");
-		lblTotal.setBounds(10, 259, 104, 14);
+		lblTotal.setBounds(320, 262, 104, 14);
 		contentPane.add(lblTotal);
+		
+		lblEfectivoRecibido = new JLabel("Efectivo recibido: ");
+		lblEfectivoRecibido.setBounds(10, 212, 86, 14);
+		contentPane.add(lblEfectivoRecibido);
+		
+		lblCambioDevuelto = new JLabel("Cambio devuelto: ");
+		lblCambioDevuelto.setBounds(10, 237, 96, 14);
+		contentPane.add(lblCambioDevuelto);
+		
+		txtCambioDevuelto = new JTextField();
+		txtCambioDevuelto.setEditable(false);
+		txtCambioDevuelto.setBounds(106, 234, 86, 20);
+		contentPane.add(txtCambioDevuelto);
+		txtCambioDevuelto.setColumns(10);
+		
+		txtEfectivoRecibido = new JTextField();
+		txtEfectivoRecibido.setBounds(106, 209, 86, 20);
+		contentPane.add(txtEfectivoRecibido);
+		txtEfectivoRecibido.setColumns(10);
+		//Para tomar el Enter
+		txtEfectivoRecibido.addActionListener(new AbstractAction()
+		{
+		    @Override
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        if(isFloat(txtEfectivoRecibido.getText())){
+		        	venta.setEfectivoRecibido(new Float(Float.parseFloat(txtEfectivoRecibido.getText().replaceAll(",", "."))).intValue());
+		        	venta.setCambioDevuelto(new Float(venta.getEfectivoRecibido() - venta.getTotal()).intValue());
+		        	txtCambioDevuelto.setText(Integer.toString(venta.getCambioDevuelto()));
+		        }
+		    }
+		});
 		
 		txtCambiardesc = new JTextField();
 		txtCambiardesc.setBounds(168, 55, 86, 20);
@@ -138,25 +177,25 @@ public class CompraFrame extends JFrame {
 		txtCambiardesc.setColumns(10);
 		
 		txtTotalImpuestos = new JTextField();
-		txtTotalImpuestos.setBounds(150, 206, 86, 20);
+		txtTotalImpuestos.setBounds(460, 209, 86, 20);
 		contentPane.add(txtTotalImpuestos);
 		txtTotalImpuestos.setColumns(10);
 		txtTotalImpuestos.setEditable(false);
-		txtTotalImpuestos.setText(String.format("%.2f", compra.getImpuestos()));
+		txtTotalImpuestos.setText(String.format("%.2f", venta.getImpuestos()));
 		
 		txtTotalDescuento = new JTextField();
-		txtTotalDescuento.setBounds(150, 231, 86, 20);
+		txtTotalDescuento.setBounds(460, 234, 86, 20);
 		contentPane.add(txtTotalDescuento);
 		txtTotalDescuento.setColumns(10);
 		txtTotalDescuento.setEditable(false);
-		txtTotalDescuento.setText(String.format("%.2f", compra.getDescuentos()));
+		txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
 		
 		txtTotal = new JTextField();
-		txtTotal.setBounds(150, 256, 86, 20);
+		txtTotal.setBounds(460, 259, 86, 20);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
 		txtTotal.setEditable(false);
-		txtTotal.setText(String.format("%.2f", compra.getTotal()));
+		txtTotal.setText(String.format("%.2f", venta.getTotal()));
 		
 		JButton btnCambiarDesc = new JButton("Cambiar descuento");
 		btnCambiarDesc.setBounds(10, 52, 148, 23);
@@ -164,12 +203,11 @@ public class CompraFrame extends JFrame {
 		btnCambiarDesc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (isFloat(txtCambiardesc.getText())){
-					compra.setDescuentos(Float.parseFloat(txtCambiardesc.getText()));
-					compra.totalizar();
-					txtTotalDescuento.setText(String.format("%.2f", compra.getDescuentos()));
+					venta.setDescuentos(Float.parseFloat(txtCambiardesc.getText()));
+					venta.totalizar();
+					txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
 					ReloadAll();
 				}
-				
 			}
 		});
 		
@@ -182,7 +220,7 @@ public class CompraFrame extends JFrame {
 				agregarArticulo.setResizable(false);
 				
 				if(agregarArticulo.articuloAgregado){
-					compra.agregarArticulo((Articulo) AgregarArticuloDialog.pasarObjeto());
+					venta.agregarArticulo((Articulo) AgregarArticuloDialog.pasarObjeto());
 					ReloadAll();
 				}
 			}
@@ -190,29 +228,31 @@ public class CompraFrame extends JFrame {
 		btnAgregarArticulo.setBounds(10, 13, 148, 23);
 		contentPane.add(btnAgregarArticulo);
 		
+		JButton btnRealizarCompra = new JButton("Realizar Venta");
+		btnRealizarCompra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ReloadAll();
+				venta.setCliente(cliente);
+				venta.setCajero(Program.getLoggedUser());
+				venta.setTerminalVentas(0);
+				venta.setTienda(Program.getLoggedUser().getTienda());
+				venta.efectuar();
+			}
+		});
+		btnRealizarCompra.setBounds(282, 297, 127, 30);
+		contentPane.add(btnRealizarCompra);
+		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CompraFrame.this.dispose();
+				VentaFrame.this.dispose();
 			}
 		});
 		btnSalir.setBounds(419, 297, 127, 30);
 		getContentPane().add(btnSalir);
 		
-		JLabel lblNotaborrararticulo = new JLabel("*Para borrar un articulo presione la tecla \"Delete\"");
-		lblNotaborrararticulo.setBounds(284, 209, 262, 14);
-		contentPane.add(lblNotaborrararticulo);
 		
-		btnRealizarCompra = new JButton("Realizar Compra");
-		btnRealizarCompra.setBounds(282, 297, 127, 30);
-		btnRealizarCompra.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				compra.efectuar();
-			}
-		});
-		contentPane.add(btnRealizarCompra);
-		
-		//////
+		//////Para eliminar articulos///////
 		  int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
 		  InputMap inputMap = tabla.getInputMap(condition);
 		  ActionMap actionMap = tabla.getActionMap();
@@ -228,14 +268,14 @@ public class CompraFrame extends JFrame {
 		    	 
 		         
 		         String[] campos =  {"producto"};
-		         Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
+		         Object[][] datos = Utilidades.listToBidiArray(venta.getArticulos(), campos);
 		 		
 		 		for(int i = 0; i< datos.length; i++){
-		 			if (productoDescripcion == compra.getArticulos().get(i).getProducto().getDescripcion())
-		 				articuloABorrar = compra.getArticulos().get(i);
+		 			if (productoDescripcion == venta.getArticulos().get(i).getProducto().getDescripcion())
+		 				articuloABorrar = venta.getArticulos().get(i);
 		 		}
 		 		
-		 		compra.retirarArticulo(articuloABorrar);
+		 		venta.retirarArticulo(articuloABorrar);
 		 		ReloadAll();
 		     }
 		  });
@@ -261,12 +301,12 @@ public class CompraFrame extends JFrame {
 			return false;
 		}
 	}
-		
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CompraFrame frame = new CompraFrame();
+					VentaFrame frame = new VentaFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
