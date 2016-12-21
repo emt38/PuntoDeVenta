@@ -169,6 +169,7 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
 			ResultSet datos = Utilidades.ejecutarQuery("SELECT idventa, idcliente, descuentos, efectuado, fecha, impuestos, idcajero, subtotal, idtienda, efectivoRecibido, cambioDevuelto, terminalVentas, total FROM ventasencabezado " + textoBusqueda, state);
+			
 			Venta itera;
 			
 			StringBuilder articulosSb = new StringBuilder("(");
@@ -203,17 +204,34 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			else
 				articulosSb.append("0)");
 			
-			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idventa AS id, idproducto, valor, impuestos, subtotal, cantidad FROM ventasdetalle " + articulosSb.toString(), state);
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idventa AS id, idproducto, valor, impuestos, subtotal, cantidad, tasaImpuestos FROM ventasdetalle WHERE idventa IN " + articulosSb.toString(), state);
 			List<Articulo> articulos = new ArrayList<Articulo>();
+			StringBuilder productosSb = new StringBuilder("(");
 			
 			while(articulosRs.next()) {
 				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f, 0f),articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), articulosRs.getFloat("tasaImpuestos"), articulosRs.getFloat("impuestos"), articulosRs.getFloat("subTotal")));
+				productosSb.append(String.format("%s,", articulosRs.getInt("idproducto")));
+				
 				for(Venta venta : ventas) {
 					if(venta.noDocumento == articulosRs.getInt("id")) {
 						venta.articulos.add(articulos.get(articulos.size()-1));
 						break;
 					}
 				}
+			}
+			
+			if(productosSb.charAt(productosSb.length() - 1) == ',')
+				productosSb.setCharAt(productosSb.length() - 1, ')');
+			else
+				productosSb.append("0)");
+			
+			List<Producto> productos = new Producto().listar(String.format(" WHERE p.idproducto IN %s", productosSb.toString()));
+			
+			for(Articulo item : articulos) {
+				productos.forEach(p -> {
+					if(item.getProducto().getId() == p.getId())
+						item.setProducto(p);
+				});
 			}
 			
 			if(clientesSb.charAt(clientesSb.length() - 1) == ',')

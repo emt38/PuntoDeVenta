@@ -180,17 +180,32 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 			else
 				articulosSb.append("0)");
 			
-			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad FROM comprasdetalle " + articulosSb.toString(), state);
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad, tasaImpuestos FROM comprasdetalle " + articulosSb.toString(), state);
 			List<Articulo> articulos = new ArrayList<Articulo>();
-			
+			StringBuilder productosSb = new StringBuilder("(");
 			while(articulosRs.next()) {
 				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f, 0f),articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), articulosRs.getFloat("tasaImpuestos"), articulosRs.getFloat("impuestos"), articulosRs.getFloat("subTotal")));
+				productosSb.append(String.format("%s,", articulosRs.getInt("idproducto")));
 				for(Compra compra : compras) {
 					if(compra.noDocumento == articulosRs.getInt("id")) {
 						compra.articulos.add(articulos.get(articulos.size()-1));
 						break;
 					}
 				}
+			}
+			
+			if(productosSb.charAt(productosSb.length() - 1) == ',')
+				productosSb.setCharAt(productosSb.length() - 1, ')');
+			else
+				productosSb.append("0)");
+			
+			List<Producto> productos = new Producto().listar(String.format(" WHERE p.idproducto IN %s", productosSb.toString()));
+			
+			for(Articulo item : articulos) {
+				productos.forEach(p -> {
+					if(item.getProducto().getId() == p.getId())
+						item.setProducto(p);
+				});
 			}
 			
 			if(suplidoresSb.charAt(suplidoresSb.length() - 1) == ',')

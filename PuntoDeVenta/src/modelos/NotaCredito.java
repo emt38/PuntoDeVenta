@@ -56,11 +56,11 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<NotaC
 		HashMap<String, Object> temp = new HashMap<>();
 		temp.put("_total", total);
 		temp.put("_efectuado", efectuado);
-		temp.put("_idCliente", cliente.getId());
+		temp.put("_idcliente", cliente.getId());
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL AgregarNotaCredito(?,?,?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL AgregarNotasCredito(?,?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -77,7 +77,7 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<NotaC
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL ModificarNotaCredito(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarNotasCredito(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<NotaC
 		temp.put("_idNotaCredito", noDocumento);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL EliminarNotaCredito(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL EliminarNotasCredito(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

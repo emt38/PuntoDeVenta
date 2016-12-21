@@ -30,6 +30,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class ListadoUsuariosFrame extends JFrame {
 
@@ -56,11 +58,70 @@ public class ListadoUsuariosFrame extends JFrame {
 			}
 		});
 	}
+	
+	private void reload() {
+		switch(usuario.getTipo()) {
+		case Administrador:
+			usuarios = new Usuario().listar(String.format("WHERE idtienda=%s AND tipo=1", usuario.getTienda().getId()));
+			break;
+		
+		case Gerente:
+			usuarios = new Usuario().listar(String.format("WHERE idtienda=%s AND tipo IN (0, 1, 2)", usuario.getTienda().getId()));
+			break;
+		case SysAdmin:
+			usuarios = new Usuario().listar(String.format("WHERE tipo != 3", usuario.getTienda().getId()));
+			break;
+			
+		case Cajero:
+			usuarios = new Usuario().listar(String.format("WHERE idusuario = %s", usuario.getId()));
+			break;
+			
+			default:
+			JOptionPane.showMessageDialog(this, "Usted no está autorizado para continuar", "Desautorizado", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		
+		}
+		String[] columnas = new String[] {"id", "nombreCompleto", "nombreUsuario", "tipo"};
+		Object[][] datos = Utilidades.listToBidiArray(usuarios, columnas);
+		
+		tblUsuarios.setModel(new DefaultTableModel(
+				datos,
+				new String[] {
+					"Id", "Nombre Completo", "Usuario", "Tipo"
+				}
+			){
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+				
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+			});
+		
+			tblUsuarios.getColumnModel().getColumn(0).setPreferredWidth(68);
+			tblUsuarios.getColumnModel().getColumn(1).setPreferredWidth(283);
+			tblUsuarios.getColumnModel().getColumn(2).setPreferredWidth(152);
+			tblUsuarios.getColumnModel().getColumn(3).setPreferredWidth(115);
+			tblUsuarios.setRowHeight(24);
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public ListadoUsuariosFrame() {
+		addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent arg0) {
+				reload();
+			}
+			public void windowLostFocus(WindowEvent arg0) {
+			}
+		});
 		setTitle("Mantenimiento de Usuarios");
 		usuario = Program.getLoggedUser();
 		

@@ -225,17 +225,32 @@ public class DevolucionCompra implements IEntidadDatos<DevolucionCompra> {
 			else
 				articulosSb.append("0)");
 			
-			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT iddevolucioncompra AS id, idproducto,(subtotal / cantidad) AS valor, subtotal, cantidad FROM devolucionescomprasdetalle " + articulosSb.toString(), state);
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT iddevolucioncompra AS id, idproducto,(subtotal / cantidad) AS valor, subtotal, cantidad FROM devolucionescomprasdetalle WHERE iddevolucioncompra IN " + articulosSb.toString(), state);
 			List<Articulo> articulos = new ArrayList<Articulo>();
-			
+			StringBuilder productosSb = new StringBuilder("(");
 			while(articulosRs.next()) {
 				articulos.add(new Articulo(new Producto(articulosRs.getInt("idproducto"), null, null, 0f,0f,0f, 0f), articulosRs.getFloat("cantidad"), articulosRs.getFloat("valor"), 0f, 0f, articulosRs.getFloat("subTotal")));
+				productosSb.append(String.format("%s,", articulosRs.getInt("idproducto")));
 				for(DevolucionCompra devolucion : devolucionesCompra) {
 					if(devolucion.id == articulosRs.getInt("id")) {
 						devolucion.articulos.add(articulos.get(articulos.size()-1));
 						break;
 					}
 				}
+			}
+			
+			if(productosSb.charAt(productosSb.length() - 1) == ',')
+				productosSb.setCharAt(productosSb.length() - 1, ')');
+			else
+				productosSb.append("0)");
+			
+			List<Producto> productos = new Producto().listar(String.format(" WHERE p.idproducto IN %s", productosSb.toString()));
+			
+			for(Articulo item : articulos) {
+				productos.forEach(p -> {
+					if(item.getProducto().getId() == p.getId())
+						item.setProducto(p);
+				});
 			}
 			
 			if(notasDebitoSb.charAt(notasDebitoSb.length() - 1) == ',')

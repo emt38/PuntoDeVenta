@@ -74,7 +74,36 @@ public class MasterFrame {
 		frmSistemaDePunto.getContentPane().setBackground(new Color(220, 220, 220));
 		frmSistemaDePunto.setBounds(100, 100, 472, 344);
 		frmSistemaDePunto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmSistemaDePunto.getContentPane().setLayout(null);
+		frmSistemaDePunto.getContentPane().setLayout(new GridLayout(0, 3, 0, 0));
+		
+		JButton btnUsuarios = new JButton("Usuarios");
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoUsuariosFrame temp = new ListadoUsuariosFrame();
+				temp.setVisible(true);
+			}
+		});
+		
+		JLabel label = new JLabel("");
+		frmSistemaDePunto.getContentPane().add(label);
+		
+		JLabel lblNewLabel = new JLabel("Atajos");
+		lblNewLabel.setBackground(new Color(0, 0, 205));
+		lblNewLabel.setFont(new Font("Segoe UI Light", Font.PLAIN, 20));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		frmSistemaDePunto.getContentPane().add(lblNewLabel);
+		
+		JLabel label_1 = new JLabel("");
+		frmSistemaDePunto.getContentPane().add(label_1);
+		frmSistemaDePunto.getContentPane().add(btnUsuarios);
+		
+		JButton btnRealizarVentas = new JButton("Realizar Ventas");
+		btnRealizarVentas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentaFrame temp = new VentaFrame();
+				temp.setVisible(true);
+			}
+		});
 		
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.addActionListener(new ActionListener() {
@@ -83,18 +112,16 @@ public class MasterFrame {
 				temp.setVisible(true);
 			}
 		});
-		btnClientes.setBounds(156, 119, 138, 44);
 		frmSistemaDePunto.getContentPane().add(btnClientes);
+		frmSistemaDePunto.getContentPane().add(btnRealizarVentas);
 		
-		JButton btnProveedores = new JButton("Proveedores");
-		btnProveedores.addActionListener(new ActionListener() {
+		JButton btnRealizarCompras = new JButton("Realizar Compras");
+		btnRealizarCompras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SuplidoresFrame temp = new SuplidoresFrame();
+				CompraFrame temp = new CompraFrame();
 				temp.setVisible(true);
 			}
 		});
-		btnProveedores.setBounds(156, 232, 138, 44);
-		frmSistemaDePunto.getContentPane().add(btnProveedores);
 		
 		
 		
@@ -105,18 +132,6 @@ public class MasterFrame {
 				temp.setVisible(true);
 			}
 		});
-		btnTiendas.setBounds(156, 176, 138,44 );
-		frmSistemaDePunto.getContentPane().add(btnTiendas);
-		
-		JButton btnUsuarios = new JButton("Usuarios");
-		btnUsuarios.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ListadoUsuariosFrame temp = new ListadoUsuariosFrame();
-				temp.setVisible(true);
-			}
-		});
-		btnUsuarios.setBounds(6, 119, 138, 44);
-		frmSistemaDePunto.getContentPane().add(btnUsuarios);
 		
 		JButton btnCiudades = new JButton("Ubicaciones");
 		btnCiudades.addActionListener(new ActionListener() {
@@ -125,37 +140,8 @@ public class MasterFrame {
 				temp.setVisible(true);
 			}
 		});
-		btnCiudades.setBounds(6, 176, 138,44 );
 		frmSistemaDePunto.getContentPane().add(btnCiudades);
-		
-		JButton btnReportes = new JButton("Reportes");
-		btnReportes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				connectToDataBase();
-				openReportFrame();
-			}
-		});
-		btnReportes.setBounds(6, 232, 138, 44);
-		frmSistemaDePunto.getContentPane().add(btnReportes);
-		
-		JButton btnRealizarVentas = new JButton("Realizar Ventas");
-		btnRealizarVentas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentaFrame temp = new VentaFrame();
-				temp.setVisible(true);
-			}
-		});
-		btnRealizarVentas.setBounds(306, 119, 138, 44);
-		frmSistemaDePunto.getContentPane().add(btnRealizarVentas);
-		
-		JButton btnRealizarCompras = new JButton("Realizar Compras");
-		btnRealizarCompras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CompraFrame temp = new CompraFrame();
-				temp.setVisible(true);
-			}
-		});
-		btnRealizarCompras.setBounds(306, 176, 138, 44);
+		frmSistemaDePunto.getContentPane().add(btnTiendas);
 		frmSistemaDePunto.getContentPane().add(btnRealizarCompras);
 		
 		JButton btnProductos = new JButton("Productos");
@@ -165,15 +151,25 @@ public class MasterFrame {
 				temp.setVisible(true);
 			}
 		});
-		btnProductos.setBounds(306, 232, 138, 44);
-		frmSistemaDePunto.getContentPane().add(btnProductos);
 		
-		JLabel lblNewLabel = new JLabel("Atajos");
-		lblNewLabel.setBackground(new Color(0, 0, 205));
-		lblNewLabel.setFont(new Font("Segoe UI Light", Font.PLAIN, 20));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(156, 62, 138, 30);
-		frmSistemaDePunto.getContentPane().add(lblNewLabel);
+		JButton btnProveedores = new JButton("Proveedores");
+		btnProveedores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SuplidoresFrame temp = new SuplidoresFrame();
+				temp.setVisible(true);
+			}
+		});
+		
+		JButton btnReportes = new JButton("Reportes");
+		btnReportes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				connectToDataBase();
+				openReportFrame();
+			}
+		});
+		frmSistemaDePunto.getContentPane().add(btnReportes);
+		frmSistemaDePunto.getContentPane().add(btnProveedores);
+		frmSistemaDePunto.getContentPane().add(btnProductos);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmSistemaDePunto.setJMenuBar(menuBar);
@@ -266,6 +262,15 @@ public class MasterFrame {
 			}
 		});
 		mnOperaciones.add(mntmRealizarCompras);
+		
+		JMenuItem mntmDevolverArtculos = new JMenuItem("Devoluci\u00F3n de Ventas");
+		mntmDevolverArtculos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DevolucionVentaFrame temp = new DevolucionVentaFrame();
+				temp.setVisible(true);
+			}
+		});
+		mnOperaciones.add(mntmDevolverArtculos);
 		
 		JMenu mnReportes = new JMenu("Reportes");
 		menuBar.add(mnReportes);
