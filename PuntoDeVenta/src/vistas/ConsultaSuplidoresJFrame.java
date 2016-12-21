@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.omg.CORBA.DATA_CONVERSION;
 import org.omg.CORBA.PRIVATE_MEMBER;
@@ -31,6 +33,8 @@ import modelos.Cliente;
 import modelos.Suplidor;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -49,11 +53,15 @@ public class ConsultaSuplidoresJFrame extends JFrame {
 	
 		
 	 
+	private TableRowSorter trsfiltro;
+	private String filtro;
 
 	/**
 	 * Launch the application.
 	 */
-	
+	public void filtro() {
+		trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscarCliente.getText(), 1));
+	}
 	private void construirTabla() {
 		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION","TELEFONO", "CELULAR", "SEXO", "RNC", "EMPRESA"};
 		String datos[][]=getDatosMatriz();
@@ -144,6 +152,19 @@ public class ConsultaSuplidoresJFrame extends JFrame {
 		txtBuscarCliente.setBounds(71, 200, 575, 20);
 		
 		contentPane.add(txtBuscarCliente);
+		txtBuscarCliente.addKeyListener(new KeyAdapter() {
+			public void keyReleased(final KeyEvent e) {
+				if (objTable == null) {
+					objTable = new JTable();
+				}
+				trsfiltro = new TableRowSorter(objTable.getModel());
+				objTable.setRowSorter(trsfiltro);
+				String cadena = (txtBuscarCliente.getText()).toUpperCase();
+				txtBuscarCliente.setText(cadena);
+				repaint();
+				filtro();
+			}
+		});
 		txtBuscarCliente.setColumns(10);
 		 
 		

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.omg.CORBA.DATA_CONVERSION;
 import org.omg.CORBA.PRIVATE_MEMBER;
@@ -29,6 +31,8 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplateSeqHolder;
 
 import modelos.Cliente;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -46,15 +50,23 @@ public class ConsultarClienteFrame extends JFrame {
 	private JButton btnSelecionar;
 	
 		
-	 
+	private TableRowSorter trsfiltro;
+	private String filtro;
 
 	/**
 	 * Launch the application.
 	 */
+	public void filtro() {
+		trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscarCliente.getText(), 2));
+	}
 	
 	private void construirTabla() {
-		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION", "CELULAR", "CEDULA/RNC", "SEXO", "%DESC", "FECHA"};
-		String datos[][]=getDatosMatriz();
+		objCliente = new Cliente();
+		String titulo []={"CODIGO", "NOMBRE", "APELLIDO", "DIRECCION", "TELEFONO","CELULAR", "CEDULA/RNC", "SEXO" , "FECHA", "%DESC"};
+		
+		String camposRetornados [] ={"id", "nombre", "apellido", "direccion", "telefono", "celular", "identificacion", "sexo", "clienteDesde","tasaDescuento"};
+		
+		Object datos[][]=Utilidades.listToBidiArray(objCliente.listar(""), camposRetornados);                                       //getDatosMatriz();
 		
 		objTable = new JTable(datos,titulo){
 	        public boolean isCellEditable(int rowIndex, int vColIndex) {
@@ -64,30 +76,13 @@ public class ConsultarClienteFrame extends JFrame {
 		scrollPane.setViewportView(objTable);
 		
 	}
-
-	private String[][] getDatosMatriz() {
-		  objCliente = new Cliente();
-		misClientes =(ArrayList<Cliente>)objCliente.listar("");
-	 
-		String matrizInf[][]= new String [misClientes.size()][9];
-		
-		for(int i=0; i< misClientes.size(); i++){
-			matrizInf[i][0]=misClientes.get(i).getId()+"";
-			matrizInf[i][1]=misClientes.get(i).getNombre()+"";
-			matrizInf[i][2]=misClientes.get(i).getApellido()+"";
-			matrizInf[i][3]=misClientes.get(i).getDireccion()+"";
-			matrizInf[i][4]=misClientes.get(i).getCelular()+"";
-			matrizInf[i][5]=misClientes.get(i).getIdentificacion()+"";
-			matrizInf[i][6]=misClientes.get(i).getSexo()+"";
-			matrizInf[i][7]=misClientes.get(i).getTasaDescuento()+"";
-			matrizInf[i][8]=misClientes.get(i).getClienteDesde()+"";
-		}
-		return matrizInf;
-		 
-	}
 	private void seleccionarFila(){
 		
-		int Id=(Integer.parseInt(objTable.getValueAt(objTable.getSelectedRow(),0).toString()));
+	  if(misClientes ==null){
+		  objCliente = new Cliente();
+		  misClientes =(ArrayList<Cliente>) objCliente.listar("");
+	  }	
+	  int Id=(Integer.parseInt(objTable.getValueAt(objTable.getSelectedRow(),0).toString()));
   	  for(int i=0; i < misClientes.size(); i++)
   	  {
   		  if(misClientes.get(i).getId() ==Id){
@@ -139,8 +134,22 @@ public class ConsultarClienteFrame extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		txtBuscarCliente = new JTextField();
-		txtBuscarCliente.setBounds(71, 200, 575, 20);
+		txtBuscarCliente.addKeyListener(new KeyAdapter() {
+			public void keyReleased(final KeyEvent e) {
+				if (objTable == null) {
+					objTable = new JTable();
+				}
+				trsfiltro = new TableRowSorter(objTable.getModel());
+				objTable.setRowSorter(trsfiltro);
+				String cadena = (txtBuscarCliente.getText()).toUpperCase();
+				txtBuscarCliente.setText(cadena);
+				repaint();
+				filtro();
+			}
+		});
+
 		
+		txtBuscarCliente.setBounds(71, 200, 575, 20);
 		contentPane.add(txtBuscarCliente);
 		txtBuscarCliente.setColumns(10);
 		 

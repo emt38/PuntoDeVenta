@@ -68,7 +68,7 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+		principal.Program.main( new String [0]);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -119,7 +119,7 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 		btnEliminar.setEnabled(false);
 		btnBuscar.setEnabled(false);
 
-		txtCodigoId.setEnabled(true);
+		txtCodigoId.setEnabled(false);
 		txtCodigoProdu.setEnabled(true);
 		txtCosto.setEnabled(true);
 		txtDescripcion.setEnabled(true);
@@ -147,6 +147,7 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 		txtCodigoId.setText(misProductos.get(conteo).getId() + "");
 		txtCodigoProdu.setText(misProductos.get(conteo).getCodigo() + "");
 		txtCosto.setText(misProductos.get(conteo).getCosto() + "");
+		txtPrecio.setText(misProductos.get(conteo).getPrecio() +"");
 		txtDescripcion.setText(misProductos.get(conteo).getDescripcion() + "");
 		txtStock.setText(misProductos.get(conteo).getInventario() + "");
 		txtTasaImpuesto.setText(misProductos.get(conteo).getTasaImpuesto() + "");
@@ -224,27 +225,27 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 
 	public ProductoFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 568, 243);
+		setBounds(100, 100, 568, 292);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		addWindowFocusListener(this);
 		btnSALIR = new JButton("SALIR");
-		btnSALIR.setBounds(451, 164, 101, 31);
+		btnSALIR.setBounds(462, 217, 90, 31);
 		contentPane.add(btnSALIR);
 		btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setBounds(269, 164, 101, 31);
+		btnCancelar.setBounds(284, 217, 101, 31);
 		contentPane.add(btnCancelar);
 		btnGuardar = new JButton("GUARDAR");
 		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar.setBounds(182, 164, 101, 31);
+		btnGuardar.setBounds(187, 217, 101, 31);
 		contentPane.add(btnGuardar);
 		btnNuevo = new JButton("NUEVO");
 		btnNuevo.setIcon(null);
 		btnNuevo.setSelectedIcon(new ImageIcon(ClienteFrame.class.getResource("/Iconos_E_Imagenes/NUEVO.JPG")));
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
-		btnNuevo.setBounds(5, 164, 101, 31);
+		btnNuevo.setBounds(0, 217, 101, 31);
 		contentPane.add(btnNuevo);
 
 		btnAnterior = new JButton("");
@@ -279,15 +280,15 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 		contentPane.add(btnSigte);
 
 		btnEliminar = new JButton("ELIMINAR");
-		btnEliminar.setBounds(358, 164, 101, 31);
+		btnEliminar.setBounds(380, 217, 101, 31);
 		contentPane.add(btnEliminar);
 
-		btnModificar = new JButton("MODIFICAR");
-		btnModificar.setBounds(93, 164, 101, 31);
+		btnModificar = new JButton("EDITAR");
+		btnModificar.setBounds(97, 217, 101, 31);
 		contentPane.add(btnModificar);
 		txtCodigoId = new JTextField();
 		txtCodigoId.setColumns(10);
-		txtCodigoId.setBounds(93, 11, 167, 20);
+		txtCodigoId.setBounds(70, 6, 190, 31);
 		contentPane.add(txtCodigoId);
 
 		lblCodigo = new JLabel("CODIGO-ID:");
@@ -299,62 +300,62 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 		contentPane.add(separator);
 
 		JLabel lblCodigo_1 = new JLabel("COD-PROD");
-		lblCodigo_1.setBounds(5, 51, 68, 14);
+		lblCodigo_1.setBounds(5, 56, 68, 14);
 		contentPane.add(lblCodigo_1);
 
 		txtCodigoProdu = new JTextField();
-		txtCodigoProdu.setBounds(93, 48, 343, 20);
+		txtCodigoProdu.setBounds(103, 48, 333, 31);
 		contentPane.add(txtCodigoProdu);
 		txtCodigoProdu.setColumns(10);
 
 		lblDescripcion = new JLabel("DESCRIPCION:");
-		lblDescripcion.setBounds(5, 75, 80, 14);
+		lblDescripcion.setBounds(3, 93, 92, 14);
 		contentPane.add(lblDescripcion);
 
 		txtDescripcion = new JTextField();
-		txtDescripcion.setBounds(93, 72, 449, 20);
+		txtDescripcion.setBounds(103, 85, 433, 31);
 		contentPane.add(txtDescripcion);
 		txtDescripcion.setColumns(10);
 
 		lblPrecio = new JLabel("PRECIO:");
-		lblPrecio.setBounds(5, 100, 46, 14);
+		lblPrecio.setBounds(5, 130, 68, 14);
 		contentPane.add(lblPrecio);
 
 		txtPrecio = new JTextField();
-		txtPrecio.setBounds(93, 97, 174, 20);
+		txtPrecio.setBounds(103, 122, 157, 31);
 		contentPane.add(txtPrecio);
 		txtPrecio.setColumns(10);
 
 		lblCosto = new JLabel("COSTO:");
-		lblCosto.setBounds(277, 100, 46, 14);
+		lblCosto.setBounds(277, 130, 46, 14);
 		contentPane.add(lblCosto);
 
 		txtCosto = new JTextField();
 		txtCosto.setColumns(10);
-		txtCosto.setBounds(318, 97, 224, 20);
+		txtCosto.setBounds(328, 122, 208, 31);
 		contentPane.add(txtCosto);
 
 		lblTimpuesto = new JLabel("TASA-IMPUESTO:");
-		lblTimpuesto.setBounds(5, 126, 101, 14);
+		lblTimpuesto.setBounds(5, 167, 101, 14);
 		contentPane.add(lblTimpuesto);
 
 		txtTasaImpuesto = new JTextField();
-		txtTasaImpuesto.setBounds(93, 123, 174, 20);
+		txtTasaImpuesto.setBounds(103, 159, 157, 31);
 		contentPane.add(txtTasaImpuesto);
 		txtTasaImpuesto.setColumns(10);
 
 		lblStock = new JLabel("STOCK:");
-		lblStock.setBounds(277, 126, 46, 14);
+		lblStock.setBounds(277, 167, 46, 14);
 		contentPane.add(lblStock);
 
 		txtStock = new JTextField();
 		txtStock.setText("");
-		txtStock.setBounds(318, 123, 224, 20);
+		txtStock.setBounds(328, 159, 208, 31);
 		contentPane.add(txtStock);
 		txtStock.setColumns(10);
 
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(5, 151, 547, 12);
+		separator_1.setBounds(5, 205, 547, 12);
 		contentPane.add(separator_1);
 		
 		deshabilitarEdicion();
@@ -529,9 +530,9 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				// objFrmConsultaCliente = new ConsultarClienteFrame();
-				// objFrmConsultaCliente.setAlwaysOnTop(false);
-				// objFrmConsultaCliente.setVisible(true);
+				 ConsultarProductosFrame frame = new ConsultarProductosFrame();
+				 frame.setAlwaysOnTop(false);
+				 frame.setVisible(true);
 
 			}
 		});
