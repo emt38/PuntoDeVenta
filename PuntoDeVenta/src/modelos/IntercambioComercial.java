@@ -15,6 +15,13 @@ public abstract class IntercambioComercial extends AcuerdoComercial {
 	public float getImpuestos() {
 		return impuestos;
 	}
+	
+	@Override
+	public void efectuar() {
+		super.efectuar();
+		registrarInventario();
+	}
+	
 	public float getDescuentos() {
 		return descuentos;
 	}
