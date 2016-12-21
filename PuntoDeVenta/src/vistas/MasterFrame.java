@@ -127,7 +127,7 @@ public class MasterFrame {
 				openReportFrame();
 			}
 		});
-		btnReportes.setBounds(50, 89, 89, 123);
+		btnReportes.setBounds(157, 89, 89, 23);
 		frame.getContentPane().add(btnReportes);
 	}
 		

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-12-21T07:42:39 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Compras" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f90b31c6-133a-47e6-9501-bf49bd64fd7a">
+<!-- 2016-12-21T08:56:12 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Utilidades" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2cc2afca-a7df-489f-98a0-4bbbd4200f00">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PuntoVentaDataAdapter "/>
 	<queryString language="SQL">
-		<![CDATA[ SELECT db_a137dd_posdb.viewcompras.descripcion 
- FROM db_a137dd_posdb.viewcompras ]]>
+		<![CDATA[SELECT CONCAT(CAST(SUM(CAST(v.subtotal as signed)) as CHAR(50)), '     			                    ', CONCAT(CAST(SUM(CAST(C.subtotal as signed)) as CHAR(50)), '      				   ', CAST(CAST(SUM(v.subtotal)- SUM(c.subtotal) as CHAR(50))as signed))) as descripcion FROM comprasdetalle c, ventasdetalle v]]>
 	</queryString>
 	<field name="descripcion" class="java.lang.String"/>
 	<background>
@@ -21,7 +20,7 @@
 					<textElement textAlignment="Center">
 						<font fontName="Segoe UI" size="24" isBold="true" isItalic="true"/>
 					</textElement>
-					<text><![CDATA[Reporte de Compras]]></text>
+					<text><![CDATA[Reporte de Utilidades]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -31,48 +30,27 @@
 			<frame>
 				<reportElement x="-20" y="4" width="580" height="24" uuid="f106c03c-1ec3-4b0c-aeb4-35cc4820540e"/>
 				<staticText>
-					<reportElement x="20" y="3" width="20" height="21" uuid="c5b4bc8e-571e-45e4-8162-463d12a374af"/>
-					<textElement textAlignment="Right">
+					<reportElement x="29" y="3" width="121" height="21" uuid="c5b4bc8e-571e-45e4-8162-463d12a374af"/>
+					<textElement textAlignment="Left">
 						<font fontName="Segoe UI" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[ID]]></text>
+					<text><![CDATA[TOTAL VENTAS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="188" y="2" width="39" height="17" uuid="76a465b6-e188-47de-81d3-4d7d81490b15">
+					<reportElement x="200" y="3" width="142" height="17" uuid="76a465b6-e188-47de-81d3-4d7d81490b15">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement>
 						<font fontName="Segoe UI" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[VALOR]]></text>
+					<text><![CDATA[TOTAL COMPRAS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="51" y="3" width="79" height="18" uuid="48eba843-15cb-4af7-b005-275fd40149e5"/>
+					<reportElement x="400" y="2" width="79" height="18" uuid="48eba843-15cb-4af7-b005-275fd40149e5"/>
 					<textElement>
 						<font fontName="Segoe UI" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[DESCRIPCION]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="282" y="2" width="70" height="22" uuid="dace10b5-d8ce-49d5-9ffc-3dd38cbf478f"/>
-					<textElement>
-						<font fontName="Segoe UI" size="11" isBold="true"/>
-					</textElement>
-					<text><![CDATA[IMPUESTOS]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="499" y="2" width="65" height="18" uuid="80a95a6b-3b49-4839-bede-7930f1132960"/>
-					<textElement>
-						<font fontName="Segoe UI" size="11" isBold="true"/>
-					</textElement>
-					<text><![CDATA[SUBTOTAL]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="397" y="2" width="61" height="17" uuid="73820142-f7fb-4925-b992-6304e7c7bb8e"/>
-					<textElement>
-						<font fontName="Segoe UI" size="11" isBold="true"/>
-					</textElement>
-					<text><![CDATA[CANTIDAD]]></text>
+					<text><![CDATA[DIFERENCIA]]></text>
 				</staticText>
 				<line>
 					<reportElement x="18" y="18" width="562" height="1" uuid="bdf635d4-1cd3-477d-817a-060fb7f94218"/>

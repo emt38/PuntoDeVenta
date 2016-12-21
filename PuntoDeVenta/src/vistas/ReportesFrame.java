@@ -57,7 +57,7 @@ public class ReportesFrame extends JFrame{
 		{
 			public void actionPerformed(ActionEvent e) {
 
-				AbstractJasperReports.createReport(conn, "src/ventas2.jasper");
+				AbstractJasperReports.createReport(conn, "src/Ventas.jasper");
 				AbstractJasperReports.showViewer();
 			}
 		});
@@ -68,6 +68,7 @@ public class ReportesFrame extends JFrame{
 		btnGenerarUtilidades.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
+				AbstractJasperReports.createReport(conn, "src/Utilidades.jasper");
 				AbstractJasperReports.showViewer();
 			}
 		});
@@ -80,7 +81,7 @@ public class ReportesFrame extends JFrame{
 		btnExportarCompras.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\reporteCompras.pdf" );
+				AbstractJasperReports.exportToPDF( "src/reporteCompras.pdf" );
 			}
 		});
 		btnExportarCompras.setBounds(220, 31, 171, 46);
@@ -90,7 +91,7 @@ public class ReportesFrame extends JFrame{
 		btnExportarVentas.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\reporteVentas.pdf" );
+				AbstractJasperReports.exportToPDF( "src/reporteVentas.pdf" );
 			}
 		});
 		btnExportarVentas.setBounds(220, 75, 171, 46);
@@ -100,7 +101,7 @@ public class ReportesFrame extends JFrame{
 		btnExportarUtilidades.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "C:\\Users\\franklyn\\git\\PuntoDeVenta\\reporteUtilidades.pdf" );
+				AbstractJasperReports.exportToPDF( "src/reporteUtilidades.pdf" );
 			}
 		});
 		btnExportarUtilidades.setBounds(220, 119, 171, 46);
