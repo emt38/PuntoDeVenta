@@ -320,7 +320,7 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 		contentPane.add(btnModificar);
 		txtCodigo = new JTextField();
 		txtCodigo.setColumns(10);
-		txtCodigo.setBounds(60, 11, 197, 20);
+		txtCodigo.setBounds(60, 8, 197, 27);
 		contentPane.add(txtCodigo);
 
 		lblCodigo = new JLabel("CODIGO:");
@@ -328,40 +328,40 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 		contentPane.add(lblCodigo);
 
 		lblNomre = new JLabel("NOMBRE:");
-		lblNomre.setBounds(5, 55, 64, 14);
+		lblNomre.setBounds(5, 58, 64, 14);
 		contentPane.add(lblNomre);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(133, 52, 312, 20);
+		txtNombre.setBounds(133, 52, 312, 27);
 
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		lblApellido = new JLabel("APELLIDO:");
-		lblApellido.setBounds(5, 80, 64, 14);
+		lblApellido.setBounds(5, 83, 64, 14);
 		contentPane.add(lblApellido);
 
 		txtApellido = new JTextField();
-		txtApellido.setBounds(133, 77, 312, 20);
+		txtApellido.setBounds(133, 77, 312, 27);
 
 		contentPane.add(txtApellido);
 		txtApellido.setColumns(10);
 
 		lblDirecion = new JLabel("DIRECION:");
-		lblDirecion.setBounds(5, 105, 64, 14);
+		lblDirecion.setBounds(5, 108, 64, 14);
 		contentPane.add(lblDirecion);
 
 		txtDireccion = new JTextField();
-		txtDireccion.setBounds(133, 102, 403, 20);
+		txtDireccion.setBounds(133, 102, 403, 27);
 		contentPane.add(txtDireccion);
 		txtDireccion.setColumns(10);
 
 		lblCedulaRnc = new JLabel("CEDULA:");
-		lblCedulaRnc.setBounds(5, 130, 83, 14);
+		lblCedulaRnc.setBounds(5, 133, 83, 14);
 		contentPane.add(lblCedulaRnc);
 
 		txtIdentificacion = new JTextField();
-		txtIdentificacion.setBounds(133, 127, 164, 20);
+		txtIdentificacion.setBounds(133, 127, 164, 27);
 		contentPane.add(txtIdentificacion);
 		txtIdentificacion.setColumns(10);
 
@@ -370,37 +370,37 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 		contentPane.add(separator);
 
 		lblTelefono = new JLabel("TELEFONO:");
-		lblTelefono.setBounds(5, 155, 73, 14);
+		lblTelefono.setBounds(5, 158, 73, 14);
 		contentPane.add(lblTelefono);
 
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(133, 152, 164, 20);
+		txtTelefono.setBounds(133, 152, 164, 27);
 		contentPane.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
 		cmbSexo = new JComboBox();
-		cmbSexo.setBounds(372, 127, 164, 20);
+		cmbSexo.setBounds(372, 127, 164, 27);
 		contentPane.add(cmbSexo);
 		cmbSexo.addItem("SELECCIONAR");
 		cmbSexo.addItem("FEMENINO");
 		cmbSexo.addItem("MASCULINO");
 
 		lblSexo = new JLabel("SEXO:");
-		lblSexo.setBounds(302, 130, 46, 14);
+		lblSexo.setBounds(302, 133, 46, 14);
 		contentPane.add(lblSexo);
 
 		lblCelular = new JLabel("CELULAR:");
-		lblCelular.setBounds(302, 155, 64, 14);
+		lblCelular.setBounds(302, 158, 64, 14);
 		contentPane.add(lblCelular);
 
 		txtCelular = new JTextField();
-		txtCelular.setBounds(372, 152, 164, 20);
+		txtCelular.setBounds(372, 152, 164, 27);
 
 		contentPane.add(txtCelular);
 		txtCelular.setColumns(10);
 
 		txtEmpresa = new JTextField();
-		txtEmpresa.setBounds(133, 173, 164, 27);
+		txtEmpresa.setBounds(133, 177, 164, 27);
 		contentPane.add(txtEmpresa);
 
 		lblFechaDeIngreso = new JLabel("EMPRESA:");
@@ -409,11 +409,11 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 
 		txtRnc = new JTextField();
 		txtRnc.setColumns(10);
-		txtRnc.setBounds(372, 177, 164, 20);
+		txtRnc.setBounds(372, 177, 164, 27);
 		contentPane.add(txtRnc);
 
 		lblTasaDescuento = new JLabel("RNC:");
-		lblTasaDescuento.setBounds(302, 180, 64, 14);
+		lblTasaDescuento.setBounds(302, 183, 64, 14);
 		contentPane.add(lblTasaDescuento);
 
 		separator_1 = new JSeparator();

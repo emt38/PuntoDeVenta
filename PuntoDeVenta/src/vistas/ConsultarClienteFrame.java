@@ -57,7 +57,7 @@ public class ConsultarClienteFrame extends JFrame {
 	 * Launch the application.
 	 */
 	public void filtro() {
-		trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscarCliente.getText(), 2));
+		trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscarCliente.getText(), 1));
 	}
 	
 	private void construirTabla() {
@@ -130,7 +130,7 @@ public class ConsultarClienteFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("CLIENTE:");
-		lblNewLabel.setBounds(10, 203, 56, 14);
+		lblNewLabel.setBounds(10, 207, 56, 14);
 		contentPane.add(lblNewLabel);
 		
 		txtBuscarCliente = new JTextField();
@@ -149,7 +149,7 @@ public class ConsultarClienteFrame extends JFrame {
 		});
 
 		
-		txtBuscarCliente.setBounds(71, 200, 575, 20);
+		txtBuscarCliente.setBounds(71, 200, 575, 28);
 		contentPane.add(txtBuscarCliente);
 		txtBuscarCliente.setColumns(10);
 		 
