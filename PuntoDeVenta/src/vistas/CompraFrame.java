@@ -34,20 +34,39 @@ import javax.swing.JComponent;
 public class CompraFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTable tabla;
+	private JTable tabla = new JTable();
 	private JScrollPane scrollPane;
 	private JLabel lblTotalImpuesto;
 	private JLabel lblTotalDescuento;
 	private JLabel lblTotal;
-	private JTextField txtTotalImpuestos;
-	private JTextField txtTotalDescuento;
-	private JTextField txtTotal;
-	private JTextField txtCambiardesc;
-	
-	private Compra compra = new Compra();
+	private JTextField txtTotalImpuestos = new JTextField();
+	private JTextField txtTotalDescuento = new JTextField();
+	private JTextField txtTotal = new JTextField();
+	private JTextField txtCambiardesc = new JTextField();
 	private JButton btnRealizarCompra;
 	
+	Suplidor suplidor = new Suplidor();
+	
+	private Compra compra = new Compra(suplidor, Program.getLoggedUser(), Program.getLoggedUser().getTienda());
+	
+	List<Suplidor> suplidores = new Suplidor().listar("ORDER BY Nombre");
+	JComboBox cbxSuplidores = new JComboBox();
+	
+	
 	private void ReloadAll() {
+		if( suplidores.size() > 0 ){	
+			cbxSuplidores = new JComboBox<ComboItem>();
+			for(Suplidor supl: suplidores){
+				cbxSuplidores.addItem(new ComboItem(supl.getNombre(),supl));
+			}
+			
+			Object item = cbxSuplidores.getSelectedItem();
+			Object objeto = ((ComboItem)item).getObjeto();
+			suplidor = (Suplidor) objeto;
+			compra.setSuplidor(suplidor);
+		}
+		
+		
 		String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 		String[] campos = {"cantidad", "producto","valor", "impuestos", "subtotal"};  
 		Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
@@ -82,24 +101,7 @@ public class CompraFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Suplidor suplidor = new Suplidor();
-		List<Suplidor> suplidores = new ArrayList<>();
-		List<String> nombreSuplidores = new ArrayList<String>();
-		JComboBox cbxSuplidores = new JComboBox();
-		
-		suplidores.addAll(new Suplidor().listar("ORDER BY Nombre"));
-		
-		if( suplidores.size() > 0 ){
-			for(Suplidor supl: suplidores){
-				nombreSuplidores.add(supl.getNombre());
-			}
-			cbxSuplidores = new JComboBox(nombreSuplidores.toArray());
-			suplidor = suplidor.listar("WHERE nombre='" + cbxSuplidores.getSelectedItem() + "'").get(0);
-			compra = new Compra(suplidor, Program.getLoggedUser(), Program.getLoggedUser().getTienda());
-			
-		}else{
-			
-		}
+		ReloadAll();
 		
 		cbxSuplidores.setBounds(379, 11, 167, 20);
 		contentPane.add(cbxSuplidores);
