@@ -109,7 +109,7 @@ public class Provincia implements IEntidadDatos<Provincia> {
 			StringBuilder paisesSb = new StringBuilder("(");
 			while(datos.next()) {
 				provincias.add(new Provincia(datos.getInt("idprovincia"), new Pais(datos.getInt("idpais"), null), datos.getString("nombre")));
-				paisesSb.append(String.format("%s,", datos.getInt("idprovincia")));
+				paisesSb.append(String.format("%s,", datos.getInt("idpais")));
 			}
 			
 			if(paisesSb.charAt(paisesSb.length() - 1) == ',')

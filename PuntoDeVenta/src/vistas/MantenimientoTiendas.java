@@ -71,12 +71,16 @@ public class MantenimientoTiendas extends JDialog {
 			cbPais.removeAllItems();
 			cbProvincia.removeAllItems();
 			cbCiudad.removeAllItems();
+			cbPais.addItem(new Pais(0, "Seleccione un País"));
 			for (Pais pais : paises) {
 				cbPais.addItem(pais);
 			}
 			txtNombre.setText("");
 			txtDireccion.setText("");
 			txtSlogan.setText("");
+			txtNombre.setEnabled(true);
+			txtDireccion.setEnabled(true);
+			txtSlogan.setEnabled(true);
 			cbPais.setEnabled(true);
 			cbProvincia.setEnabled(false);
 			cbCiudad.setEnabled(false);
@@ -96,9 +100,9 @@ public class MantenimientoTiendas extends JDialog {
 			cbPais.setSelectedIndex(0);
 			cbCiudad.setSelectedIndex(0);
 			cbProvincia.setSelectedIndex(0);
-			txtDireccion.setText(back.getDireccion());
-			txtNombre.setText(back.getNombre());
-			txtSlogan.setText(back.getSlogan());
+			txtDireccion.setText(tienda.getDireccion());
+			txtNombre.setText(tienda.getNombre());
+			txtSlogan.setText(tienda.getSlogan());
 			
 			cbPais.setEnabled(false);
 			cbCiudad.setEnabled(false);
@@ -145,10 +149,29 @@ public class MantenimientoTiendas extends JDialog {
 			break;
 			
 		case Eliminar:
-			btnLimpiarCampos.setEnabled(false);
+			cbPais.removeAllItems();
+			cbProvincia.removeAllItems();
+			cbCiudad.removeAllItems();
+			Provincia provd = tienda.getCiudad().getProvincia();
+			Pais pad = provd.getPais();
+			cbPais.addItem(pad);
+			cbCiudad.addItem(tienda.getCiudad());
+			cbProvincia.addItem(provd);
+			
+			cbPais.setSelectedIndex(0);
+			cbCiudad.setSelectedIndex(0);
+			cbProvincia.setSelectedIndex(0);
+			txtDireccion.setText(tienda.getDireccion());
+			txtNombre.setText(tienda.getNombre());
+			txtSlogan.setText(tienda.getSlogan());
+			
 			cbPais.setEnabled(false);
-			cbProvincia.setEnabled(false);
 			cbCiudad.setEnabled(false);
+			cbProvincia.setEnabled(false);
+			txtDireccion.setEnabled(false);
+			txtNombre.setEnabled(false);
+			txtSlogan.setEnabled(false);
+			btnLimpiarCampos.setEnabled(false);
 			btnFinalizar.setText("Eliminar");
 			break;
 		
@@ -163,22 +186,27 @@ public class MantenimientoTiendas extends JDialog {
 	}
 	
 	public void editarTienda(Tienda tienda) {
-		this.tienda = tienda;
-		this.back = tienda;
+		if(!tienda.equals(this.tienda)) {
+			this.tienda = tienda;
+			this.back = new Tienda(tienda.getId(), tienda.getNombre(), tienda.getDireccion(), tienda.getSlogan(), tienda.getCiudad());
+		}
 		setModo(ModoFormulario.Editar);
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setVisible(true);
 	}
 	
 	public void eliminarTienda(Tienda tienda) {
-		this.tienda = tienda;
+		if(!tienda.equals(this.tienda))
+			this.tienda = tienda;
+		
 		setModo(ModoFormulario.Eliminar);
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setVisible(true);
 	}
 	
 	public void visualizarTienda(Tienda tienda) {
-		this.tienda = tienda;
+		if(!tienda.equals(this.tienda))
+			this.tienda = tienda;
 		setModo(ModoFormulario.Visualizar);
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setVisible(true);
@@ -188,6 +216,7 @@ public class MantenimientoTiendas extends JDialog {
 	 * Create the dialog.
 	 */
 	public MantenimientoTiendas() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Mantenimiento de Tiendas");
 		setBounds(100, 100, 515, 259);
 		getContentPane().setLayout(null);
@@ -220,11 +249,17 @@ public class MantenimientoTiendas extends JDialog {
 		btnFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(modo == ModoFormulario.Visualizar)
+				if(modo == ModoFormulario.Visualizar) {
 					MantenimientoTiendas.this.dispose();
+					return;
+				}
+
 					
-				if(!tienda.esValida(errores))
-					JOptionPane.showMessageDialog(MantenimientoTiendas.this, errores, "Validez de Datos", JOptionPane.WARNING_MESSAGE);
+				if(!tienda.esValida(errores)) {
+					JOptionPane.showMessageDialog(MantenimientoTiendas.this, errores.toArray(new String[0]), "Validez de Datos", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+					
 				
 				switch(modo) {
 				default:
@@ -232,6 +267,7 @@ public class MantenimientoTiendas extends JDialog {
 					if(tienda.insertar()) {
 						JOptionPane.showMessageDialog(MantenimientoTiendas.this, "¡Se ha agregado la tienda satisfactoriamente!", "Éxito :)", JOptionPane.PLAIN_MESSAGE);
 						MantenimientoTiendas.this.dispose();
+						return;
 					}
 					
 					break;
@@ -240,13 +276,15 @@ public class MantenimientoTiendas extends JDialog {
 					if(tienda.actualizar()) {
 						JOptionPane.showMessageDialog(MantenimientoTiendas.this, "¡Se han guardado los cambios satisfactoriamente!", "Éxito :)", JOptionPane.PLAIN_MESSAGE);
 						MantenimientoTiendas.this.dispose();
+						return;
 					}
 					break;
 					
 				case Eliminar:
-					if(tienda.eliminar()) {
+					if(JOptionPane.showConfirmDialog(MantenimientoTiendas.this, "Seguro que desea eliminar la tienda?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION && tienda.eliminar()) {
 						JOptionPane.showMessageDialog(MantenimientoTiendas.this, "¡Se ha eliminado la tienda satisfactoriamente!", "Éxito :)", JOptionPane.WARNING_MESSAGE);
 						MantenimientoTiendas.this.dispose();
+						return;
 					}
 					break;
 					
@@ -310,11 +348,12 @@ public class MantenimientoTiendas extends JDialog {
 		cbPais = new JComboBox<>();
 		cbPais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(cbPais.getSelectedIndex() != -1) {
+				Pais temp = (Pais)cbPais.getSelectedItem();
+				if(temp != null && cbPais.getSelectedIndex() != -1) {
 					cbCiudad.removeAllItems();
 					cbCiudad.setEnabled(false);
 					cbProvincia.removeAllItems();
-					List<Provincia> pros = Utilidades.provinciasDePais((Pais)cbPais.getSelectedItem(), provincias);
+					List<Provincia> pros = Utilidades.provinciasDePais(temp, provincias);
 					for(Provincia p : pros) {
 						cbProvincia.addItem(p);
 					}
@@ -351,7 +390,15 @@ public class MantenimientoTiendas extends JDialog {
 		btnLimpiarCampos = new JButton("Limpiar Campos");
 		btnLimpiarCampos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setModo(modo);
+				if(back != null) {
+					txtDireccion.setText(back.getDireccion());
+					txtNombre.setText(back.getNombre());
+					txtSlogan.setText(back.getSlogan());
+				} else {
+					txtDireccion.setText("");
+					txtNombre.setText("");
+					txtSlogan.setText("");
+				}
 			}
 		});
 		btnLimpiarCampos.setBounds(328, 126, 157, 36);

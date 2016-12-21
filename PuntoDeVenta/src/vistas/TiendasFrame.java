@@ -36,19 +36,19 @@ import java.awt.event.MouseEvent;
 public class TiendasFrame extends JFrame{
 
 	private JPanel contentPane;
-	private JTable tblCiudades;
+	private JTable tblTiendas;
 	private JButton btnAgregar;
 	private JButton btnDetalles;
 	private JButton btnEliminar;
 	private JButton btnEditar;
-	private MantenimientoTiendas mantenimiento = new MantenimientoTiendas();
+	private List<Tienda> tiendas;
 	
 	public TiendasFrame() {
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				List<Tienda> tiendas = new Tienda().listar();
+				tiendas = new Tienda().listar();
 				
-				tblCiudades.setModel(new DefaultTableModel(
+				tblTiendas.setModel(new DefaultTableModel(
 						Utilidades.listToBidiArray(tiendas, new String[] { "nombre", "direccion"}),
 						new String[] {
 							"Tienda", "Direcci\u00F3n"
@@ -61,10 +61,13 @@ public class TiendasFrame extends JFrame{
 							return columnEditables[column];
 						}
 					});
-					tblCiudades.getColumnModel().getColumn(0).setResizable(false);
-					tblCiudades.getColumnModel().getColumn(0).setPreferredWidth(275);
-					tblCiudades.getColumnModel().getColumn(1).setResizable(false);
-					tblCiudades.getColumnModel().getColumn(1).setPreferredWidth(342);
+					tblTiendas.getColumnModel().getColumn(0).setResizable(false);
+					tblTiendas.getColumnModel().getColumn(0).setPreferredWidth(275);
+					tblTiendas.getColumnModel().getColumn(1).setResizable(false);
+					tblTiendas.getColumnModel().getColumn(1).setPreferredWidth(342);
+					btnDetalles.setEnabled(false);
+					btnEditar.setEnabled(false);
+					btnEliminar.setEnabled(false);
 			}
 			public void windowLostFocus(WindowEvent arg0) {
 			}
@@ -78,12 +81,21 @@ public class TiendasFrame extends JFrame{
 		contentPane.setLayout(null);
 		
 		btnAgregar = new JButton("Nueva Tienda");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MantenimientoTiendas mantenimiento = new MantenimientoTiendas();
+				mantenimiento.agregarTienda();
+			}
+		});
 		btnAgregar.setBounds(16, 18, 125, 46);
 		contentPane.add(btnAgregar);
 		
 		btnDetalles = new JButton("Detalles");
 		btnDetalles.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent args) {
+				Tienda temp = tiendas.get(tblTiendas.getSelectedRow());
+				MantenimientoTiendas mantenimiento = new MantenimientoTiendas();
+				mantenimiento.visualizarTienda(temp);
 			}
 		});
 		btnDetalles.setEnabled(false);
@@ -94,11 +106,11 @@ public class TiendasFrame extends JFrame{
 		scrollPane.setBounds(16, 76, 536, 289);
 		contentPane.add(scrollPane);
 		
-		tblCiudades = new JTable();
-		tblCiudades.addMouseListener(new MouseAdapter() {
+		tblTiendas = new JTable();
+		tblTiendas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(tblCiudades.getSelectedRow() != -1) {
+				if(tblTiendas.getSelectedRow() != -1) {
 					btnDetalles.setEnabled(true);
 					btnEditar.setEnabled(true);
 					btnEliminar.setEnabled(true);
@@ -109,8 +121,8 @@ public class TiendasFrame extends JFrame{
 				}
 			}
 		});
-		List<Tienda> tiendas = new Tienda().listar();
-		tblCiudades.setModel(new DefaultTableModel(
+	    tiendas = new Tienda().listar();
+		tblTiendas.setModel(new DefaultTableModel(
 				Utilidades.listToBidiArray(tiendas, new String[] { "nombre", "direccion"}),
 			new String[] {
 				"Tienda", "Direcci\u00F3n"
@@ -123,18 +135,32 @@ public class TiendasFrame extends JFrame{
 				return columnEditables[column];
 			}
 		});
-		tblCiudades.getColumnModel().getColumn(0).setResizable(false);
-		tblCiudades.getColumnModel().getColumn(0).setPreferredWidth(275);
-		tblCiudades.getColumnModel().getColumn(1).setResizable(false);
-		tblCiudades.getColumnModel().getColumn(1).setPreferredWidth(342);
-		scrollPane.setViewportView(tblCiudades);
+		tblTiendas.getColumnModel().getColumn(0).setResizable(false);
+		tblTiendas.getColumnModel().getColumn(0).setPreferredWidth(275);
+		tblTiendas.getColumnModel().getColumn(1).setResizable(false);
+		tblTiendas.getColumnModel().getColumn(1).setPreferredWidth(342);
+		scrollPane.setViewportView(tblTiendas);
 		
 		btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tienda temp = tiendas.get(tblTiendas.getSelectedRow());
+				MantenimientoTiendas mantenimiento = new MantenimientoTiendas();
+				mantenimiento.editarTienda(temp);
+			}
+		});
 		btnEditar.setEnabled(false);
 		btnEditar.setBounds(290, 18, 125, 46);
 		contentPane.add(btnEditar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tienda temp = tiendas.get(tblTiendas.getSelectedRow());
+				MantenimientoTiendas mantenimiento = new MantenimientoTiendas();
+				mantenimiento.eliminarTienda(temp);
+			}
+		});
 		btnEliminar.setEnabled(false);
 		btnEliminar.setBounds(427, 18, 125, 46);
 		contentPane.add(btnEliminar);
