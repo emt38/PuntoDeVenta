@@ -57,7 +57,7 @@ public class ConsultarClienteFrame extends JFrame {
 	 * Launch the application.
 	 */
 	public void filtro() {
-		trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscarCliente.getText(), 2));
+		trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscarCliente.getText(), 1));
 	}
 	
 	private void construirTabla() {
