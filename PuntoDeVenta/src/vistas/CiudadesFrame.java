@@ -395,16 +395,16 @@ public class CiudadesFrame extends JFrame {
 					 if (iD != -1){
 						btnCancelar.setEnabled(false);
 						btnGuardar.setEnabled(false);
-						btnNuevoModificar.setEnabled(true);
 						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);							
+						btnEliminar.setEnabled(true);	
+						btnNuevoModificar.setEnabled(true);
+												
 						String nombre = comboBoxPais.getSelectedItem().toString();
 						miPais.setNombre(nombre);
 						miPais.setId(((Pais) comboBoxPais.getSelectedItem()).getId());
 						miPais.actualizar();
 						actualizarPais();
-						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");
-						
+						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");	
 					}
 					 else{
 						 	btnCancelar.setEnabled(false);
