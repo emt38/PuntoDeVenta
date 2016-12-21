@@ -196,7 +196,9 @@ public class VentaFrame extends JFrame {
 				agregarArticulo.setResizable(false);
 				
 				if(agregarArticulo.articuloAgregado){
-					venta.agregarArticulo((Articulo) AgregarArticuloDialog.pasarObjeto());
+					for(Articulo artic: (List<Articulo>)(AgregarArticuloDialog.pasarObjeto())){
+						venta.agregarArticulo(artic);
+					}
 					ReloadAll();
 				}
 			}
@@ -204,8 +206,8 @@ public class VentaFrame extends JFrame {
 		btnAgregarArticulo.setBounds(10, 52, 148, 23);
 		contentPane.add(btnAgregarArticulo);
 		
-		JButton btnRealizarCompra = new JButton("Realizar Venta");
-		btnRealizarCompra.addActionListener(new ActionListener() {
+		JButton btnRealizarVenta = new JButton("Realizar Venta");
+		btnRealizarVenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ReloadAll();
 				venta.setCliente(cliente);
@@ -215,8 +217,8 @@ public class VentaFrame extends JFrame {
 				venta.efectuar();
 			}
 		});
-		btnRealizarCompra.setBounds(282, 297, 127, 30);
-		contentPane.add(btnRealizarCompra);
+		btnRealizarVenta.setBounds(282, 297, 127, 30);
+		contentPane.add(btnRealizarVenta);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
@@ -226,6 +228,10 @@ public class VentaFrame extends JFrame {
 		});
 		btnSalir.setBounds(419, 297, 127, 30);
 		getContentPane().add(btnSalir);
+		
+		JLabel lblusarEnter = new JLabel("*Usar Enter");
+		lblusarEnter.setBounds(202, 209, 86, 14);
+		contentPane.add(lblusarEnter);
 		
 		
 		//////Para eliminar articulos///////

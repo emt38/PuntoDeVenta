@@ -184,7 +184,9 @@ public class CompraFrame extends JFrame {
 				agregarArticulo.setResizable(false);
 				
 				if(agregarArticulo.articuloAgregado){
-					compra.agregarArticulo((Articulo) AgregarArticuloDialog.pasarObjeto());
+					for(Articulo artic: (List<Articulo>)(AgregarArticuloDialog.pasarObjeto())){
+						compra.agregarArticulo(artic);
+					}
 					ReloadAll();
 				}
 			}
