@@ -140,6 +140,7 @@ public class Tienda implements IEntidadDatos<Tienda> {
 				itera.slogan = datos.getString("slogan");
 				itera.ciudad = new Ciudad(datos.getInt("idciudad"), null, null);
 				tiendas.add(itera);
+				ciudadesSb.append(String.format("%s,", datos.getInt("idciudad")));
 			}
 			
 			if(ciudadesSb.charAt(ciudadesSb.length() - 1) == ',')
@@ -173,7 +174,7 @@ public class Tienda implements IEntidadDatos<Tienda> {
 		if(ciudad == null)
 			errores.add("Debe seleccionar una ciudad.");
 		
-		return errores.size() > 0;
+		return errores.size() <= 0;
 	}
 
 	public Tienda(int id, String nombre, String direccion, String slogan, Ciudad ciudad) {

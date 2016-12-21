@@ -218,7 +218,7 @@ public final class Utilidades {
 	
 	public static boolean loadUbicaciones(List<Pais> paises, List<Provincia> provincias, List<Ciudad> ciudades) {
 		try {
-			ciudades.clear();
+
 			ciudades.addAll(new Ciudad().listar());
 			
 			ciudades.forEach(c -> {

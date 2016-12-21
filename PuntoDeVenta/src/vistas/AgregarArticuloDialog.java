@@ -173,7 +173,7 @@ public class AgregarArticuloDialog extends JDialog{
 					
 					articulo.totalizar();
 					
-					CompraFrame.pasarObjeto(articulo);
+					pasarObjeto(articulo);
 					articuloAgregado = true;
 				}
 				catch(Exception e){
@@ -207,6 +207,17 @@ public class AgregarArticuloDialog extends JDialog{
 
 		
 	}
+	
+	static Object objeto;
+	
+	public static void pasarObjeto(Object object){
+		objeto = object;
+	}
+	
+	public static Object pasarObjeto(){
+		return objeto;
+	}
+
 	
 	/**
 	 * Launch the application.
