@@ -30,6 +30,7 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 
 public class VentaFrame extends JFrame {
 
@@ -53,6 +54,8 @@ public class VentaFrame extends JFrame {
 	Cliente cliente = new Cliente();
 	List<Cliente> clientes = new Cliente().listar("ORDER BY Nombre");
 	JComboBox<ComboItem> cbbxClientes = new JComboBox<ComboItem>();
+	private JLabel lblCliente;
+	private JLabel lblNota;
 	
 	private void ReloadAll() {
 		
@@ -97,7 +100,7 @@ public class VentaFrame extends JFrame {
 		setTitle("Venta");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 572, 376);
+		setBounds(100, 100, 572, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -124,15 +127,15 @@ public class VentaFrame extends JFrame {
 		contentPane.add(cbbxClientes);
 		
 		lblTotalImpuesto = new JLabel("Total impuesto: ");
-		lblTotalImpuesto.setBounds(320, 212, 104, 14);
+		lblTotalImpuesto.setBounds(320, 236, 104, 14);
 		contentPane.add(lblTotalImpuesto);
 		
 		lblTotalDescuento = new JLabel("Total descuento: ");
-		lblTotalDescuento.setBounds(320, 237, 104, 14);
+		lblTotalDescuento.setBounds(320, 261, 104, 14);
 		contentPane.add(lblTotalDescuento);
 		
 		lblTotal = new JLabel("Total: ");
-		lblTotal.setBounds(320, 262, 104, 14);
+		lblTotal.setBounds(320, 286, 104, 14);
 		contentPane.add(lblTotal);
 		
 		lblEfectivoRecibido = new JLabel("Efectivo recibido: ");
@@ -168,21 +171,21 @@ public class VentaFrame extends JFrame {
 		});
 		
 		txtTotalImpuestos = new JTextField();
-		txtTotalImpuestos.setBounds(460, 209, 86, 20);
+		txtTotalImpuestos.setBounds(460, 233, 86, 20);
 		contentPane.add(txtTotalImpuestos);
 		txtTotalImpuestos.setColumns(10);
 		txtTotalImpuestos.setEditable(false);
 		txtTotalImpuestos.setText(String.format("%.2f", venta.getImpuestos()));
 		
 		txtTotalDescuento = new JTextField();
-		txtTotalDescuento.setBounds(460, 234, 86, 20);
+		txtTotalDescuento.setBounds(460, 258, 86, 20);
 		contentPane.add(txtTotalDescuento);
 		txtTotalDescuento.setColumns(10);
 		txtTotalDescuento.setEditable(false);
 		txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
 		
 		txtTotal = new JTextField();
-		txtTotal.setBounds(460, 259, 86, 20);
+		txtTotal.setBounds(460, 283, 86, 20);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
 		txtTotal.setEditable(false);
@@ -219,7 +222,7 @@ public class VentaFrame extends JFrame {
 						venta.setCajero(Program.getLoggedUser());
 						venta.setTerminalVentas(0);
 						venta.setTienda(Program.getLoggedUser().getTienda());
-						//venta.efectuar();
+						venta.efectuar();
 						JOptionPane.showMessageDialog(null, "La venta se realizao correctamente!");
 					}catch(Exception e){
 					}
@@ -229,7 +232,7 @@ public class VentaFrame extends JFrame {
 				
 			}
 		});
-		btnRealizarVenta.setBounds(282, 297, 127, 30);
+		btnRealizarVenta.setBounds(282, 321, 127, 30);
 		contentPane.add(btnRealizarVenta);
 		
 		JButton btnSalir = new JButton("Salir");
@@ -242,12 +245,24 @@ public class VentaFrame extends JFrame {
 				}
 			}
 		});
-		btnSalir.setBounds(419, 297, 127, 30);
+		btnSalir.setBounds(419, 321, 127, 30);
 		getContentPane().add(btnSalir);
 		
 		JLabel lblusarEnter = new JLabel("*Usar Enter");
+		lblusarEnter.setHorizontalAlignment(SwingConstants.LEFT);
 		lblusarEnter.setBounds(202, 209, 86, 14);
 		contentPane.add(lblusarEnter);
+		
+		lblCliente = new JLabel("Cliente:");
+		lblCliente.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCliente.setBounds(323, 14, 46, 14);
+		contentPane.add(lblCliente);
+		
+		lblNota = new JLabel("*Para borrar un articulo use Delete.");
+		lblNota.setVerticalAlignment(SwingConstants.TOP);
+		lblNota.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNota.setBounds(349, 205, 197, 14);
+		contentPane.add(lblNota);
 		
 		
 		//////Para eliminar articulos///////

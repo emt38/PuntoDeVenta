@@ -31,6 +31,7 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 
 public class CompraFrame extends JFrame {
 
@@ -52,6 +53,7 @@ public class CompraFrame extends JFrame {
 	
 	List<Suplidor> suplidores = new Suplidor().listar("ORDER BY Nombre");
 	JComboBox cbxSuplidores = new JComboBox();
+	private JLabel lblSuplidor;
 	
 	
 	private void ReloadAll() {
@@ -209,8 +211,10 @@ public class CompraFrame extends JFrame {
 		btnSalir.setBounds(419, 297, 127, 30);
 		getContentPane().add(btnSalir);
 		
-		JLabel lblNotaborrararticulo = new JLabel("*Para borrar un articulo presione la tecla \"Delete\"");
-		lblNotaborrararticulo.setBounds(284, 209, 262, 14);
+		JLabel lblNotaborrararticulo = new JLabel("*Para borrar un articulo use la tecla \"Delete\"");
+		lblNotaborrararticulo.setVerticalAlignment(SwingConstants.TOP);
+		lblNotaborrararticulo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNotaborrararticulo.setBounds(307, 206, 239, 14);
 		contentPane.add(lblNotaborrararticulo);
 		
 		btnRealizarCompra = new JButton("Realizar Compra");
@@ -221,7 +225,7 @@ public class CompraFrame extends JFrame {
 
 				if (opcion == 0){
 					try{
-						//compra.efectuar();
+						compra.efectuar();
 						JOptionPane.showMessageDialog(null, "La compra se realizao correctamente!");
 					}catch(Exception ex){
 						
@@ -231,6 +235,11 @@ public class CompraFrame extends JFrame {
 			}
 		});
 		contentPane.add(btnRealizarCompra);
+		
+		lblSuplidor = new JLabel("Suplidor:");
+		lblSuplidor.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblSuplidor.setBounds(307, 14, 62, 14);
+		contentPane.add(lblSuplidor);
 		
 		//////
 		  int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
