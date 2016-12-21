@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 
 import modelos.Usuario;
 import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginDialog extends JDialog {
 	private JTextField txtNombreUsuario;
@@ -73,6 +75,36 @@ public class LoginDialog extends JDialog {
 		txtNombreUsuario.setColumns(10);
 		
 		txtClave = new JPasswordField();
+		txtClave.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == '\n') {
+					if((txtNombreUsuario.getText().length() < 3) || (txtClave.getPassword().length < 6))
+						JOptionPane.showMessageDialog(LoginDialog.this, "Error de usuario o contraseña");
+					else
+					{
+						List<Usuario> users = new Usuario().listar(String.format("WHERE nombreusuario='%s'", txtNombreUsuario.getText().replace("'", "''").replace("\"", "\"\"")));
+						
+						if(users.size() != 1)
+						{
+							JOptionPane.showMessageDialog(LoginDialog.this, "Error de usuario o contraseña");
+							return;
+						}
+							
+						Usuario temp = users.get(0);
+						if(temp.iniciarSesion(String.valueOf(txtClave.getPassword()))) {
+							usuario = temp;
+							setDefaultCloseOperation(HIDE_ON_CLOSE);
+							LoginDialog.this.dispose();
+						}
+						else {
+							JOptionPane.showMessageDialog(LoginDialog.this, "Error de usuario o contraseña");
+						}
+					}
+					txtClave.setText("");
+				}
+			}
+		});
 		txtClave.setColumns(10);
 		txtClave.setBounds(10, 115, 241, 29);
 		getContentPane().add(txtClave);
