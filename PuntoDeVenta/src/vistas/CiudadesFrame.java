@@ -78,10 +78,10 @@ public class CiudadesFrame extends JFrame {
 		RBPais.setSelected(true);
 		group.add(RBCiudad);
 		actualizarPais();
-		actualizarCiudad();
+	
 		comboBoxPais.setSelectedIndex(0);
 		comboBoxProvincia.setSelectedIndex(0);
-		comboBoxCiudad.setSelectedIndex(0);
+		
 		comboBoxPais.setEnabled(false);
 		comboBoxProvincia.setEnabled(false);
 		btnCancelar.setEnabled(false);
@@ -393,11 +393,6 @@ public class CiudadesFrame extends JFrame {
 				if(RBPais.isSelected()){
 					
 					 if (iD != -1){
-						btnCancelar.setEnabled(false);
-						btnGuardar.setEnabled(false);
-						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);	
-						btnNuevoModificar.setEnabled(true);
 												
 						String nombre = comboBoxPais.getSelectedItem().toString();
 						miPais.setNombre(nombre);
@@ -407,11 +402,7 @@ public class CiudadesFrame extends JFrame {
 						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");	
 					}
 					 else{
-						 	btnCancelar.setEnabled(false);
-							btnGuardar.setEnabled(false);
-							btnNuevoModificar.setEnabled(true);
-							btnModificar.setEnabled(true);
-							btnEliminar.setEnabled(true);
+
 							miPais.buscar(iD);
 							miPais.setNombre(comboBoxPais.getSelectedItem().toString());
 							miPais.insertar();
@@ -422,11 +413,7 @@ public class CiudadesFrame extends JFrame {
 				else if(RBProvincia.isSelected()){
 					
 					if (iD != -1){
-						btnCancelar.setEnabled(false);
-						btnGuardar.setEnabled(false);
-						btnNuevoModificar.setEnabled(true);
-						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);							
+									
 						String nombre = comboBoxProvincia.getSelectedItem().toString();
 						provincias.setNombre(nombre);
 						provincias.setPais((Pais) comboBoxPais.getSelectedItem());
@@ -438,11 +425,7 @@ public class CiudadesFrame extends JFrame {
 						temp.setVisible(true);
 					}
 					else{
-						btnCancelar.setEnabled(false);
-						btnGuardar.setEnabled(false);
-						btnNuevoModificar.setEnabled(true);
-						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);
+			
 						provincias.setNombre(comboBoxProvincia.getSelectedItem().toString());
 						System.out.println(comboBoxProvincia.getSelectedItem().toString());
 						provincias.setPais((Pais) comboBoxPais.getSelectedItem());
@@ -457,11 +440,7 @@ public class CiudadesFrame extends JFrame {
 				else if(RBCiudad.isSelected()){
 					iD = (comboBoxProvincia.getSelectedIndex());
 					if (iD != -1){
-						btnCancelar.setEnabled(false);
-						btnGuardar.setEnabled(false);
-						btnNuevoModificar.setEnabled(true);
-						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);							
+									
 						String nombre = comboBoxCiudad.getSelectedItem().toString();
 						ciudades.setNombre(nombre);
 						ciudades.setProvincia((Provincia) comboBoxProvincia.getSelectedItem());
@@ -473,11 +452,7 @@ public class CiudadesFrame extends JFrame {
 						temp.setVisible(true);
 					}
 					else{
-						btnCancelar.setEnabled(false);
-						btnGuardar.setEnabled(false);
-						btnNuevoModificar.setEnabled(true);
-						btnModificar.setEnabled(true);
-						btnEliminar.setEnabled(true);
+					
 						ciudades.setNombre(comboBoxCiudad.getSelectedItem().toString());
 						ciudades.setProvincia((Provincia) comboBoxProvincia.getSelectedItem());
 						ciudades.setId(iD);
@@ -508,11 +483,7 @@ public class CiudadesFrame extends JFrame {
 		btnGuardar.setEnabled(true);
 	}
 	
-	public void actualizarCiudad(){
-		comboBoxCiudad = new JComboBox(new Ciudad().listar().toArray(new Ciudad[0]));
-		
-	}
-	
+
 	public void actualizarPais(){
 		comboBoxPais = new JComboBox(new Pais().listar().toArray(new Pais[0]));
 		comboBoxPais.addKeyListener(new KeyAdapter() {
