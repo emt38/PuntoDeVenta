@@ -14,15 +14,15 @@ import modelos.*;
 
 public class Program {
 	public static String getDBServer() {
-		return "jdbc:mysql://127.0.0.1/posdb";
+		return "jdbc:mysql://MYSQL5015.HostBuddy.com/db_a137dd_posdb";
 	}
 	
 	public static String getDBUser() {
-		return "root";
+		return "a137dd_posdb";
 	}
 	
 	public static String getDBPassword() {
-		return "";
+		return "Curne2016";
 	}
 	
 	public static Usuario getLoggedUser() {
