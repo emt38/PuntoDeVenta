@@ -100,7 +100,7 @@ public class VentaFrame extends JFrame {
 		setTitle("Venta");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 572, 400);
+		setBounds(100, 100, 572, 536);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -118,42 +118,42 @@ public class VentaFrame extends JFrame {
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
 		scrollPane = new JScrollPane(tabla);
-		scrollPane.setBounds(10, 86, 536, 112);
+		scrollPane.setBounds(10, 86, 536, 227);
 		contentPane.add(scrollPane);
 		
 		ReloadAll();
 		
-		cbbxClientes.setBounds(379, 11, 167, 20);
+		cbbxClientes.setBounds(379, 11, 167, 25);
 		contentPane.add(cbbxClientes);
 		
 		lblTotalImpuesto = new JLabel("Total impuesto: ");
-		lblTotalImpuesto.setBounds(320, 236, 104, 14);
+		lblTotalImpuesto.setBounds(346, 357, 104, 14);
 		contentPane.add(lblTotalImpuesto);
 		
 		lblTotalDescuento = new JLabel("Total descuento: ");
-		lblTotalDescuento.setBounds(320, 261, 104, 14);
+		lblTotalDescuento.setBounds(346, 392, 104, 14);
 		contentPane.add(lblTotalDescuento);
 		
 		lblTotal = new JLabel("Total: ");
-		lblTotal.setBounds(320, 286, 104, 14);
+		lblTotal.setBounds(346, 428, 104, 14);
 		contentPane.add(lblTotal);
 		
 		lblEfectivoRecibido = new JLabel("Efectivo recibido: ");
-		lblEfectivoRecibido.setBounds(10, 212, 86, 14);
+		lblEfectivoRecibido.setBounds(10, 324, 86, 14);
 		contentPane.add(lblEfectivoRecibido);
 		
 		lblCambioDevuelto = new JLabel("Cambio devuelto: ");
-		lblCambioDevuelto.setBounds(10, 237, 96, 14);
+		lblCambioDevuelto.setBounds(10, 357, 96, 14);
 		contentPane.add(lblCambioDevuelto);
 		
 		txtCambioDevuelto = new JTextField();
 		txtCambioDevuelto.setEditable(false);
-		txtCambioDevuelto.setBounds(106, 234, 86, 20);
+		txtCambioDevuelto.setBounds(106, 352, 86, 25);
 		contentPane.add(txtCambioDevuelto);
 		txtCambioDevuelto.setColumns(10);
 		
 		txtEfectivoRecibido = new JTextField();
-		txtEfectivoRecibido.setBounds(106, 209, 86, 20);
+		txtEfectivoRecibido.setBounds(106, 321, 86, 25);
 		contentPane.add(txtEfectivoRecibido);
 		txtEfectivoRecibido.setColumns(10);
 		//Para tomar el Enter
@@ -171,21 +171,21 @@ public class VentaFrame extends JFrame {
 		});
 		
 		txtTotalImpuestos = new JTextField();
-		txtTotalImpuestos.setBounds(460, 233, 86, 20);
+		txtTotalImpuestos.setBounds(460, 352, 86, 25);
 		contentPane.add(txtTotalImpuestos);
 		txtTotalImpuestos.setColumns(10);
 		txtTotalImpuestos.setEditable(false);
 		txtTotalImpuestos.setText(String.format("%.2f", venta.getImpuestos()));
 		
 		txtTotalDescuento = new JTextField();
-		txtTotalDescuento.setBounds(460, 258, 86, 20);
+		txtTotalDescuento.setBounds(460, 387, 86, 25);
 		contentPane.add(txtTotalDescuento);
 		txtTotalDescuento.setColumns(10);
 		txtTotalDescuento.setEditable(false);
 		txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
 		
 		txtTotal = new JTextField();
-		txtTotal.setBounds(460, 283, 86, 20);
+		txtTotal.setBounds(460, 423, 86, 25);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
 		txtTotal.setEditable(false);
@@ -232,7 +232,7 @@ public class VentaFrame extends JFrame {
 				
 			}
 		});
-		btnRealizarVenta.setBounds(282, 321, 127, 30);
+		btnRealizarVenta.setBounds(282, 457, 127, 30);
 		contentPane.add(btnRealizarVenta);
 		
 		JButton btnSalir = new JButton("Salir");
@@ -245,12 +245,12 @@ public class VentaFrame extends JFrame {
 				}
 			}
 		});
-		btnSalir.setBounds(419, 321, 127, 30);
+		btnSalir.setBounds(419, 457, 127, 30);
 		getContentPane().add(btnSalir);
 		
 		JLabel lblusarEnter = new JLabel("*Usar Enter");
 		lblusarEnter.setHorizontalAlignment(SwingConstants.LEFT);
-		lblusarEnter.setBounds(202, 209, 86, 14);
+		lblusarEnter.setBounds(202, 321, 86, 14);
 		contentPane.add(lblusarEnter);
 		
 		lblCliente = new JLabel("Cliente:");
@@ -261,7 +261,7 @@ public class VentaFrame extends JFrame {
 		lblNota = new JLabel("*Para borrar un articulo use Delete.");
 		lblNota.setVerticalAlignment(SwingConstants.TOP);
 		lblNota.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNota.setBounds(349, 205, 197, 14);
+		lblNota.setBounds(349, 317, 197, 14);
 		contentPane.add(lblNota);
 		
 		

@@ -106,7 +106,7 @@ public class CompraFrame extends JFrame {
 		
 		ReloadAll();
 		
-		cbxSuplidores.setBounds(379, 11, 167, 20);
+		cbxSuplidores.setBounds(379, 11, 167, 23);
 		contentPane.add(cbxSuplidores);
 		
 		
@@ -126,38 +126,38 @@ public class CompraFrame extends JFrame {
 		contentPane.add(scrollPane);
 		
 		lblTotalImpuesto = new JLabel("Total impuesto: ");
-		lblTotalImpuesto.setBounds(10, 209, 104, 14);
+		lblTotalImpuesto.setBounds(10, 216, 104, 14);
 		contentPane.add(lblTotalImpuesto);
 		
 		lblTotalDescuento = new JLabel("Total descuento: ");
-		lblTotalDescuento.setBounds(10, 234, 104, 14);
+		lblTotalDescuento.setBounds(10, 251, 104, 14);
 		contentPane.add(lblTotalDescuento);
 		
 		lblTotal = new JLabel("Total: ");
-		lblTotal.setBounds(10, 259, 104, 14);
+		lblTotal.setBounds(10, 287, 104, 14);
 		contentPane.add(lblTotal);
 		
 		txtCambiardesc = new JTextField();
-		txtCambiardesc.setBounds(168, 55, 86, 20);
+		txtCambiardesc.setBounds(168, 52, 86, 25);
 		contentPane.add(txtCambiardesc);
 		txtCambiardesc.setColumns(10);
 		
 		txtTotalImpuestos = new JTextField();
-		txtTotalImpuestos.setBounds(150, 206, 86, 20);
+		txtTotalImpuestos.setBounds(124, 210, 86, 25);
 		contentPane.add(txtTotalImpuestos);
 		txtTotalImpuestos.setColumns(10);
 		txtTotalImpuestos.setEditable(false);
 		txtTotalImpuestos.setText(String.format("%.2f", compra.getImpuestos()));
 		
 		txtTotalDescuento = new JTextField();
-		txtTotalDescuento.setBounds(150, 231, 86, 20);
+		txtTotalDescuento.setBounds(124, 245, 86, 25);
 		contentPane.add(txtTotalDescuento);
 		txtTotalDescuento.setColumns(10);
 		txtTotalDescuento.setEditable(false);
 		txtTotalDescuento.setText(String.format("%.2f", compra.getDescuentos()));
 		
 		txtTotal = new JTextField();
-		txtTotal.setBounds(150, 256, 86, 20);
+		txtTotal.setBounds(124, 281, 86, 25);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
 		txtTotal.setEditable(false);
@@ -205,7 +205,6 @@ public class CompraFrame extends JFrame {
 				if (opcion == 0){
 					CompraFrame.this.dispose();
 				}
-				
 			}
 		});
 		btnSalir.setBounds(419, 297, 127, 30);

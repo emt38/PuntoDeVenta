@@ -70,11 +70,11 @@ public class AgregarArticuloDialog extends JDialog{
 		
 		JComboBox cbbxMetodoBusqueda = new JComboBox(metodosBusqueda.toArray());
 		lblMetodoBusqueda.setLabelFor(cbbxMetodoBusqueda);
-		cbbxMetodoBusqueda.setBounds(10, 36, 111, 20);
+		cbbxMetodoBusqueda.setBounds(10, 34, 111, 23);
 		contentPane.add(cbbxMetodoBusqueda);
 		
 		txtBusqueda = new JTextField();
-		txtBusqueda.setBounds(131, 36, 86, 20);
+		txtBusqueda.setBounds(131, 34, 86, 25);
 		contentPane.add(txtBusqueda);
 		txtBusqueda.setColumns(10);
 		
@@ -207,7 +207,7 @@ public class AgregarArticuloDialog extends JDialog{
 		contentPane.add(lblCantidad);
 		
 		textCantidad = new JTextField("1");
-		textCantidad.setBounds(292, 36, 86, 20);
+		textCantidad.setBounds(292, 34, 86, 25);
 		contentPane.add(textCantidad);
 		textCantidad.setColumns(10);
 		
