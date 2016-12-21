@@ -33,11 +33,11 @@ public class ReportesFrame extends JFrame{
 	}
 	private void initComponents()
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 370, 164);
 		getContentPane().setLayout(null);
 		( (JPanel) getContentPane()).setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setLayout(null);
+		getContentPane().setLayout(null);
 		this.setSize(new Dimension(475,250));
 
 
