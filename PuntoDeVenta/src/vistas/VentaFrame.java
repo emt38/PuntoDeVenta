@@ -1,6 +1,5 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +18,6 @@ import modelos.Articulo;
 import modelos.Cliente;
 import modelos.Venta;
 import modelos.Producto;
-import modelos.Suplidor;
 import principal.Program;
 import principal.Utilidades;
 import javax.swing.JLabel;
@@ -52,22 +50,19 @@ public class VentaFrame extends JFrame {
 	private Venta venta = new Venta();
 	
 	Cliente cliente = new Cliente();
-	List<Cliente> clientes = new ArrayList<>();
-	List<String> nombreClientes = new ArrayList<String>();
-	JComboBox cbxClientes = new JComboBox();
+	List<Cliente> clientes = new Cliente().listar("ORDER BY Nombre");
+	JComboBox<ComboItem> cbbxClientes = new JComboBox<ComboItem>();
 	
 	private void ReloadAll() {
-		clientes.addAll(new Cliente().listar("ORDER BY Nombre"));
 		
-		if( clientes.size() > 0 ){
-			for(Cliente supl: clientes){
-				nombreClientes.add(supl.getNombre());
+		if( clientes.size() > 0 ){	
+			cbbxClientes = new JComboBox<ComboItem>();
+			for(Cliente clint: clientes){
+				cbbxClientes.addItem(new ComboItem(clint.getNombre(),clint));
 			}
-			cbxClientes = new JComboBox(nombreClientes.toArray());
-			cliente = cliente.listar("WHERE nombre='" + cbxClientes.getSelectedItem() + "'").get(0);
-			//venta = new Venta();
-		}else{
-			
+			Object item = cbbxClientes.getSelectedItem();
+			Object objeto = ((ComboItem)item).getObjeto();
+			cliente = (Cliente) objeto;
 		}
 		
 		String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
@@ -124,8 +119,8 @@ public class VentaFrame extends JFrame {
 		
 		ReloadAll();
 		
-		cbxClientes.setBounds(379, 11, 167, 20);
-		contentPane.add(cbxClientes);
+		cbbxClientes.setBounds(379, 11, 167, 20);
+		contentPane.add(cbbxClientes);
 		
 		lblTotalImpuesto = new JLabel("Total impuesto: ");
 		lblTotalImpuesto.setBounds(320, 212, 104, 14);
@@ -171,11 +166,6 @@ public class VentaFrame extends JFrame {
 		    }
 		});
 		
-		txtCambiardesc = new JTextField();
-		txtCambiardesc.setBounds(168, 55, 86, 20);
-		contentPane.add(txtCambiardesc);
-		txtCambiardesc.setColumns(10);
-		
 		txtTotalImpuestos = new JTextField();
 		txtTotalImpuestos.setBounds(460, 209, 86, 20);
 		contentPane.add(txtTotalImpuestos);
@@ -197,20 +187,6 @@ public class VentaFrame extends JFrame {
 		txtTotal.setEditable(false);
 		txtTotal.setText(String.format("%.2f", venta.getTotal()));
 		
-		JButton btnCambiarDesc = new JButton("Cambiar descuento");
-		btnCambiarDesc.setBounds(10, 52, 148, 23);
-		contentPane.add(btnCambiarDesc);
-		btnCambiarDesc.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (isFloat(txtCambiardesc.getText())){
-					venta.setDescuentos(Float.parseFloat(txtCambiardesc.getText()));
-					venta.totalizar();
-					txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
-					ReloadAll();
-				}
-			}
-		});
-		
 		JButton btnAgregarArticulo = new JButton("Agregar Articulo");
 		btnAgregarArticulo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -225,7 +201,7 @@ public class VentaFrame extends JFrame {
 				}
 			}
 		});
-		btnAgregarArticulo.setBounds(10, 13, 148, 23);
+		btnAgregarArticulo.setBounds(10, 52, 148, 23);
 		contentPane.add(btnAgregarArticulo);
 		
 		JButton btnRealizarCompra = new JButton("Realizar Venta");
@@ -314,4 +290,33 @@ public class VentaFrame extends JFrame {
 			}
 		});
 	}
+}
+
+
+class ComboItem
+{
+    private String descripcion;
+    private Object objeto;
+
+    public ComboItem(String descripcion, Object objeto)
+    {
+        this.descripcion = descripcion;
+        this.objeto = objeto;
+    }
+
+    @Override
+    public String toString()
+    {
+        return descripcion;
+    }
+
+    public String Getdescripcion()
+    {
+        return descripcion;
+    }
+
+    public Object getObjeto()
+    {
+        return objeto;
+    }
 }
