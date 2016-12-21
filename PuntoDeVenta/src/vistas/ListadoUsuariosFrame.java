@@ -28,6 +28,8 @@ import javax.swing.JScrollPane;
 import java.awt.SystemColor;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListadoUsuariosFrame extends JFrame {
 
@@ -35,6 +37,8 @@ public class ListadoUsuariosFrame extends JFrame {
 	private JTable tblUsuarios;
 	private Usuario usuario;
 	private List<Usuario> usuarios;
+	private JButton btnReestablecerContrasea;
+	private JButton btnEliminar;
 	
 	/**
 	 * Launch the application.
@@ -57,6 +61,7 @@ public class ListadoUsuariosFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public ListadoUsuariosFrame() {
+		setTitle("Mantenimiento de Usuarios");
 		usuario = Program.getLoggedUser();
 		
 		switch(usuario.getTipo()) {
@@ -68,11 +73,11 @@ public class ListadoUsuariosFrame extends JFrame {
 			usuarios = new Usuario().listar(String.format("WHERE idtienda=%s AND tipo IN (0, 1, 2)", usuario.getTienda().getId()));
 			break;
 		case SysAdmin:
-			usuarios = new Usuario().listar(String.format("tipo != 3", usuario.getTienda().getId()));
+			usuarios = new Usuario().listar(String.format("WHERE tipo != 3", usuario.getTienda().getId()));
 			break;
 			
 		case Cajero:
-			usuarios = new Usuario().listar(String.format("id = %s", usuario.getId()));
+			usuarios = new Usuario().listar(String.format("WHERE idusuario = %s", usuario.getId()));
 			break;
 			
 			default:
@@ -103,6 +108,13 @@ public class ListadoUsuariosFrame extends JFrame {
 		Object[][] datos = Utilidades.listToBidiArray(usuarios, columnas);
 		
 		tblUsuarios = new JTable();
+		tblUsuarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnEliminar.setEnabled(true);
+				btnReestablecerContrasea.setEnabled(true);
+			}
+		});
 		tblUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblUsuarios.setModel(new DefaultTableModel(
 			datos,
@@ -134,19 +146,58 @@ public class ListadoUsuariosFrame extends JFrame {
 		scrollPane.setBounds(10, 80, 608, 275);
 		contentPane.add(scrollPane);
 		
-		JButton btnReestablecerContrasea = new JButton("Reestablecer Contrase\u00F1a");
+		btnReestablecerContrasea = new JButton("Reestablecer Contrase\u00F1a");
 		btnReestablecerContrasea.setEnabled(false);
 		btnReestablecerContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ReestablecerClaveDialog temp = new ReestablecerClaveDialog();
+				
+				if(temp.reestablecerClave(usuarios.get(tblUsuarios.getSelectedRow()))) {
+					JOptionPane.showMessageDialog(ListadoUsuariosFrame.this, "¡Se ha reestablecido la contraseña exitosamente!", "Éxito :)", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(ListadoUsuariosFrame.this, "¡Se ha cancelado la operación!", "Cancelada :/", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		btnReestablecerContrasea.setBounds(165, 11, 176, 37);
 		contentPane.add(btnReestablecerContrasea);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Usuario temp = usuarios.get(tblUsuarios.getSelectedRow());
+				
+				if(temp.getId() == usuario.getId()) {
+					JOptionPane.showMessageDialog(ListadoUsuariosFrame.this, "No se puede eliminar el usuario en uso", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+					
+				if(JOptionPane.showConfirmDialog(ListadoUsuariosFrame.this, "¿Seguro que desea eliminar al usuario?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+					temp.eliminar();
+					usuarios.remove(tblUsuarios.getSelectedRow());
+					Object[][] datos = Utilidades.listToBidiArray(usuarios, columnas);
+					tblUsuarios.setModel(new DefaultTableModel(
+							datos,
+							new String[] {
+								"Id", "Nombre Completo", "Usuario", "Tipo"
+							}
+						){
+
+							/**
+							 * 
+							 */
+							private static final long serialVersionUID = 1L;
+							
+							@Override
+							public boolean isCellEditable(int row, int column) {
+								// TODO Auto-generated method stub
+								return false;
+							}
+							
+						});
+					JOptionPane.showMessageDialog(ListadoUsuariosFrame.this, "Se ha eliminado al usuario", "Usuario Eliminado", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnEliminar.setBounds(346, 11, 176, 37);

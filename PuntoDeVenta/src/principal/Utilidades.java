@@ -17,6 +17,10 @@ import java.util.Random;
 
 import org.apache.commons.codec.digest.Crypt;
 
+import modelos.Ciudad;
+import modelos.Pais;
+import modelos.Provincia;
+
 public final class Utilidades {
 	private Utilidades() {
 		// Esta clase es estática
@@ -212,5 +216,54 @@ public final class Utilidades {
 		return bidi.toArray(new Object[0][0]);
 	}
 	
+	public static boolean loadUbicaciones(List<Pais> paises, List<Provincia> provincias, List<Ciudad> ciudades) {
+		try {
+
+			ciudades.addAll(new Ciudad().listar());
+			
+			ciudades.forEach(c -> {
+				if(!provincias.contains(c.getProvincia())) {
+					provincias.add(c.getProvincia());
+				}
+			});
+			
+			provincias.forEach(c -> {
+				if(!paises.contains(c.getPais())) {
+					paises.add(c.getPais());
+				}
+			});
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 	
+	public static List<Provincia> provinciasDePais(Pais pais, List<Provincia> provincias) {
+		List<Provincia> provinciasDelPais = new ArrayList<>();
+		try {
+			provincias.forEach(p -> {
+				if(p.getPais().getId() == pais.getId())
+					provinciasDelPais.add(p);
+			});
+			
+			return provinciasDelPais;
+		} catch (Exception e) {
+			return provinciasDelPais;
+		}
+	}
+	
+	public static List<Ciudad> ciudadesDeProvincia(Provincia provincia, List<Ciudad> ciudades) {
+		List<Ciudad> ciudadesDeLaProvincia = new ArrayList<>();
+		try {
+			ciudades.forEach(c -> {
+				if(c.getProvincia().getId() == provincia.getId())
+					ciudadesDeLaProvincia.add(c);
+			});
+			
+			return ciudadesDeLaProvincia;
+		} catch (Exception e) {
+			return ciudadesDeLaProvincia;
+		}
+	}
 }

@@ -60,7 +60,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 		temp.put("_direccion", direccion);
 		temp.put("_telefono", telefono);
 		temp.put("_celular", celular);
-		temp.put("_sexo", sexo.toLowerCase() == "masculino");
+		temp.put("_sexo", sexo.toLowerCase().equals("masculino"));
 		temp.put("_empresa", empresa);
 		temp.put("_rnc", rnc);
 		
@@ -82,7 +82,7 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 		temp.put("_direccion", direccion);
 		temp.put("_telefono", telefono);
 		temp.put("_celular", celular);
-		temp.put("_sexo", sexo.toLowerCase() == "masculino");
+		temp.put("_sexo", sexo.toLowerCase().equals("masculino"));
 		temp.put("_empresa", empresa);
 		temp.put("_rnc", rnc);
 		
@@ -134,9 +134,10 @@ public class Suplidor extends Persona implements IEntidadDatos<Suplidor> {
 				itera.apellido = datos.getString("apellido");
 				itera.telefono = datos.getString("telefono");
 				itera.celular = datos.getString("celular");
+				itera.direccion = datos.getString("direccion");
 				itera.sexo = datos.getBoolean("sexo") ? "Masculino" : "Femenino";
-				itera.empresa = datos.getString("empresa");
 				itera.rnc = datos.getString("rnc");
+				itera.empresa = datos.getString("empresa");				
 				suplidores.add(itera);
 			}
 			return suplidores;
