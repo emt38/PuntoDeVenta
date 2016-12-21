@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import principal.Program;
 import principal.Utilidades;
 
 public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
@@ -32,7 +33,12 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 		this.notaCredito = notaCredito;
 		this.articulos = articulos;
 	}
-
+	
+	public void efectuar() {
+		insertar();
+		registrarInventario();
+	}
+	
 	public List<Articulo> getArticulos() {
 		return articulos;
 	}
@@ -90,7 +96,19 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 	}
 	
 	public void registrarInventario() {
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idtienda", Program.getLoggedUser().getTienda().getId());
 		
+		try (Connection gate = Utilidades.newConnection();
+			CallableStatement state = gate.prepareCall("CALL AumentarInventario(?,?,?)");) {
+			for(Articulo item : articulos) {
+				temp.put("_idproducto", item.getProducto().getId());
+				temp.put("_cantidad", item.getCantidad());
+				Utilidades.ejecutarCall(state, temp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

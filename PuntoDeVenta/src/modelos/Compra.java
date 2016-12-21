@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.sql.CallableStatement;
 
+import principal.Program;
 import principal.Utilidades;
 
 public class Compra extends IntercambioComercial implements IEntidadDatos<Compra> {
@@ -244,8 +245,25 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 
 	@Override
 	protected void registrarInventario() {
-		// TODO Auto-generated method stub
-
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idtienda", Program.getLoggedUser().getTienda().getId());
+		
+		try (Connection gate = Utilidades.newConnection();
+			CallableStatement state = gate.prepareCall("CALL AumentarInventario(?,?,?)");) {
+			for(Articulo item : articulos) {
+				temp.put("_idproducto", item.getProducto().getId());
+				temp.put("_cantidad", item.getCantidad());
+				Utilidades.ejecutarCall(state, temp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
+	
+	@Override
+	public void efectuar() {
+		super.efectuar();
+		insertar();
+		registrarInventario();
+	}
 }

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import principal.Program;
 import principal.Utilidades;
 
 public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> {
@@ -154,7 +155,7 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 
 	@Override
 	public Venta buscar(int id) {
-		List<Venta> ventas = listar(String.format("WHERE idcompra=%s", id));
+		List<Venta> ventas = listar(String.format("WHERE idventa=%s", id));
 		if(ventas.size() > 0)
 			return ventas.get(0);
 		
@@ -167,7 +168,7 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 		try {
 			Connection gate = Utilidades.newConnection();
 			Statement state = gate.createStatement();
-			ResultSet datos = Utilidades.ejecutarQuery("SELECT idcompra, idsuplidor, descuentos, efectuado, fecha, impuestos, idsupervisor, subtotal, idtienda, total FROM comprasencabezado " + textoBusqueda, state);
+			ResultSet datos = Utilidades.ejecutarQuery("SELECT idventa, idcliente, descuentos, efectuado, fecha, impuestos, idcajero, subtotal, idtienda, efectivoRecibido, cambioDevuelto, terminalVentas, total FROM ventasencabezado " + textoBusqueda, state);
 			Venta itera;
 			
 			StringBuilder articulosSb = new StringBuilder("(");
@@ -177,18 +178,21 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			
 			while(datos.next()) {
 				itera = new Venta();
-				itera.cliente = new Cliente(datos.getInt("idsuplidor"), new Date(), 0f);
+				itera.cliente = new Cliente(datos.getInt("idcliente"), new Date(), 0f);
 				itera.descuentos = datos.getFloat("descuentos");
 				itera.efectuado = datos.getBoolean("efectuado");
 				itera.fecha = datos.getDate("fecha");
 				itera.impuestos = datos.getFloat("impuestos");
-				itera.noDocumento = datos.getInt("idcompra");
+				itera.noDocumento = datos.getInt("idventa");
 				itera.subTotal = datos.getFloat("subtotal");
-				itera.cajero = new Usuario(datos.getInt("idsupervisor"), null, null, null, null, TipoUsuario.Administrador, null);
+				itera.cajero = new Usuario(datos.getInt("idcajero"), null, null, null, null, TipoUsuario.Administrador, null);
 				itera.tienda = new Tienda(datos.getInt("idtienda"), null, null, null, null);
+				itera.efectivoRecibido = datos.getInt("efectivoRecibido");
+				itera.cambioDevuelto = datos.getInt("cambioDevuelto");
 				itera.total = datos.getFloat("total");
+				itera.terminalVentas = datos.getInt("terminalVentas");
 				ventas.add(itera);
-				articulosSb.append(String.format("%s,", datos.getInt("idcompra")));
+				articulosSb.append(String.format("%s,", datos.getInt("idventa")));
 				clientesSb.append(String.format("%s,", datos.getInt("idcliente")));
 				cajerosSb.append(String.format("%s,", datos.getInt("idcajero")));
 				tiendaSb.append(String.format("%s,", datos.getInt("idtienda")));
@@ -264,8 +268,19 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 
 	@Override
 	protected void registrarInventario() {
-		// TODO Auto-generated method stub
-
+		HashMap<String, Object> temp = new HashMap<>();
+		temp.put("_idtienda", Program.getLoggedUser().getTienda().getId());
+		
+		try (Connection gate = Utilidades.newConnection();
+			CallableStatement state = gate.prepareCall("CALL ReducirInventario(?,?,?)");) {
+			for(Articulo item : articulos) {
+				temp.put("_idproducto", item.getProducto().getId());
+				temp.put("_cantidad", item.getCantidad());
+				Utilidades.ejecutarCall(state, temp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Venta(Cliente cliente, Usuario cajero, int terminalVentas, Tienda tienda, int efectivoRecibido,
@@ -283,4 +298,10 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 		super();
 	}
 	
+	@Override
+	public void efectuar() {
+		super.efectuar();
+		insertar();
+		registrarInventario();
+	}
 }
