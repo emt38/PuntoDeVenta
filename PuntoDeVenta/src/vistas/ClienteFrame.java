@@ -212,12 +212,6 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 	}
 
 	private boolean ValidarCampos() {
-		
-			if (txtCodigo.getText().length() == 0) {
-
-				txtCodigo.requestFocus();
-				return false;
-			}
 
 		
 		if (txtNombre.getText().length() == 0) {

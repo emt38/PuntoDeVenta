@@ -90,7 +90,7 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			CallableStatement detail = gate.prepareCall("CALL AgregarVentasDetalle(?,?,?,?,?,?)");) {
 			
 			Utilidades.ejecutarCall(state, temp);
-			List<Venta> laultima = this.listar("ORDER BY idcompra DESC LIMIT 0, 1");
+			List<Venta> laultima = this.listar("ORDER BY idventa DESC LIMIT 0, 1");
 			noDocumento = laultima.get(0).getNoDocumento();
 			
 			for(Articulo a : articulos) {

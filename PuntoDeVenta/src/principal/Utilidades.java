@@ -22,6 +22,13 @@ import modelos.Pais;
 import modelos.Provincia;
 
 public final class Utilidades {
+	
+	public static void main(String[] args) {
+		String sales = generarSales();
+		System.out.println(generarHash("m.r.boss38", sales));
+		System.out.println(sales);
+	}
+	
 	private Utilidades() {
 		// Esta clase es estática
 	}
