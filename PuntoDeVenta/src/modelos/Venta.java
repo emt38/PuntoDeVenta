@@ -280,7 +280,6 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 			
 			return ventas;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return ventas;
 		}
