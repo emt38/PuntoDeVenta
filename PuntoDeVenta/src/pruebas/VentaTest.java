@@ -14,14 +14,15 @@ import modelos.Producto;
 import modelos.Suplidor;
 import modelos.Tienda;
 import modelos.Usuario;
+import modelos.Venta;
 
-public class CompraTest {
+public class VentaTest {
 
 	@Test
 	public void testInsertar() {
-		Compra temp = new Compra();
-		temp.setSupervisor(new Usuario().listar("LIMIT 0,1").get(0));
-		temp.setSuplidor(new Suplidor().listar("LIMIT 0,1").get(0));
+		Venta temp = new Venta();
+		temp.setCajero(new Usuario().listar("LIMIT 0,1").get(0));
+		temp.setCliente(new Cliente().listar("LIMIT 0,1").get(0));
 		temp.setTienda(new Tienda().listar("LIMIT 0,1").get(0));
 		temp.setFecha(new Date());
 		List<Producto> productos = new Producto().listar();
@@ -33,21 +34,21 @@ public class CompraTest {
 	
 	@Test
 	public void testBuscar() {
-		List<Compra> temp = new Compra().listar("LIMIT 0,1");
+		List<Venta> temp = new Venta().listar("LIMIT 0,1");
 		assertNotEquals("No existen elementos para realizar la prueba", temp.size(), 0);
 		if(temp.size() > 0) {
-			Compra f = temp.get(0);
-			Compra c = new Compra().buscar(f.getNoDocumento());
+			Venta f = temp.get(0);
+			Venta c = new Venta().buscar(f.getNoDocumento());
 			assertEquals(c.getNoDocumento(), f.getNoDocumento());
 		}
 	}
 	
 	@Test
 	public void testActualizar() {
-		List<Compra> temp = new Compra().listar("LIMIT 0,1");
+		List<Venta> temp = new Venta().listar("LIMIT 0,1");
 		assertNotEquals("No existen elementos para realizar la prueba", temp.size(), 0);
 		if(temp.size() > 0) {
-			Compra c = temp.get(0);
+			Venta c = temp.get(0);
 			float s = c.getDescuentos();
 			c.setDescuentos(s + 25f);
 			assertTrue("No se pudo ejecutar la actualización con la base de datos", c.actualizar());
@@ -60,9 +61,9 @@ public class CompraTest {
 	
 	@Test
 	public void testEliminar() {
-		Compra temp = new Compra();
-		temp.setSupervisor(new Usuario().listar("LIMIT 0,1").get(0));
-		temp.setSuplidor(new Suplidor().listar("LIMIT 0,1").get(0));
+		Venta temp = new Venta();
+		temp.setCajero(new Usuario().listar("LIMIT 0,1").get(0));
+		temp.setCliente(new Cliente().listar("LIMIT 0,1").get(0));
 		temp.setTienda(new Tienda().listar("LIMIT 0,1").get(0));
 		temp.setFecha(new Date());
 		List<Producto> productos = new Producto().listar();
@@ -73,10 +74,10 @@ public class CompraTest {
 		assertTrue(ins);
 		
 		if(ins) {
-			List<Compra> list = new Compra().listar("ORDER BY idCompra DESC LIMIT 0, 1");
+			List<Venta> list = new Venta().listar("ORDER BY idventa DESC LIMIT 0, 1");
 			assertNotEquals("No existen elementos para realizar la prueba", list.size(), 0);
 			if(list.size() > 0) {
-				Compra c = list.get(0);
+				Venta c = list.get(0);
 				assertTrue(c.eliminar());
 			}
 		}
@@ -84,9 +85,9 @@ public class CompraTest {
 	
 	@Test
 	public void testListar() {
-		Compra temp = new Compra();
-		temp.setSupervisor(new Usuario().listar("LIMIT 0,1").get(0));
-		temp.setSuplidor(new Suplidor().listar("LIMIT 0,1").get(0));
+		Venta temp = new Venta();
+		temp.setCajero(new Usuario().listar("LIMIT 0,1").get(0));
+		temp.setCliente(new Cliente().listar("LIMIT 0,1").get(0));
 		temp.setTienda(new Tienda().listar("LIMIT 0,1").get(0));
 		temp.setFecha(new Date());
 		List<Producto> productos = new Producto().listar();
@@ -98,10 +99,10 @@ public class CompraTest {
 		assertTrue("No se pudo insertar sujeto de prueba", ins);
 		
 		if(ins) {
-			List<Compra> list = new Compra().listar("ORDER BY idCompra DESC LIMIT 0, 1");
+			List<Venta> list = new Venta().listar("ORDER BY idventa DESC LIMIT 0, 1");
 			assertNotEquals("El listar no trajo devuelta ningún elemento", list.size(), 0);
 			if(list.size() > 0) {
-				Compra c = list.get(0);
+				Venta c = list.get(0);
 				c.eliminar();
 			}
 		}

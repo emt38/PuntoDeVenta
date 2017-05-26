@@ -111,7 +111,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 		temp.put("imp", impuestos);
 		temp.put("descuent", descuentos);
 		temp.put("tot", total);
-		temp.put("efectu", true);
+		temp.put("_efectuado", true);
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			return Utilidades.ejecutarCall("CALL ModificarComprasEncabezado(?,?,?,?,?,?,?,?,?)", temp, gate);
