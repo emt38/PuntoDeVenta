@@ -86,8 +86,11 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 				temp.put("subt", a.getSubTotal());
 				temp.put("cant", a.getCantidad());
 				
-				Utilidades.ejecutarCall(detail, temp);
-				registrarInventario();
+				boolean x = Utilidades.ejecutarCall(detail, temp);
+				if (x) 
+					registrarInventario();
+				
+				return x;
 			}
 			
 		} catch (Exception ex) {
@@ -180,7 +183,7 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 			else
 				articulosSb.append("0)");
 			
-			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad, tasaImpuestos FROM comprasdetalle " + articulosSb.toString(), state);
+			ResultSet articulosRs = Utilidades.ejecutarQuery("SELECT idcompra AS id, idproducto, valor, impuestos, subtotal, cantidad, tasaImpuestos FROM comprasdetalle WHERE idcompra IN " + articulosSb.toString(), state);
 			List<Articulo> articulos = new ArrayList<Articulo>();
 			StringBuilder productosSb = new StringBuilder("(");
 			while(articulosRs.next()) {

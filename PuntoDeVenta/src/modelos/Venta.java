@@ -102,8 +102,10 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 				temp.put("_subtotal", a.getSubTotal());
 				temp.put("_cantidad", a.getCantidad());
 				
-				Utilidades.ejecutarCall(detail, temp);
-				registrarInventario();
+				boolean x = Utilidades.ejecutarCall(detail, temp);
+				if(x) 
+					registrarInventario();
+				return x;
 			}
 			
 		} catch (Exception ex) {
@@ -130,8 +132,8 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			
-			Utilidades.ejecutarCall("CALL ModificarVentasEncabezado(?,?,?,?,?,?,?,?,?,?,?,?)", temp, gate);
-			
+			boolean x = Utilidades.ejecutarCall("CALL ModificarVentasEncabezado(?,?,?,?,?,?,?,?,?,?,?,?)", temp, gate);
+			return x;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -145,8 +147,8 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 		
 		try (Connection gate = Utilidades.newConnection();) {
 			
-			Utilidades.ejecutarCall("CALL EliminarVentasEncabezado(?)", temp, gate);
-			
+			boolean x = Utilidades.ejecutarCall("CALL EliminarVentasEncabezado(?)", temp, gate);
+			return x;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

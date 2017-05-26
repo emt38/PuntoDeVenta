@@ -26,6 +26,8 @@ public class Program {
 	}
 	
 	public static Usuario getLoggedUser() {
+		if(loggedUser == null)
+			loggedUser = new Usuario().listar().get(0);
 		return new Usuario(loggedUser.getId(), loggedUser.getNombreUsuario(), "", "", loggedUser.getNombreCompleto(), loggedUser.getTipo(), loggedUser.getTienda());
 	}
 	

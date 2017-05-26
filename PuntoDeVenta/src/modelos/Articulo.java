@@ -25,8 +25,8 @@ public class Articulo {
 	}
 
 	public void totalizar() {
-		impuestos = valor * producto.getTasaImpuesto() / 100 * cantidad;
-		subTotal = valor * cantidad - impuestos;
+		impuestos = (valor * Double.valueOf(new Float(tasaImpuestos / 100f).doubleValue()).floatValue() * cantidad);
+		subTotal = valor * cantidad + impuestos;
 	}
 
 	public Producto getProducto() {
@@ -42,7 +42,7 @@ public class Articulo {
 	}
 
 	public void setCantidad(float cantidad) {
-		this.cantidad = cantidad;
+		this.cantidad = cantidad < 0f ? 0f : cantidad;
 	}
 
 	public float getValor() {
@@ -50,7 +50,7 @@ public class Articulo {
 	}
 
 	public void setValor(float valor) {
-		this.valor = valor;
+		this.valor = valor < 0f ? 0f : valor;
 	}
 
 	public float getImpuestos() {
