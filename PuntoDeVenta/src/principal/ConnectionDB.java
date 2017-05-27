@@ -34,7 +34,7 @@ public class ConnectionDB
 	{
 		try {
 			Class.forName( this.driver );
-			conn = DriverManager.getConnection( this.url + this.db, "a137dd_posdb", "Curne2016" );
+			conn = DriverManager.getConnection( this.url + this.db, "root", "" );
 		}
 		catch ( ClassNotFoundException e ) {
 			e.printStackTrace();

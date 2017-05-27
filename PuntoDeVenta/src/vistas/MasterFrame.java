@@ -38,8 +38,8 @@ public class MasterFrame {
 //	}
 	private static void connectToDataBase(){
 		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://MYSQL5015.HostBuddy.com/";
-		String db = "db_a137dd_posdb";
+		String url = "jdbc:mysql://127.0.0.1/";
+		String db = "posdb";
 		
 		conn = new ConnectionDB(driver, db, url);
 		conn.connect();
