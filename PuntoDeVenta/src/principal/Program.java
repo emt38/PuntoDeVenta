@@ -36,6 +36,7 @@ public class Program {
 	}
 	
 	private static Usuario loggedUser;
+	public static RobotFingers robot;
 	
 	public static void main(String[] args) {	
 		try {
@@ -50,6 +51,7 @@ public class Program {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
 		
+		robot = new RobotFingers();
 		LoginDialog login = new LoginDialog();
 		login.setModalityType(ModalityType.APPLICATION_MODAL);
 		
