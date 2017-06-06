@@ -237,6 +237,7 @@ public class MasterFrame {
 		mntmUbicaciones_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CiudadesFrame temp = new CiudadesFrame();
+				
 				temp.setVisible(true);
 			}
 		});
