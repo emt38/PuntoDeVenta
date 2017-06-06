@@ -15,6 +15,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,17 +39,23 @@ import java.awt.event.KeyEvent;
 
 public class CiudadesFrame extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JComboBox<Provincia> comboBoxProvincia = new JComboBox<>();
 	JComboBox<Pais> comboBoxPais = new JComboBox<>();
 	JComboBox<Ciudad> comboBoxCiudad = new JComboBox<>();
 	JButton btnCancelar = new JButton("CANCELAR");
-	JButton btnNuevoModificar = new JButton("NUEVO/MODIFICAR");
+	JButton btnNuevo = new JButton("NUEVO");
 	JButton btnGuardar = new JButton("GUARDAR");
 	JButton btnSalir = new JButton("SALIR");
 	JButton btnModificar = new JButton("MODIFICAR");
 	JButton btnEliminar = new JButton("ELIMINAR");
+	JLabel lblPais = new JLabel("Pais:");
 	JLabel lblProvincia = new JLabel("Provincia:");
+	JLabel lblCiudad = new JLabel("Ciudad:");
 	Pais miPais = new Pais();
 	private Ciudad ciudades = new Ciudad();
 	Provincia provincias = new Provincia();
@@ -75,30 +83,92 @@ public class CiudadesFrame extends JFrame {
 		RBProvincia.setEnabled(false);
 		RBCiudad.setEnabled(false);
 		group.add(RBProvincia);
-		RBPais.setSelected(true);
+		RBPais.setSelected(false);
 		group.add(RBCiudad);
 		actualizarPais();
-	
-		comboBoxPais.setSelectedIndex(0);
-		comboBoxProvincia.setSelectedIndex(0);
-		
-		comboBoxPais.setEnabled(false);
-		comboBoxProvincia.setEnabled(false);
-		btnCancelar.setEnabled(false);
-		btnGuardar.setEnabled(false);
-		btnEliminar.setEnabled(false);
-		comboBoxCiudad.setEnabled(false);
+
+		Desabilitar();
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteFrame.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
 		setTitle("Ciudades");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 320, 177);
+		setBounds(100, 100, 480, 230);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		btnNuevo.setIcon(null);
+		btnNuevo.setMaximumSize(new Dimension(20, 9));
+		btnNuevo.setBounds(350, 15, 90, 20);
+		contentPane.add(btnNuevo);
 		
+		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
+		btnGuardar.setBounds(350, 40, 90, 20);
+		contentPane.add(btnGuardar);
+		
+		btnModificar.setHorizontalAlignment(SwingConstants.TRAILING);
+		btnModificar.setBounds(350, 65, 100, 20);
+		contentPane.add(btnModificar);
+		
+		btnEliminar.setBounds(350, 90, 90, 20);
+		contentPane.add(btnEliminar);
+		
+		btnCancelar.setBounds(350, 115, 100, 20);
+		contentPane.add(btnCancelar);
+		
+		btnSalir.setBounds(350, 140, 75, 20);
+		contentPane.add(btnSalir);
+		
+		
+		RBPais.setBounds(290, 18, 20,12);
+		contentPane.add(RBPais);
+		
+		lblPais.setBounds(6, 15, 50, 14);
+		contentPane.add(lblPais);
+		
+		comboBoxPais.setBounds(36, 15, 250, 20);
+		contentPane.add(comboBoxPais);
+		
+		lblProvincia.setBounds(6, 40, 60, 14);
+		contentPane.add(lblProvincia);
+		
+		
+		RBProvincia.setBounds(290, 43, 20,12);
+		contentPane.add(RBProvincia);
+		
+		comboBoxProvincia.setBounds(63, 40, 224, 20);
+		contentPane.add(comboBoxProvincia );
+		
+		
+		RBCiudad.setBounds(290, 68, 20,12);
+		contentPane.add(RBCiudad);
+		
+		lblCiudad.setBounds(6, 65, 60, 14);
+		contentPane.add(lblCiudad);
+		
+		comboBoxCiudad.setBounds(50, 65, 234, 20);
+		comboBoxCiudad.setEditable(false);
+		contentPane.add(comboBoxCiudad);	
+		
+		
+		
+		
+		JSeparator separator_2 = new JSeparator(SwingConstants.VERTICAL);
+		separator_2.setBounds(320, 0, 300, 175);
+		contentPane.add(separator_2);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(0, 90, 320, 14);
+		contentPane.add(separator_1);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setBounds(320, 175, 145, 14);
+		contentPane.add(separator_3);
+		
+	
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int opcion =JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -108,10 +178,15 @@ public class CiudadesFrame extends JFrame {
 				}
 			}
 		});
-		btnSalir.setBounds(183, 109, 90, 31);
-		contentPane.add(btnSalir);
 		
 		
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Modificar();
+				
+			}
+		});
 		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,6 +194,9 @@ public class CiudadesFrame extends JFrame {
 				int opcion=JOptionPane.showConfirmDialog(null, "¿Seguro que desea cancelar la accion?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
 				if (opcion == 0){
+					comboBoxPais.setEnabled(false);
+					comboBoxProvincia.setEnabled(false);
+					comboBoxCiudad.setEnabled(false);
 					RBPais.setEnabled(false);
 					RBProvincia.setEnabled(false);
 					RBCiudad.setEnabled(false);
@@ -127,28 +205,26 @@ public class CiudadesFrame extends JFrame {
 					btnEliminar.setEnabled(false);
 					btnGuardar.setEnabled(true);
 					btnCancelar.setEnabled(false);
-					btnNuevoModificar.setEnabled(true);
+					btnNuevo.setEnabled(true);
 					btnModificar.setEnabled(true);
 					btnEliminar.setEnabled(false);
 					btnGuardar.setEnabled(false);
+					group.clearSelection();
+					
 				}				
 			}
 		});
-		btnCancelar.setBounds(1, 109, 93, 31);
-		contentPane.add(btnCancelar);
-			
-		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar.setBounds(183, 79, 90, 31);
-		contentPane.add(btnGuardar);
-		
-		
-		btnNuevoModificar.addActionListener(new ActionListener() {
+				
+		btnNuevo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				nuevoModificar();
+				Modificar();
+				btnEliminar.setEnabled(false);
+				btnGuardar.setEnabled(false);
 				
 				
+
 			}
 	
 		});
@@ -160,57 +236,15 @@ public class CiudadesFrame extends JFrame {
 			
 		});
 		
-		btnNuevoModificar.setIcon(null);
-		btnNuevoModificar.setMaximumSize(new Dimension(20, 9));
-		btnNuevoModificar.setBounds(1, 79, 185, 31);
-		contentPane.add(btnNuevoModificar);
-		
-		btnEliminar.setBounds(91, 109, 95, 31);
-		contentPane.add(btnEliminar);
-		
-		JLabel lblPais = new JLabel("Pais:");
-		lblPais.setBounds(1, 0, 50, 14);
-		contentPane.add(lblPais);
-		
-		comboBoxPais.setBounds(29, 0, 250, 20);
-		contentPane.add(comboBoxPais);
-		
-		RBPais.setSelected(true);
-		RBPais.setBounds(280,5, 20,12);
-		contentPane.add(RBPais);
-		
-		lblProvincia.setBounds(1, 20, 60, 14);
-		contentPane.add(lblProvincia);
-		
-		RBProvincia.setSelected(true);
-		RBProvincia.setBounds(280,22, 20,12);
-		contentPane.add(RBProvincia);
-		
-		comboBoxProvincia.setBounds(55, 20, 224, 20);
-		contentPane.add(comboBoxProvincia );
-		
-		JLabel lblCiudad = new JLabel("Ciudad:");
-		lblCiudad.setBounds(1, 45, 60, 14);
-		contentPane.add(lblCiudad);
-		
-		
-		comboBoxCiudad.setBounds(45, 40, 234, 20);
-		comboBoxCiudad.setEditable(false);
-		contentPane.add(comboBoxCiudad);	
-		
-		
-		RBCiudad.setSelected(false);
-		RBCiudad.setBounds(280,42, 20,12);
-		contentPane.add(RBCiudad);
-		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(0, 67, 547, 14);
-		contentPane.add(separator_1);
-		
-		
-		
 		 RBPais.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					
+					
+					if (btnEliminar.isEnabled() == true){
+						
+					}
+					else
+						btnGuardar.setEnabled(true);
 					
 					habilitaPais();
 				}		
@@ -219,6 +253,13 @@ public class CiudadesFrame extends JFrame {
 		 RBProvincia.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+
+					if (btnEliminar.isEnabled() == true){
+						
+					}
+					else
+						btnGuardar.setEnabled(true);
+					
 					habilitaProvincia();
 				}		
 			}); 
@@ -226,13 +267,20 @@ public class CiudadesFrame extends JFrame {
 		 RBCiudad.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+
+					if (btnEliminar.isEnabled() == true){
+						
+					}
+					else
+						btnGuardar.setEnabled(true);
+					
 					habilitaCiudad();
 				}		
 			}); 
 		
 		comboBoxPais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+			
 				iD = comboBoxPais.getSelectedIndex();
 				
 				if (iD != -1)
@@ -244,7 +292,12 @@ public class CiudadesFrame extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				if (RBPais.isSelected() == true  || RBProvincia.isSelected() == true || RBCiudad.isSelected() == true){
 					eliminar();
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Debe seleccionar que desea borrar");
+					
 			}
 		});	
 		
@@ -305,7 +358,6 @@ public class CiudadesFrame extends JFrame {
 	
 	private void rellenaProvincia(Pais seleccionEnComboBoxPais) {
 		comboBoxProvincia.removeAllItems();
-		List<Provincia> provinciasDePais = new ArrayList<>();
 		miProvincia.forEach(p -> {
 			if(p.getPais().getId() == seleccionEnComboBoxPais.getId())
 				comboBoxProvincia.addItem(p);
@@ -398,34 +450,26 @@ public class CiudadesFrame extends JFrame {
 						miPais.setNombre(nombre);
 						miPais.setId(((Pais) comboBoxPais.getSelectedItem()).getId());
 						miPais.actualizar();
-						actualizarPais();
 						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");	
-					}
+						dispose();
+						CiudadesFrame temp = new CiudadesFrame();
+						temp.setVisible(true);
+					
+					 }
 					 else{
 
 							miPais.buscar(iD);
 							miPais.setNombre(comboBoxPais.getSelectedItem().toString());
 							miPais.insertar();
 							JOptionPane.showMessageDialog(null, "Los cambios han sido guardados con exito");
-							actualizarPais();
+							dispose();
+							CiudadesFrame temp = new CiudadesFrame();
+							temp.setVisible(true);
+						
 					 }
 				}
 				else if(RBProvincia.isSelected()){
-					
-					if (iD != -1){
-									
-						String nombre = comboBoxProvincia.getSelectedItem().toString();
-						provincias.setNombre(nombre);
-						provincias.setPais((Pais) comboBoxPais.getSelectedItem());
-						provincias.setId(((Provincia)comboBoxProvincia.getSelectedItem()).getId());
-						provincias.actualizar();
-						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");
-						dispose();
-						CiudadesFrame temp = new CiudadesFrame();
-						temp.setVisible(true);
-					}
-					else{
-			
+						
 						provincias.setNombre(comboBoxProvincia.getSelectedItem().toString());
 						System.out.println(comboBoxProvincia.getSelectedItem().toString());
 						provincias.setPais((Pais) comboBoxPais.getSelectedItem());
@@ -435,23 +479,11 @@ public class CiudadesFrame extends JFrame {
 						dispose();
 						CiudadesFrame temp = new CiudadesFrame();
 						temp.setVisible(true);
-					}
+					
 				}
 				else if(RBCiudad.isSelected()){
 					iD = (comboBoxProvincia.getSelectedIndex());
-					if (iD != -1){
-									
-						String nombre = comboBoxCiudad.getSelectedItem().toString();
-						ciudades.setNombre(nombre);
-						ciudades.setProvincia((Provincia) comboBoxProvincia.getSelectedItem());
-						ciudades.setId(((Ciudad)comboBoxCiudad.getSelectedItem()).getId());
-						ciudades.actualizar();
-						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");
-						dispose();
-						CiudadesFrame temp = new CiudadesFrame();
-						temp.setVisible(true);
-					}
-					else{
+					
 					
 						ciudades.setNombre(comboBoxCiudad.getSelectedItem().toString());
 						ciudades.setProvincia((Provincia) comboBoxProvincia.getSelectedItem());
@@ -461,26 +493,37 @@ public class CiudadesFrame extends JFrame {
 						dispose();
 						CiudadesFrame temp = new CiudadesFrame();
 						temp.setVisible(true);
-					}
+					
 					
 				}
 				
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Los cambios no han sido guardados");
+				Desabilitar();
 
 			}
 	}
 	
-	public void nuevoModificar(){
+	public void Modificar(){
 		RBPais.setEnabled(true);
 		RBProvincia.setEnabled(true);
 		RBCiudad.setEnabled(true);
-		btnNuevoModificar.setEnabled(false);
+		btnNuevo.setEnabled(false);
 		btnCancelar.setEnabled(true);
 		btnModificar.setEnabled(false);
 		btnEliminar.setEnabled(true);
-		btnGuardar.setEnabled(true);
+		btnGuardar.setEnabled(false);
+	}
+	
+	private void Desabilitar(){
+		
+		comboBoxPais.setEnabled(false);
+		comboBoxProvincia.setEnabled(false);
+		btnCancelar.setEnabled(false);
+		btnGuardar.setEnabled(false);
+		btnEliminar.setEnabled(false);
+		comboBoxCiudad.setEnabled(false);
 	}
 	
 
@@ -492,7 +535,9 @@ public class CiudadesFrame extends JFrame {
 			}
 		});
 		rellenaProvincia((Pais)comboBoxPais.getSelectedItem());
+		rellenaCiudad((Provincia)comboBoxProvincia.getSelectedItem());
 	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
