@@ -96,10 +96,8 @@ public class CiudadesFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		 
 		
 		btnNuevo.setIcon(null);
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
