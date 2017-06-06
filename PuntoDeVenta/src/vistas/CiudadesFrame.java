@@ -62,7 +62,6 @@ public class CiudadesFrame extends JFrame {
 	private List<Pais> paises = new Pais().listar();
 	private List<Provincia> miProvincia = new Provincia().listar();
 	private List<Ciudad> miCiudad = new Ciudad().listar();
-	
 	int iD;
 	ButtonGroup group = new ButtonGroup();
 	JRadioButton RBCiudad = new JRadioButton();
