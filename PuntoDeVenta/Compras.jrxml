@@ -8,7 +8,7 @@
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PuntoVentaDataAdapter "/>
 		<queryString language="SQL">
-			<![CDATA[SELECT * FROM db_a137dd_posdb.viewcompras]]>
+			<![CDATA[SELECT * FROM posdb.viewcompras]]>
 		</queryString>
 		<field name="idcompra" class="java.lang.Integer"/>
 		<field name="descripcion" class="java.lang.String"/>
@@ -18,8 +18,8 @@
 		<field name="cantidad" class="java.lang.Float"/>
 	</subDataset>
 	<queryString language="SQL">
-		<![CDATA[SELECT db_a137dd_posdb.viewcompras.descripcion
-				FROM db_a137dd_posdb.viewcompras]]>
+		<![CDATA[SELECT posdb.viewcompras.descripcion
+				FROM posdb.viewcompras]]>
 	</queryString>
 	<field name="descripcion" class="java.lang.String"/>
 	<background>

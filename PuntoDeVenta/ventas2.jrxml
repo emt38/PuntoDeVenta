@@ -5,14 +5,14 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PuntoVentaDataAdapter "/>
 	<queryString language="SQL">
-		<![CDATA[SELECT  db_a137dd_posdb.viewventas.idventa ,
- db_a137dd_posdb.viewventas.idproducto ,
-  db_a137dd_posdb.viewventas.valor ,
-   db_a137dd_posdb.viewventas.impuestos ,
-    db_a137dd_posdb.viewventas.subtotal ,
-     db_a137dd_posdb.viewventas.cantidad ,
-      db_a137dd_posdb.viewventas.descripcion 
-      from db_a137dd_posdb.viewventas]]>
+		<![CDATA[SELECT  posdb.viewventas.idventa ,
+ posdb.viewventas.idproducto ,
+  posdb.viewventas.valor ,
+   posdb.viewventas.impuestos ,
+    posdb.viewventas.subtotal ,
+     posdb.viewventas.cantidad ,
+      posdb.viewventas.descripcion 
+      from posdb.viewventas]]>
 	</queryString>
 	<field name="descripcion" class="java.lang.String"/>
 	<field name="valor" class="java.lang.Float"/>
