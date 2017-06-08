@@ -6,87 +6,51 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 import modelos.Pais;
-import modelos.Producto;
 import modelos.Provincia;
 import modelos.Ciudad;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-
-
-
 public class CiudadesFrame extends JFrame {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	//Declaracion de Botones, Combo Box, Objetos, entre otros.
 	private JPanel contentPane;
-	JComboBox<Provincia> comboBoxProvincia = new JComboBox<>();
-	JComboBox<Pais> comboBoxPais = new JComboBox<>();
-	JComboBox<Ciudad> comboBoxCiudad = new JComboBox<>();
-	JButton btnCancelar = new JButton("CANCELAR");
-	JButton btnNuevo = new JButton("NUEVO");
-	JButton btnGuardar = new JButton("GUARDAR");
-	JButton btnSalir = new JButton("SALIR");
-	JButton btnModificar = new JButton("MODIFICAR");
-	JButton btnEliminar = new JButton("ELIMINAR");
-	JLabel lblPais = new JLabel("Pais:");
-	JLabel lblProvincia = new JLabel("Provincia:");
-	JLabel lblCiudad = new JLabel("Ciudad:");
-	Pais miPais = new Pais();
+	private JComboBox<Provincia> comboBoxProvincia = new JComboBox<>();
+	private JComboBox<Pais> comboBoxPais = new JComboBox<>();
+	private JComboBox<Ciudad> comboBoxCiudad = new JComboBox<>();
+	private JButton btnCancelar = new JButton("CANCELAR");
+	private JButton btnNuevo = new JButton("NUEVO");
+	private JButton btnGuardar = new JButton("GUARDAR");
+	private JButton btnSalir = new JButton("SALIR");
+	private JButton btnModificar = new JButton("MODIFICAR");
+	private JButton btnEliminar = new JButton("ELIMINAR");
+	private JLabel lblPais = new JLabel("Pais:");
+	private JLabel lblProvincia = new JLabel("Provincia:");
+	private JLabel lblCiudad = new JLabel("Ciudad:");
+	private Pais miPais = new Pais();
 	private Ciudad ciudades = new Ciudad();
-	Provincia provincias = new Provincia();
-	private List<Pais> paises = new Pais().listar();
+	private Provincia provincias = new Provincia();
 	private List<Provincia> miProvincia = new Provincia().listar();
 	private List<Ciudad> miCiudad = new Ciudad().listar();
-	int iD;
-	ButtonGroup group = new ButtonGroup();
-	JRadioButton RBCiudad = new JRadioButton();
-	JRadioButton RBProvincia = new JRadioButton();
-	JRadioButton RBPais = new JRadioButton();
-	
-	
-	
-	
-	
-	
+	private int iD;
+	private ButtonGroup group = new ButtonGroup();
+	private JRadioButton RBCiudad = new JRadioButton();
+	private JRadioButton RBProvincia = new JRadioButton();
+	private JRadioButton RBPais = new JRadioButton();
 	
 	public CiudadesFrame() {
-		
-		
-		group.add(RBPais);
-		RBPais.setEnabled(false);
-		RBProvincia.setEnabled(false);
-		RBCiudad.setEnabled(false);
-		group.add(RBProvincia);
-		RBPais.setSelected(false);
-		group.add(RBCiudad);
-		actualizarPais();
-
-		Desabilitar();
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteFrame.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
 		setTitle("Ciudades");
@@ -97,6 +61,17 @@ public class CiudadesFrame extends JFrame {
 		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		group.add(RBPais);
+		RBPais.setEnabled(false);
+		RBProvincia.setEnabled(false);
+		RBCiudad.setEnabled(false);
+		group.add(RBProvincia);
+		RBPais.setSelected(false);
+		group.add(RBCiudad);
+
+		actualizarPais();
+		Desabilitar();
 		
 		btnNuevo.setIcon(null);
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
@@ -120,7 +95,6 @@ public class CiudadesFrame extends JFrame {
 		btnSalir.setBounds(350, 140, 75, 20);
 		contentPane.add(btnSalir);
 		
-		
 		RBPais.setBounds(290, 18, 20,12);
 		contentPane.add(RBPais);
 		
@@ -133,13 +107,11 @@ public class CiudadesFrame extends JFrame {
 		lblProvincia.setBounds(6, 40, 60, 14);
 		contentPane.add(lblProvincia);
 		
-		
 		RBProvincia.setBounds(290, 43, 20,12);
 		contentPane.add(RBProvincia);
 		
 		comboBoxProvincia.setBounds(63, 40, 224, 20);
 		contentPane.add(comboBoxProvincia );
-		
 		
 		RBCiudad.setBounds(290, 68, 20,12);
 		contentPane.add(RBCiudad);
@@ -150,9 +122,6 @@ public class CiudadesFrame extends JFrame {
 		comboBoxCiudad.setBounds(50, 65, 234, 20);
 		comboBoxCiudad.setEditable(false);
 		contentPane.add(comboBoxCiudad);	
-		
-		
-		
 		
 		JSeparator separator_2 = new JSeparator(SwingConstants.VERTICAL);
 		separator_2.setBounds(320, 0, 300, 175);
@@ -165,7 +134,6 @@ public class CiudadesFrame extends JFrame {
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(320, 175, 145, 14);
 		contentPane.add(separator_3);
-		
 	
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -176,7 +144,6 @@ public class CiudadesFrame extends JFrame {
 				}
 			}
 		});
-		
 		
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,20 +182,17 @@ public class CiudadesFrame extends JFrame {
 				
 		btnNuevo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+			
 				Modificar();
 				btnEliminar.setEnabled(false);
 				btnGuardar.setEnabled(false);
-				
-				
-
 			}
 	
 		});
 		
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				guardar();
 				}
 			
@@ -286,7 +250,6 @@ public class CiudadesFrame extends JFrame {
 			}		
 		});
 		
-		
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -298,7 +261,6 @@ public class CiudadesFrame extends JFrame {
 					
 			}
 		});	
-		
 		
 		comboBoxProvincia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
@@ -312,16 +274,8 @@ public class CiudadesFrame extends JFrame {
 		});		
 	
 	};
-	
-	public void habilitaPais(){
-		comboBoxPais.setEnabled(true);	
-		comboBoxPais.setEditable(true);		
-		comboBoxProvincia.setEditable(false);			
-		comboBoxProvincia.setEnabled(false);
-		comboBoxCiudad.setEditable(false);	
-		comboBoxCiudad.setEnabled(false);
-	}
-	
+
+	// Metodo para validar los campos 
 	private boolean ValidarCampos() {
 		if(comboBoxPais.getSelectedItem()==null)
 		{
@@ -344,6 +298,17 @@ public class CiudadesFrame extends JFrame {
 		return true;
 	}
 	
+	//Metodos para llenar el Combo Box de provincia
+	private void rellenaProvincia(Pais seleccionEnComboBoxPais) {
+		comboBoxProvincia.removeAllItems();
+		miProvincia.forEach(p -> {
+			if(p.getPais().getId() == seleccionEnComboBoxPais.getId())
+				comboBoxProvincia.addItem(p);
+		});
+			
+	}
+
+	//Metodos para llenar el Combo Box de Ciudad.
 	private void rellenaCiudad(Provincia seleccionEnComboBoxProvincia) {
 		comboBoxCiudad.removeAllItems();
 		
@@ -354,16 +319,27 @@ public class CiudadesFrame extends JFrame {
 		
 	}
 	
-	private void rellenaProvincia(Pais seleccionEnComboBoxPais) {
-		comboBoxProvincia.removeAllItems();
-		miProvincia.forEach(p -> {
-			if(p.getPais().getId() == seleccionEnComboBoxPais.getId())
-				comboBoxProvincia.addItem(p);
-		});
-		
+	//Metodos para habilitar el Combo Box de Pais
+	public void habilitaPais(){
+		comboBoxPais.setEnabled(true);	
+		comboBoxPais.setEditable(true);		
+		comboBoxProvincia.setEditable(false);			
+		comboBoxProvincia.setEnabled(false);
+		comboBoxCiudad.setEditable(false);	
+		comboBoxCiudad.setEnabled(false);
 	}
-
 	
+	//Metodos para habilitar el Combo Box de Provincia.
+	public void habilitaProvincia(){
+		comboBoxPais.setEnabled(false);	
+		comboBoxPais.setEditable(false);		
+		comboBoxProvincia.setEditable(true);			
+		comboBoxProvincia.setEnabled(true);
+		comboBoxCiudad.setEditable(false);	
+		comboBoxCiudad.setEnabled(false);
+	}
+		
+	//Metodos para habilitar el Combo Box de Ciudad.
 	public void habilitaCiudad(){
 		comboBoxPais.setEnabled(false);	
 		comboBoxPais.setEditable(false);		
@@ -373,15 +349,7 @@ public class CiudadesFrame extends JFrame {
 		comboBoxCiudad.setEnabled(true);
 	}
 	
-	public void habilitaProvincia(){
-		comboBoxPais.setEnabled(false);	
-		comboBoxPais.setEditable(false);		
-		comboBoxProvincia.setEditable(true);			
-		comboBoxProvincia.setEnabled(true);
-		comboBoxCiudad.setEditable(false);	
-		comboBoxCiudad.setEnabled(false);
-	}
-	
+	//Metodo para el Boton Eliminar.
 	public void eliminar(){
 		if (RBPais.isSelected()){
 			
@@ -434,6 +402,7 @@ public class CiudadesFrame extends JFrame {
 		}
 	}
 	
+	//Metodo para el Boton Guardar.
 	public void guardar(){
 		if(ValidarCampos() == true){
 			
@@ -482,7 +451,6 @@ public class CiudadesFrame extends JFrame {
 				else if(RBCiudad.isSelected()){
 					iD = (comboBoxProvincia.getSelectedIndex());
 					
-					
 						ciudades.setNombre(comboBoxCiudad.getSelectedItem().toString());
 						ciudades.setProvincia((Provincia) comboBoxProvincia.getSelectedItem());
 						ciudades.setId(iD);
@@ -491,8 +459,6 @@ public class CiudadesFrame extends JFrame {
 						dispose();
 						CiudadesFrame temp = new CiudadesFrame();
 						temp.setVisible(true);
-					
-					
 				}
 				
 			}
@@ -503,7 +469,9 @@ public class CiudadesFrame extends JFrame {
 			}
 	}
 	
+	//Metodo para el Boton Modificar
 	public void Modificar(){
+		
 		RBPais.setEnabled(true);
 		RBProvincia.setEnabled(true);
 		RBCiudad.setEnabled(true);
@@ -514,6 +482,7 @@ public class CiudadesFrame extends JFrame {
 		btnGuardar.setEnabled(false);
 	}
 	
+	//Metodo para desabilitar los Combo Box y Botones.
 	private void Desabilitar(){
 		
 		comboBoxPais.setEnabled(false);
@@ -523,8 +492,8 @@ public class CiudadesFrame extends JFrame {
 		btnEliminar.setEnabled(false);
 		comboBoxCiudad.setEnabled(false);
 	}
-	
 
+	//Metodo Para actualizar el Combo Box de Pais.
 	public void actualizarPais(){
 		comboBoxPais = new JComboBox(new Pais().listar().toArray(new Pais[0]));
 		comboBoxPais.addKeyListener(new KeyAdapter() {
