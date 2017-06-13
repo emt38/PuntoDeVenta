@@ -68,19 +68,36 @@ public class RobotFingers {
 		if(pixelSpeed <= 0)
 			pixelSpeed = 1;
 		
-		int sx = 0;
-		int sy = 0;
-		moveTo(sx, sy);
+		Point s = MouseInfo.getPointerInfo().getLocation();
+		int sx = s.x;
+		int sy = s.y;
+		boolean xl = sx < x;
+		boolean yl = sy < y;
 		
 		while(sx != x || sy != y)
 		{
-			sx += pixelSpeed;
-			if(sx >= x)
-				sx = x;
-			sy += pixelSpeed;
-			if(sy >= y)
-				sy = y;
-			moveTo(sx, sy);
+			if(xl) {
+				sx += pixelSpeed;
+				if(sx >= x)
+					sx = x;
+			} else {
+				sx -= pixelSpeed;
+				if(sx <= x)
+					sx = x;
+			}
+			
+			if(yl) {
+				sy += pixelSpeed;
+				if(sy >= y)
+					sy = y;
+				moveTo(sx, sy);
+			} else {
+				sy -= pixelSpeed;
+				if(sy <= y)
+					sy = y;
+				moveTo(sx, sy);
+			}
+
 			delay(20);
 		}
 	}
