@@ -50,7 +50,7 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<NotaDe
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL AgregarNotaDebito(?,?,?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL AgregarNotasDebito(?,?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -67,7 +67,7 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<NotaDe
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL ModificarNotaDebito(?,?,?,?,?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarNotasDebito(?,?,?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -80,7 +80,7 @@ public class NotaDebito extends AcuerdoComercial implements IEntidadDatos<NotaDe
 		temp.put("_idNotaDebito", noDocumento);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL EliminarNotaDebito(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL EliminarNotasDebito(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

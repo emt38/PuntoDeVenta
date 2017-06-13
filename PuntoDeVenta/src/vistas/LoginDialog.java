@@ -25,6 +25,8 @@ public class LoginDialog extends JDialog {
 	private JPasswordField txtClave;
 	
 	private Usuario usuario;
+	private JButton btnSalir;
+	private JButton btnIniciarSesion;
 	
 	public Usuario getLoggedUser() {
 		return usuario;
@@ -73,8 +75,10 @@ public class LoginDialog extends JDialog {
 		txtNombreUsuario.setBounds(10, 49, 241, 29);
 		getContentPane().add(txtNombreUsuario);
 		txtNombreUsuario.setColumns(10);
+		txtNombreUsuario.setName("txtNombreUsuario");
 		
 		txtClave = new JPasswordField();
+		txtClave.setName("txtClave");
 		txtClave.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -115,7 +119,8 @@ public class LoginDialog extends JDialog {
 		lblPos.setBounds(278, 64, 135, 69);
 		getContentPane().add(lblPos);
 		
-		JButton btnSalir = new JButton("Salir");
+		btnSalir = new JButton("Salir");
+		btnSalir.setName("btnSalir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginDialog.this.dispose();
@@ -124,7 +129,8 @@ public class LoginDialog extends JDialog {
 		btnSalir.setBounds(10, 169, 182, 39);
 		getContentPane().add(btnSalir);
 		
-		JButton btnIniciarSesion = new JButton("Iniciar Sesi\u00F3n");
+		btnIniciarSesion = new JButton("Iniciar Sesi\u00F3n");
+		btnIniciarSesion.setName("btnIniciarSesion");
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if((txtNombreUsuario.getText().length() < 3) || (txtClave.getPassword().length < 6))

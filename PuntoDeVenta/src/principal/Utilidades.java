@@ -1,5 +1,7 @@
 package principal;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,9 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import org.apache.commons.codec.digest.Crypt;
 
@@ -31,6 +35,42 @@ public final class Utilidades {
 	
 	private Utilidades() {
 		// Esta clase es estática
+	}
+	
+	public static void getAllComponents(Container c, List<Component> result) {
+		getAllComponents(c.getComponents(), result);
+	}
+	
+	public static void getAllComponents(Component[] c, List<Component> result) {
+		for(Component item : c) {
+			result.add(item);
+			if(Container.class.isAssignableFrom(item.getClass())) {
+				getAllComponents(((Container)item).getComponents(), result);
+			}
+		}
+	}
+	
+	public static <T> T buscarElemento(Collection<T> coleccion, Predicate<T> search) {
+		if(coleccion == null || coleccion.size() == 0)
+			return null;
+		
+		for(T item : coleccion) {
+			if(search.test(item))
+				return item;
+		}
+		
+		return null;
+	}
+	
+	public static <T> T buscarElemento(T[] arreglo, Predicate<T> search) {
+		if(arreglo == null || arreglo.length == 0)
+			return null;
+		
+		for(T item : arreglo) {
+			if(search.test(item))
+				return item;
+		}
+		return null;
 	}
 	
 	// Métodos Para Hashing
@@ -76,6 +116,7 @@ public final class Utilidades {
 	}
 	
 	public static boolean ejecutarCallByIndex(String query, Map<Integer, Object> parametros, Connection conexion) {
+		
 		try (CallableStatement st = conexion.prepareCall(query);) {
 			parametros.forEach((Integer key, Object value) -> {
 				try {

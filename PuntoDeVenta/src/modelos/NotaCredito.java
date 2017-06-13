@@ -73,11 +73,11 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<NotaC
 		temp.put("_idNotaCredito", noDocumento);
 		temp.put("_total", total);
 		temp.put("_efectuado", efectuado);
-		temp.put("_idCliente", cliente.getId());
+		temp.put("_idcliente", cliente.getId());
 		temp.put("_concepto", concepto);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL ModificarNotasCredito(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL ModificarNotasCredito(?,?,?,?,?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -126,7 +126,7 @@ public class NotaCredito extends AcuerdoComercial implements IEntidadDatos<NotaC
 				itera.total = datos.getFloat("total");
 				itera.efectuado = datos.getBoolean("efectuado");
 				notasCredito.add(itera);
-				clientesSb.append(String.format("%s,", datos.getInt("idsuplidor")));
+				clientesSb.append(String.format("%s,", datos.getInt("idcliente")));
 			}
 			
 			if(clientesSb.charAt(clientesSb.length() - 1) == ',')

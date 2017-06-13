@@ -60,7 +60,7 @@ public class ProductoTest {
 		pr.setCodigo("ASD123");
 		pr.setCosto(10f);
 		pr.setDescripcion("Producto de prueba");
-		pr.setId(100);
+		
 		pr.setInventario(100f);
 		pr.setPrecio(10f);
 		pr.setTasaImpuesto(0.16f);
