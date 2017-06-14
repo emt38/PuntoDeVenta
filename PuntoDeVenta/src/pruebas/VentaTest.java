@@ -25,7 +25,7 @@ public class VentaTest {
 		temp.setCliente(new Cliente().listar("LIMIT 0,1").get(0));
 		temp.setTienda(new Tienda().listar("LIMIT 0,1").get(0));
 		temp.setFecha(new Date());
-		List<Producto> productos = new Producto().listar();
+		List<Producto> productos = new Producto().listar("LIMIT 0, 5");
 		for(Producto p : productos) {
 			temp.agregarArticulo(new Articulo(p, 1, 10, 0, 0, 10));
 		}

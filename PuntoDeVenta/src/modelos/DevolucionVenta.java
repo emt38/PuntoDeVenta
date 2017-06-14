@@ -174,7 +174,7 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 		temp.put("_idDevolucionVenta", id);
 		
 		try (Connection gate = Utilidades.newConnection();) {
-			return Utilidades.ejecutarCall("CALL EliminarDevolucionesComprasEncabezado(?)", temp, gate);
+			return Utilidades.ejecutarCall("CALL EliminarDevolucionesVentasEncabezado(?)", temp, gate);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -214,7 +214,7 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 				itera.articulos = new ArrayList<>();
 				itera.supervisor = new Usuario(datos.getInt("idsupervisor"), "", "", "", "", TipoUsuario.Administrador, null);
 				itera.notaCredito = new NotaCredito();
-				itera.notaCredito.setNoDocumento(datos.getInt("idnotadebito"));
+				itera.notaCredito.setNoDocumento(datos.getInt("idnotacredito"));
 				devolucionesVenta.add(itera);
 				
 				articulosSb.append(String.format("%s,", datos.getInt("id")));
