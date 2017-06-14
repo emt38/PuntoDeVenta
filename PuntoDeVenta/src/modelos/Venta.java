@@ -102,11 +102,11 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 				temp.put("_subtotal", a.getSubTotal());
 				temp.put("_cantidad", a.getCantidad());
 				
-				boolean x = Utilidades.ejecutarCall(detail, temp);
-				if(x) 
-					registrarInventario();
-				return x;
+				Utilidades.ejecutarCall(detail, temp);
 			}
+			
+			registrarInventario();
+			return true;
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -321,6 +321,5 @@ public class Venta extends IntercambioComercial implements IEntidadDatos<Venta> 
 	public void efectuar() {
 		super.efectuar();
 		insertar();
-		registrarInventario();
 	}
 }

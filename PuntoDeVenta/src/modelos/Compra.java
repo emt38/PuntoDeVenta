@@ -86,12 +86,11 @@ public class Compra extends IntercambioComercial implements IEntidadDatos<Compra
 				temp.put("subt", a.getSubTotal());
 				temp.put("cant", a.getCantidad());
 				
-				boolean x = Utilidades.ejecutarCall(detail, temp);
-				if (x) 
-					registrarInventario();
-				
-				return x;
+				Utilidades.ejecutarCall(detail, temp);
 			}
+			
+			registrarInventario();
+			return true;
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

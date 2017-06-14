@@ -142,8 +142,10 @@ public class DevolucionVenta implements IEntidadDatos<DevolucionVenta> {
 				temp.put("_cantidad", a.getCantidad());
 				
 				Utilidades.ejecutarCall(detail, temp);
-				registrarInventario();
 			}
+			
+			registrarInventario();
+			return true;
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
