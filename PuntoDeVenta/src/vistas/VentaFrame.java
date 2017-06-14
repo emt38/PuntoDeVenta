@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +66,7 @@ public class VentaFrame extends JFrame {
 	private void ReloadAll() {
 		
 		if( clientes.size() > 0 ){	
-			cbbxClientes = new JComboBox<ComboItem>();
-			for(Cliente clint: clientes){
-				cbbxClientes.addItem(new ComboItem(clint.getNombre(),clint));
-			}
+			
 			Object item = cbbxClientes.getSelectedItem();
 			Object objeto = ((ComboItem)item).getObjeto();
 			cliente = (Cliente) objeto;
@@ -105,6 +106,10 @@ public class VentaFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		for(Cliente client: clientes){
+			cbbxClientes.addItem(new ComboItem(client.getNombre(),client));
+		}
 		
 		tabla = new JTable();
 		tabla.setModel(new DefaultTableModel(
@@ -230,6 +235,9 @@ public class VentaFrame extends JFrame {
 							venta.setTerminalVentas(0);
 							venta.setTienda(Program.getLoggedUser().getTienda());
 							venta.efectuar();
+							
+							GuardarVentaDetalle(AgregarProductoDialog.getArticulosSeleccionados());
+							
 							JOptionPane.showMessageDialog(null, "La venta se realizao correctamente!");
 						}catch(Exception e){
 						}
@@ -237,8 +245,6 @@ public class VentaFrame extends JFrame {
 				}
 				else
 					JOptionPane.showMessageDialog(null, "El monto recibido no es suficiente para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
-
-				
 			}
 		});
 		btnRealizarVenta.setBounds(364, 457, 127, 30);
@@ -381,6 +387,46 @@ public class VentaFrame extends JFrame {
 		}
 		catch (NumberFormatException nfe){
 			return false;
+		}
+	}
+	
+	public static int ejecutarQuery(String query, Statement st) {
+		try {
+			int result = st.executeUpdate(query);
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public void ConsultaSQL(String consulta){
+		try{
+			Connection gate = Utilidades.newConnection();
+			Statement state = Utilidades.newConnection().createStatement();
+			int datos = ejecutarQuery(consulta, state);			
+		}
+		catch(SQLException e){
+			
+		}
+	}
+	
+	private void GuardarVentaDetalle(List<Articulo> articulosSeleccionados) {
+		for(Articulo art: articulosSeleccionados){
+			
+			art.totalizar();
+			String cantidad = Float.toString(art.getCantidad());
+			String impuestos = Float.toString(art.getImpuestos());
+			String subtotal = Float.toString(art.getSubTotal());
+			String valor = Float.toString(art.getValor());
+			String producto = art.getProducto().getDescripcion();
+			
+			String idventa = "(select idventa From ventasencabezado order by fecha desc limit 1)";
+			String idProducto = "(select idproducto FROM productos WHERE descripcion = '"+ producto +"')";
+			
+			
+			ConsultaSQL("insert into ventasdetalle(idVenta, idProducto, valor, impuestos, subtotal, cantidad ) "
+										+ "values ("+ idventa +", "+ idProducto +", "+ valor +", "+ impuestos +", "+ subtotal +", "+ cantidad +" );");
 		}
 	}
 	
