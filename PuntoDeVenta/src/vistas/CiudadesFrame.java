@@ -22,17 +22,18 @@ import modelos.Provincia;
 import modelos.Ciudad;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import principal.RobotFingers;
 
 public class CiudadesFrame extends JFrame {
 
 	//Declaracion de Botones, Combo Box, Objetos, entre otros.
 	private JPanel contentPane;
 	private JComboBox<Provincia> comboBoxProvincia = new JComboBox<>();
-	private JComboBox<Pais> comboBoxPais = new JComboBox<>();
+	private static JComboBox<Pais> comboBoxPais = new JComboBox<>();
 	private JComboBox<Ciudad> comboBoxCiudad = new JComboBox<>();
 	private JButton btnCancelar = new JButton("CANCELAR");
-	private JButton btnNuevo = new JButton("NUEVO");
-	private JButton btnGuardar = new JButton("GUARDAR");
+	private static JButton btnNuevo = new JButton("NUEVO");
+	private static JButton btnGuardar = new JButton("GUARDAR");
 	private JButton btnSalir = new JButton("SALIR");
 	private JButton btnModificar = new JButton("MODIFICAR");
 	private JButton btnEliminar = new JButton("ELIMINAR");
@@ -48,9 +49,12 @@ public class CiudadesFrame extends JFrame {
 	private ButtonGroup group = new ButtonGroup();
 	private JRadioButton RBCiudad = new JRadioButton();
 	private JRadioButton RBProvincia = new JRadioButton();
-	private JRadioButton RBPais = new JRadioButton();
+	private static JRadioButton RBPais = new JRadioButton();
+	static RobotFingers miRobot = new RobotFingers();
+	
 	
 	public CiudadesFrame() {
+		
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteFrame.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));
 		setTitle("Ciudades");
@@ -61,6 +65,7 @@ public class CiudadesFrame extends JFrame {
 		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 		
 		group.add(RBPais);
 		RBPais.setEnabled(false);
@@ -77,6 +82,7 @@ public class CiudadesFrame extends JFrame {
 		btnNuevo.setMaximumSize(new Dimension(20, 9));
 		btnNuevo.setBounds(350, 15, 90, 20);
 		contentPane.add(btnNuevo);
+		
 		
 		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
 		btnGuardar.setBounds(350, 40, 90, 20);
@@ -152,6 +158,8 @@ public class CiudadesFrame extends JFrame {
 				
 			}
 		});
+		
+		
 		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -274,6 +282,8 @@ public class CiudadesFrame extends JFrame {
 		});		
 	
 	};
+	
+
 
 	// Metodo para validar los campos 
 	private boolean ValidarCampos() {
@@ -297,6 +307,8 @@ public class CiudadesFrame extends JFrame {
 		}
 		return true;
 	}
+	
+	
 	
 	//Metodos para llenar el Combo Box de provincia
 	private void rellenaProvincia(Pais seleccionEnComboBoxPais) {
@@ -464,14 +476,13 @@ public class CiudadesFrame extends JFrame {
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Los cambios no han sido guardados");
-				Desabilitar();
+				
 
 			}
 	}
 	
 	//Metodo para el Boton Modificar
 	public void Modificar(){
-		
 		RBPais.setEnabled(true);
 		RBProvincia.setEnabled(true);
 		RBCiudad.setEnabled(true);
@@ -508,16 +519,45 @@ public class CiudadesFrame extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				
 				try {
 					
 					
-					CiudadesFrame frame = new CiudadesFrame();
-					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				
 			}
+			
 		});
+		CiudadesFrame frame = new CiudadesFrame();
+		frame.setVisible(true);
+		
+		miRobot.delay(2000);
+		miRobot.moveToComponentAnimated((btnNuevo), 5);
+		miRobot.leftClickComponent(btnNuevo);
+		miRobot.delay(2000);
+		miRobot.moveToComponentAnimated((RBPais), 5);
+		miRobot.leftClickComponent(RBPais);
+		miRobot.delay(2000);
+		miRobot.moveToComponentAnimated(comboBoxPais, 5);
+		miRobot.leftClickComponent(comboBoxPais);
+		comboBoxPais.setSelectedItem("");
+		miRobot.writeString("Dinamarca");
+		miRobot.delay(2000);
+		miRobot.moveToComponentAnimated(btnGuardar, 5);
+		miRobot.leftClickComponent(btnGuardar);
+		miRobot.delay(2000);
+		miRobot.moveToAnimated(650,385, 5);
+		miRobot.leftClick(650,385);
+		miRobot.delay(2000);
+		
+		miRobot.leftClick(650,385);
+		
+		
 	
+		
 	}
+	
 }
