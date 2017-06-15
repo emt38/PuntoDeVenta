@@ -207,6 +207,11 @@ public class VentaFrame extends JFrame {
 		btnBuscarArticulos.setName("btnBuscarArticulos");
 		btnBuscarArticulos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				for(Articulo art:AgregarProductoDialog.getArticulosSeleccionados()){
+					venta.retirarArticulo(art);
+				}
+				
 				AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
 				agregarProducto.setModal(true);
 				agregarProducto.setVisible(true);
@@ -240,6 +245,8 @@ public class VentaFrame extends JFrame {
 								venta.setTienda(Program.getLoggedUser().getTienda());
 								venta.efectuar();
 								
+								AgregarProductoDialog.getArticulosSeleccionados().clear();
+								
 								VentaFrame.this.dispose();
 								JOptionPane.showMessageDialog(VentaFrame.this, "La venta se ha realizado correctamente!");
 							}catch(Exception e){
@@ -247,10 +254,10 @@ public class VentaFrame extends JFrame {
 						}
 					}
 					else
-						JOptionPane.showMessageDialog(null, "El monto recibido no es suficiente para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "El monto recibido no es suficiente para realizar la venta.", "Alerta!", JOptionPane.ERROR_MESSAGE);
 				}
 				else
-					JOptionPane.showMessageDialog(null, "No hay articulos para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No hay articulos para realizar la venta.", "Alerta!", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		btnRealizarVenta.setBounds(364, 457, 127, 30);

@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -50,10 +49,12 @@ public class CompraFrame extends JFrame {
 	Suplidor suplidor = new Suplidor();
 	
 	private Compra compra = new Compra(suplidor, Program.getLoggedUser(), Program.getLoggedUser().getTienda());
+	String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 	
 	List<Suplidor> suplidores = new Suplidor().listar("ORDER BY Nombre");
 	JComboBox cbxSuplidores = new JComboBox();
 	private JLabel lblSuplidor;
+	private JButton btnVaciarArticulos;
 	
 	
 	private void ReloadAll() {
@@ -70,9 +71,8 @@ public class CompraFrame extends JFrame {
 		}
 		
 		
-		String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 		String[] campos = {"cantidad", "producto","valor", "impuestos", "subtotal"};  
-		Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
+		Object[][] datos = Utilidades.listToBidiArray(AgregarProductoDialog.getArticulosSeleccionados(), campos);
 		
 		for(int i = 0; i< datos.length; i++){
 			datos[i][1] = ((Producto) datos[i][1]).getDescripcion(); 
@@ -178,24 +178,30 @@ public class CompraFrame extends JFrame {
 			}
 		});
 		
-		JButton btnAgregarArticulo = new JButton("Agregar Articulo");
-		btnAgregarArticulo.addActionListener(new ActionListener() {
+		JButton btnBuscarArticulos = new JButton("Buscar Articulos");
+		btnBuscarArticulos.setName("btnBuscarArticulos");
+		btnBuscarArticulos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AgregarArticuloDialog agregarArticulo = new AgregarArticuloDialog();
-				agregarArticulo.setModal(true);
-				agregarArticulo.setVisible(true);
-				agregarArticulo.setResizable(false);
 				
-				if(agregarArticulo.articuloAgregado){
-					for(Articulo artic: (List<Articulo>)(AgregarArticuloDialog.pasarObjeto())){
+				for(Articulo art:AgregarProductoDialog.getArticulosSeleccionados()){
+					compra.retirarArticulo(art);
+				}
+				
+				AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
+				agregarProducto.setModal(true);
+				agregarProducto.setVisible(true);
+				agregarProducto.setResizable(false);
+				
+				if(AgregarProductoDialog.getArticulosSeleccionados().size()>0){
+					for(Articulo artic: AgregarProductoDialog.getArticulosSeleccionados()){
 						compra.agregarArticulo(artic);
 					}
 					ReloadAll();
 				}
 			}
 		});
-		btnAgregarArticulo.setBounds(10, 13, 148, 23);
-		contentPane.add(btnAgregarArticulo);
+		btnBuscarArticulos.setBounds(10, 13, 148, 23);
+		contentPane.add(btnBuscarArticulos);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
@@ -217,20 +223,29 @@ public class CompraFrame extends JFrame {
 		contentPane.add(lblNotaborrararticulo);
 		
 		btnRealizarCompra = new JButton("Realizar Compra");
+		btnRealizarCompra.setName("btnRealizarCompra");
 		btnRealizarCompra.setBounds(282, 297, 127, 30);
 		btnRealizarCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la compra?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-				if (opcion == 0){
-					try{
-						compra.efectuar();
-						JOptionPane.showMessageDialog(null, "La compra se realizao correctamente!");
-					}catch(Exception ex){
-						
-					}
+				if(AgregarProductoDialog.getArticulosSeleccionados().size()>0){
 					
+					int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la compra?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (opcion == 0){
+						try{
+							ReloadAll();
+							compra.efectuar();
+							
+							AgregarProductoDialog.getArticulosSeleccionados().clear();
+							
+							CompraFrame.this.dispose();
+							JOptionPane.showMessageDialog(null, "La compra se ha realizado correctamente!");
+						}catch(Exception ex){
+							
+						}
+					}
 				}
+				else
+					JOptionPane.showMessageDialog(null, "No hay articulos para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		contentPane.add(btnRealizarCompra);
@@ -239,6 +254,26 @@ public class CompraFrame extends JFrame {
 		lblSuplidor.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblSuplidor.setBounds(307, 14, 62, 14);
 		contentPane.add(lblSuplidor);
+		
+		btnVaciarArticulos = new JButton("Vaciar articulos");
+		btnVaciarArticulos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabla.setModel(new DefaultTableModel(columnas, 0));
+				
+				for(Articulo art:AgregarProductoDialog.getArticulosSeleccionados()){
+					compra.retirarArticulo(art);
+				}
+				
+				AgregarProductoDialog.getArticulosSeleccionados().clear();
+				
+				tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
+				tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
+				ReloadAll();
+			}
+		});
+		btnVaciarArticulos.setName("btnVaciarArticulos");
+		btnVaciarArticulos.setBounds(407, 53, 139, 23);
+		contentPane.add(btnVaciarArticulos);
 		
 		//////
 		  int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -251,20 +286,24 @@ public class CompraFrame extends JFrame {
 		  actionMap.put(DELETE, new AbstractAction() {
 		     public void actionPerformed(ActionEvent e) {
 		    	 
-		    	 Articulo articuloABorrar= new Articulo ();
-		    	 String productoDescripcion = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
-		    	 
-		         
-		         String[] campos =  {"producto"};
-		         Object[][] datos = Utilidades.listToBidiArray(compra.getArticulos(), campos);
-		 		
-		 		for(int i = 0; i< datos.length; i++){
-		 			if (productoDescripcion == compra.getArticulos().get(i).getProducto().getDescripcion())
-		 				articuloABorrar = compra.getArticulos().get(i);
-		 		}
-		 		
-		 		compra.retirarArticulo(articuloABorrar);
-		 		ReloadAll();
+		    	 if(tabla.getSelectedRow() >=0){
+			    	 
+			    	 Articulo articuloABorrar= new Articulo ();
+			    	 String productoDescripcion = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
+			    	 
+			         
+			         String[] campos =  {"producto"};
+			         Object[][] datos = Utilidades.listToBidiArray(AgregarProductoDialog.getArticulosSeleccionados(), campos);
+			 		
+			 		for(int i = 0; i< datos.length; i++){
+			 			if (productoDescripcion == AgregarProductoDialog.getArticulosSeleccionados().get(i).getProducto().getDescripcion())
+			 				articuloABorrar = AgregarProductoDialog.getArticulosSeleccionados().get(i);
+			 		}
+			 		
+			 		compra.retirarArticulo(articuloABorrar);
+			 		AgregarProductoDialog.getArticulosSeleccionados().remove(articuloABorrar);
+			 		ReloadAll();
+		    	 }
 		     }
 		  });
 

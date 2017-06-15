@@ -193,29 +193,6 @@ public class AgregarProductoDialog extends JDialog{
 				AgregarProductoDialog.this.dispose();
 			}
 		});
-		
-		
-		
-		//////Para eliminar productos///////
-			  int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-			  InputMap inputMap = tabla.getInputMap(condition);
-			  ActionMap actionMap = tabla.getActionMap();
-			  
-			  final String DELETE = "Delete";
-
-			  inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), DELETE);
-			  actionMap.put(DELETE, new AbstractAction() {
-			     public void actionPerformed(ActionEvent e) {
-			    	 
-			    	 String productoDescripcion = (String) tabla.getValueAt(tabla.getSelectedRow(), 1);
-			 		
-			 		for(int i = 0; i< productos.size(); i++){
-			 			if (productoDescripcion == productos.get(i).getDescripcion())
-			 				productos.remove(i);
-			 		}
-			 		ReloadAll();
-			     }
-			  });
 	}
 	
 	private Producto ConvertRowToProduct(JTable tabla, int rowNumber) {
