@@ -46,16 +46,6 @@ public class AgregarProductoDialog extends JDialog{
 	List<Producto> productosJtable = new Producto().listar();
 	List<Producto>  productos = new ArrayList<Producto>();
 	static List<Articulo> articulos =  new ArrayList<Articulo>();
-	public boolean productoAgregado = false;
-	
-	
-	static Object objeto;
-	public static void pasarProducto(Object object){
-		objeto = object;
-	}
-	public static Object pasarProducto(){
-		return objeto;
-	}
 	
 	public static List<Articulo> getArticulosSeleccionados(){
 		return articulos;
@@ -100,6 +90,7 @@ public class AgregarProductoDialog extends JDialog{
 		contentPane.setLayout(null);
 		
 		tabla = new JTable();
+		tabla.setName("tabla");
 		String[] columnas = {"ID", "Codigo", "Descripcion", "Costo", "Precio", "Tasa de impuesto"};
 		String[] campos = {"Id", "Codigo", "Descripcion", "Costo", "Precio", "TasaImpuesto"};  
 		Object[][] datos = Utilidades.listToBidiArray(productosJtable, campos);
@@ -118,6 +109,7 @@ public class AgregarProductoDialog extends JDialog{
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
 		scrollPane = new JScrollPane(tabla);
+		scrollPane.setName("scrollPane");
 		scrollPane.setBounds(10, 109, 536, 209);
 		contentPane.add(scrollPane);
 		
@@ -172,21 +164,15 @@ public class AgregarProductoDialog extends JDialog{
 		tabla.setModel(modelo);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setName("btnAgregar");
 		btnAgregar.setBounds(354, 329, 89, 23);
 		contentPane.add(btnAgregar);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					int rowNum = tabla.getSelectedRow();
-					
-					Producto producto = ConvertRowToProduct(tabla, rowNum);
-					pasarProducto(producto);
 					ActualizarTablaExterna(tablaExterna);
-					
-					productoAgregado = true;
 				}
 				catch(Exception e){
-					productoAgregado = false;
 				}
 				
 			}
@@ -198,6 +184,7 @@ public class AgregarProductoDialog extends JDialog{
 		contentPane.add(separator);
 		
 		JButton btnCerrar = new JButton("Cerrar");
+		btnCerrar.setName("btnCerrar");
 		btnCerrar.setBounds(455, 329, 89, 23);
 		contentPane.add(btnCerrar);
 		btnCerrar.addActionListener(new ActionListener() {

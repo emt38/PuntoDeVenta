@@ -49,7 +49,6 @@ public class VentaFrame extends JFrame {
 	private JTextField txtTotalImpuestos = new JTextField();
 	private JTextField txtTotalDescuento = new JTextField();
 	private JTextField txtTotal = new JTextField();
-	private JTextField txtCambiardesc = new JTextField();
 	private JTextField txtEfectivoRecibido = new JTextField();
 	private JTextField txtCambioDevuelto = new JTextField();
 	private Venta venta = new Venta();
@@ -112,6 +111,7 @@ public class VentaFrame extends JFrame {
 		}
 		
 		tabla = new JTable();
+		tabla.setName("tabla");
 		tabla.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -158,6 +158,7 @@ public class VentaFrame extends JFrame {
 		txtCambioDevuelto.setColumns(10);
 		
 		txtEfectivoRecibido = new JTextField();
+		txtEfectivoRecibido.setName("txtEfectivoRecibido");
 		txtEfectivoRecibido.setBounds(138, 321, 86, 25);
 		contentPane.add(txtEfectivoRecibido);
 		txtEfectivoRecibido.setColumns(10);
@@ -195,6 +196,7 @@ public class VentaFrame extends JFrame {
 		txtTotalDescuento.setText(String.format("%.2f", venta.getDescuentos()));
 		
 		txtTotal = new JTextField();
+		txtTotal.setName("txtTotal");
 		txtTotal.setBounds(542, 423, 86, 25);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
@@ -202,6 +204,7 @@ public class VentaFrame extends JFrame {
 		txtTotal.setText(String.format("%.2f", venta.getTotal()));
 		
 		JButton btnBuscarArticulos = new JButton("Buscar Articulos");
+		btnBuscarArticulos.setName("btnBuscarArticulos");
 		btnBuscarArticulos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
@@ -221,36 +224,40 @@ public class VentaFrame extends JFrame {
 		contentPane.add(btnBuscarArticulos);
 		
 		JButton btnRealizarVenta = new JButton("Realizar Venta");
+		btnRealizarVenta.setName("btnRealizarVenta");
 		btnRealizarVenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if((venta.getEfectivoRecibido())>(venta.getTotal())){
-					
-					int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la venta?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (opcion == 0){
-						try{
-							ReloadAll();
-							venta.setCliente(cliente);
-							venta.setCajero(Program.getLoggedUser());
-							venta.setTerminalVentas(0);
-							venta.setTienda(Program.getLoggedUser().getTienda());
-							venta.efectuar();
-							
-							GuardarVentaDetalle(AgregarProductoDialog.getArticulosSeleccionados());
-							
-							JOptionPane.showMessageDialog(null, "La venta se realizao correctamente!");
-						}catch(Exception e){
+				if(AgregarProductoDialog.getArticulosSeleccionados().size()>0){
+					if((venta.getEfectivoRecibido())>(venta.getTotal())){
+						int opcion =JOptionPane.showConfirmDialog(VentaFrame.this, "¿Esta seguro que desea realizar la venta?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (opcion == 0){
+							try{
+								ReloadAll();
+								venta.setCliente(cliente);
+								venta.setCajero(Program.getLoggedUser());
+								venta.setTerminalVentas(0);
+								venta.setTienda(Program.getLoggedUser().getTienda());
+								venta.efectuar();
+								
+								VentaFrame.this.dispose();
+								JOptionPane.showMessageDialog(VentaFrame.this, "La venta se ha realizado correctamente!");
+							}catch(Exception e){
+							}
 						}
 					}
+					else
+						JOptionPane.showMessageDialog(null, "El monto recibido no es suficiente para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
 				}
 				else
-					JOptionPane.showMessageDialog(null, "El monto recibido no es suficiente para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No hay articulos para realizar la compra.", "Alerta!", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		btnRealizarVenta.setBounds(364, 457, 127, 30);
 		contentPane.add(btnRealizarVenta);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setName("btnSalir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -280,6 +287,7 @@ public class VentaFrame extends JFrame {
 		contentPane.add(lblNota);
 		
 		JButton btnVaciarArticulos = new JButton("Vaciar articulos");
+		btnVaciarArticulos.setName("btnVaciarArticulos");
 		btnVaciarArticulos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				tabla.setModel(new DefaultTableModel(columnas, 0));
@@ -299,6 +307,7 @@ public class VentaFrame extends JFrame {
 		contentPane.add(btnVaciarArticulos);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setName("btnAgregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(txtAgregar.getText().length()>0){
@@ -327,6 +336,7 @@ public class VentaFrame extends JFrame {
 		contentPane.add(btnAgregar);
 		
 		txtAgregar = new JTextField();
+		txtAgregar.setName("txtAgregar");
 		txtAgregar.setBounds(79, 50, 86, 25);
 		contentPane.add(txtAgregar);
 		txtAgregar.setColumns(10);
@@ -387,46 +397,6 @@ public class VentaFrame extends JFrame {
 		}
 		catch (NumberFormatException nfe){
 			return false;
-		}
-	}
-	
-	public static int ejecutarQuery(String query, Statement st) {
-		try {
-			int result = st.executeUpdate(query);
-			return result;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
-	
-	public void ConsultaSQL(String consulta){
-		try{
-			Connection gate = Utilidades.newConnection();
-			Statement state = Utilidades.newConnection().createStatement();
-			int datos = ejecutarQuery(consulta, state);			
-		}
-		catch(SQLException e){
-			
-		}
-	}
-	
-	private void GuardarVentaDetalle(List<Articulo> articulosSeleccionados) {
-		for(Articulo art: articulosSeleccionados){
-			
-			art.totalizar();
-			String cantidad = Float.toString(art.getCantidad());
-			String impuestos = Float.toString(art.getImpuestos());
-			String subtotal = Float.toString(art.getSubTotal());
-			String valor = Float.toString(art.getValor());
-			String producto = art.getProducto().getDescripcion();
-			
-			String idventa = "(select idventa From ventasencabezado order by fecha desc limit 1)";
-			String idProducto = "(select idproducto FROM productos WHERE descripcion = '"+ producto +"')";
-			
-			
-			ConsultaSQL("insert into ventasdetalle(idVenta, idProducto, valor, impuestos, subtotal, cantidad ) "
-										+ "values ("+ idventa +", "+ idProducto +", "+ valor +", "+ impuestos +", "+ subtotal +", "+ cantidad +" );");
 		}
 	}
 	
