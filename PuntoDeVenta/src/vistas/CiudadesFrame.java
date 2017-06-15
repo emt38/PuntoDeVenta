@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import javax.swing.JSeparator;
@@ -84,9 +86,9 @@ public class CiudadesFrame extends JFrame {
 		contentPane.add(btnNuevo);
 		
 		
-		btnGuardar.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnGuardar.setBounds(350, 40, 90, 20);
-		contentPane.add(btnGuardar);
+		getBtnGuardar().setHorizontalAlignment(SwingConstants.TRAILING);
+		getBtnGuardar().setBounds(350, 40, 90, 20);
+		contentPane.add(getBtnGuardar());
 		
 		btnModificar.setHorizontalAlignment(SwingConstants.TRAILING);
 		btnModificar.setBounds(350, 65, 100, 20);
@@ -107,8 +109,8 @@ public class CiudadesFrame extends JFrame {
 		lblPais.setBounds(6, 15, 50, 14);
 		contentPane.add(lblPais);
 		
-		comboBoxPais.setBounds(36, 15, 250, 20);
-		contentPane.add(comboBoxPais);
+		getComboBoxPais().setBounds(36, 15, 250, 20);
+		contentPane.add(getComboBoxPais());
 		
 		lblProvincia.setBounds(6, 40, 60, 14);
 		contentPane.add(lblProvincia);
@@ -140,6 +142,7 @@ public class CiudadesFrame extends JFrame {
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(320, 175, 145, 14);
 		contentPane.add(separator_3);
+		
 	
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +170,7 @@ public class CiudadesFrame extends JFrame {
 				int opcion=JOptionPane.showConfirmDialog(null, "¿Seguro que desea cancelar la accion?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
 				if (opcion == 0){
-					comboBoxPais.setEnabled(false);
+					getComboBoxPais().setEnabled(false);
 					comboBoxProvincia.setEnabled(false);
 					comboBoxCiudad.setEnabled(false);
 					RBPais.setEnabled(false);
@@ -176,12 +179,12 @@ public class CiudadesFrame extends JFrame {
 					btnCancelar.setEnabled(true);
 					btnModificar.setEnabled(false);
 					btnEliminar.setEnabled(false);
-					btnGuardar.setEnabled(true);
+					getBtnGuardar().setEnabled(true);
 					btnCancelar.setEnabled(false);
 					btnNuevo.setEnabled(true);
 					btnModificar.setEnabled(true);
 					btnEliminar.setEnabled(false);
-					btnGuardar.setEnabled(false);
+					getBtnGuardar().setEnabled(false);
 					group.clearSelection();
 					
 				}				
@@ -193,12 +196,12 @@ public class CiudadesFrame extends JFrame {
 			
 				Modificar();
 				btnEliminar.setEnabled(false);
-				btnGuardar.setEnabled(false);
+				getBtnGuardar().setEnabled(false);
 			}
 	
 		});
 		
-		btnGuardar.addActionListener(new ActionListener() {
+		getBtnGuardar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				guardar();
@@ -214,7 +217,7 @@ public class CiudadesFrame extends JFrame {
 						
 					}
 					else
-						btnGuardar.setEnabled(true);
+						getBtnGuardar().setEnabled(true);
 					
 					habilitaPais();
 				}		
@@ -228,7 +231,7 @@ public class CiudadesFrame extends JFrame {
 						
 					}
 					else
-						btnGuardar.setEnabled(true);
+						getBtnGuardar().setEnabled(true);
 					
 					habilitaProvincia();
 				}		
@@ -242,19 +245,19 @@ public class CiudadesFrame extends JFrame {
 						
 					}
 					else
-						btnGuardar.setEnabled(true);
+						getBtnGuardar().setEnabled(true);
 					
 					habilitaCiudad();
 				}		
 			}); 
 		
-		comboBoxPais.addActionListener(new ActionListener() {
+		getComboBoxPais().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				iD = comboBoxPais.getSelectedIndex();
+				iD = getComboBoxPais().getSelectedIndex();
 				
 				if (iD != -1)
-					rellenaProvincia((Pais) comboBoxPais.getSelectedItem());	
+					rellenaProvincia((Pais) getComboBoxPais().getSelectedItem());	
 			}		
 		});
 		
@@ -287,9 +290,9 @@ public class CiudadesFrame extends JFrame {
 
 	// Metodo para validar los campos 
 	private boolean ValidarCampos() {
-		if(comboBoxPais.getSelectedItem()==null)
+		if(getComboBoxPais().getSelectedItem()==null)
 		{
-			comboBoxPais.requestFocus();
+			getComboBoxPais().requestFocus();
 			JOptionPane.showMessageDialog(null, "El campo Pais no puede estar en blanco");
 			return false;
 		}
@@ -333,8 +336,8 @@ public class CiudadesFrame extends JFrame {
 	
 	//Metodos para habilitar el Combo Box de Pais
 	public void habilitaPais(){
-		comboBoxPais.setEnabled(true);	
-		comboBoxPais.setEditable(true);		
+		getComboBoxPais().setEnabled(true);	
+		getComboBoxPais().setEditable(true);		
 		comboBoxProvincia.setEditable(false);			
 		comboBoxProvincia.setEnabled(false);
 		comboBoxCiudad.setEditable(false);	
@@ -343,8 +346,8 @@ public class CiudadesFrame extends JFrame {
 	
 	//Metodos para habilitar el Combo Box de Provincia.
 	public void habilitaProvincia(){
-		comboBoxPais.setEnabled(false);	
-		comboBoxPais.setEditable(false);		
+		getComboBoxPais().setEnabled(false);	
+		getComboBoxPais().setEditable(false);		
 		comboBoxProvincia.setEditable(true);			
 		comboBoxProvincia.setEnabled(true);
 		comboBoxCiudad.setEditable(false);	
@@ -353,8 +356,8 @@ public class CiudadesFrame extends JFrame {
 		
 	//Metodos para habilitar el Combo Box de Ciudad.
 	public void habilitaCiudad(){
-		comboBoxPais.setEnabled(false);	
-		comboBoxPais.setEditable(false);		
+		getComboBoxPais().setEnabled(false);	
+		getComboBoxPais().setEditable(false);		
 		comboBoxProvincia.setEditable(false);			
 		comboBoxProvincia.setEnabled(false);
 		comboBoxCiudad.setEditable(true);	
@@ -365,14 +368,16 @@ public class CiudadesFrame extends JFrame {
 	public void eliminar(){
 		if (RBPais.isSelected()){
 			
-			int opcion=JOptionPane.showConfirmDialog(null, "Si borra " + comboBoxPais.getSelectedItem() +  " sus provincias y ciudades seran borradas ¿Seguro que desea borrar el pais?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+			int opcion=JOptionPane.showConfirmDialog(null, "Si borra " + getComboBoxPais().getSelectedItem() +  " sus provincias y ciudades seran borradas ¿Seguro que desea borrar el pais?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 			
 			if(opcion == 0){
-				Pais temp = (Pais) comboBoxPais.getSelectedItem();
+				Pais temp = (Pais) getComboBoxPais().getSelectedItem();
 				temp.eliminar();
-				JOptionPane.showMessageDialog(null,  comboBoxPais.getSelectedItem() + " fue borrado con exito");
+				JOptionPane.showMessageDialog(null,  getComboBoxPais().getSelectedItem() + " fue borrado con exito");
 				dispose();
 				CiudadesFrame temp1 = new CiudadesFrame();
+				temp1.setLocationRelativeTo(null);
+				btnNuevo.setEnabled(true);
 				temp1.setVisible(true);
 				
 			}
@@ -390,6 +395,8 @@ public class CiudadesFrame extends JFrame {
 			JOptionPane.showMessageDialog(null,  comboBoxProvincia.getSelectedItem() + " fue borrado con exito");
 			dispose();
 			CiudadesFrame temp1 = new CiudadesFrame();
+			temp1.setLocationRelativeTo(null);
+			btnNuevo.setEnabled(true);
 			temp1.setVisible(true);
 			}
 			else{
@@ -406,6 +413,8 @@ public class CiudadesFrame extends JFrame {
 				
 				dispose();
 				CiudadesFrame temp1 = new CiudadesFrame();
+				temp1.setLocationRelativeTo(null);
+				btnNuevo.setEnabled(true);
 				temp1.setVisible(true);
 			}
 			else{
@@ -425,24 +434,28 @@ public class CiudadesFrame extends JFrame {
 					
 					 if (iD != -1){
 												
-						String nombre = comboBoxPais.getSelectedItem().toString();
+						String nombre = getComboBoxPais().getSelectedItem().toString();
 						miPais.setNombre(nombre);
-						miPais.setId(((Pais) comboBoxPais.getSelectedItem()).getId());
+						miPais.setId(((Pais) getComboBoxPais().getSelectedItem()).getId());
 						miPais.actualizar();
 						JOptionPane.showMessageDialog(null, "Los cambios han sido modificados con exito");	
 						dispose();
 						CiudadesFrame temp = new CiudadesFrame();
+						temp.setLocationRelativeTo(null);
+						btnNuevo.setEnabled(true);
 						temp.setVisible(true);
 					
 					 }
 					 else{
 
 							miPais.buscar(iD);
-							miPais.setNombre(comboBoxPais.getSelectedItem().toString());
+							miPais.setNombre(getComboBoxPais().getSelectedItem().toString());
 							miPais.insertar();
 							JOptionPane.showMessageDialog(null, "Los cambios han sido guardados con exito");
 							dispose();
 							CiudadesFrame temp = new CiudadesFrame();
+							temp.setLocationRelativeTo(null);
+							btnNuevo.setEnabled(true);
 							temp.setVisible(true);
 						
 					 }
@@ -451,12 +464,14 @@ public class CiudadesFrame extends JFrame {
 						
 						provincias.setNombre(comboBoxProvincia.getSelectedItem().toString());
 						System.out.println(comboBoxProvincia.getSelectedItem().toString());
-						provincias.setPais((Pais) comboBoxPais.getSelectedItem());
+						provincias.setPais((Pais) getComboBoxPais().getSelectedItem());
 						provincias.setId(iD);
 						provincias.insertar();
 						JOptionPane.showMessageDialog(null, "Los cambios han sido guardados con exito");
 						dispose();
 						CiudadesFrame temp = new CiudadesFrame();
+						temp.setLocationRelativeTo(null);
+						btnNuevo.setEnabled(true);
 						temp.setVisible(true);
 					
 				}
@@ -470,6 +485,8 @@ public class CiudadesFrame extends JFrame {
 						JOptionPane.showMessageDialog(null, "Los cambios han sido guardados con exito");
 						dispose();
 						CiudadesFrame temp = new CiudadesFrame();
+						temp.setLocationRelativeTo(null);
+						btnNuevo.setEnabled(true);
 						temp.setVisible(true);
 				}
 				
@@ -490,74 +507,70 @@ public class CiudadesFrame extends JFrame {
 		btnCancelar.setEnabled(true);
 		btnModificar.setEnabled(false);
 		btnEliminar.setEnabled(true);
-		btnGuardar.setEnabled(false);
+		getBtnGuardar().setEnabled(false);
 	}
 	
 	//Metodo para desabilitar los Combo Box y Botones.
 	private void Desabilitar(){
 		
-		comboBoxPais.setEnabled(false);
+		getComboBoxPais().setEnabled(false);
 		comboBoxProvincia.setEnabled(false);
 		btnCancelar.setEnabled(false);
-		btnGuardar.setEnabled(false);
+		getBtnGuardar().setEnabled(false);
 		btnEliminar.setEnabled(false);
 		comboBoxCiudad.setEnabled(false);
 	}
 
 	//Metodo Para actualizar el Combo Box de Pais.
 	public void actualizarPais(){
-		comboBoxPais = new JComboBox(new Pais().listar().toArray(new Pais[0]));
-		comboBoxPais.addKeyListener(new KeyAdapter() {
+		setComboBoxPais(new JComboBox(new Pais().listar().toArray(new Pais[0])));
+		getComboBoxPais().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 			}
 		});
-		rellenaProvincia((Pais)comboBoxPais.getSelectedItem());
+		rellenaProvincia((Pais)getComboBoxPais().getSelectedItem());
 		rellenaCiudad((Provincia)comboBoxProvincia.getSelectedItem());
 	}
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try {
-					
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				
-			}
-			
-		});
-		CiudadesFrame frame = new CiudadesFrame();
-		frame.setVisible(true);
-		
-		miRobot.delay(2000);
-		miRobot.moveToComponentAnimated((btnNuevo), 5);
-		miRobot.leftClickComponent(btnNuevo);
-		miRobot.delay(2000);
-		miRobot.moveToComponentAnimated((RBPais), 5);
-		miRobot.leftClickComponent(RBPais);
-		miRobot.delay(2000);
-		miRobot.moveToComponentAnimated(comboBoxPais, 5);
-		miRobot.leftClickComponent(comboBoxPais);
-		comboBoxPais.setSelectedItem("");
-		miRobot.writeString("Dinamarca");
-		miRobot.delay(2000);
-		miRobot.moveToComponentAnimated(btnGuardar, 5);
-		miRobot.leftClickComponent(btnGuardar);
-		miRobot.delay(2000);
-		miRobot.moveToAnimated(650,385, 5);
-		miRobot.leftClick(650,385);
-		miRobot.delay(2000);
-		
-		miRobot.leftClick(650,385);
-		
-		
-	
-		
+
+	public static JRadioButton getRBPais() {
+		return RBPais;
 	}
+
+
+
+	public static void setRBPais(JRadioButton rBPais) {
+		RBPais = rBPais;
+	}
+
+
+
+	public static JComboBox<Pais> getComboBoxPais() {
+		return comboBoxPais;
+	}
+
+
+
+	public static void setComboBoxPais(JComboBox<Pais> comboBoxPais) {
+		CiudadesFrame.comboBoxPais = comboBoxPais;
+	}
+
+
+
+	public static JButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+
+
+	public static void setBtnGuardar(JButton btnGuardar) {
+		CiudadesFrame.btnGuardar = btnGuardar;
+	}
+
+
+
+	public static Component getBtnNuevo() {
 	
+		return btnNuevo;
+	}
 }

@@ -137,6 +137,8 @@ public class MasterFrame {
 		btnCiudades.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CiudadesFrame temp = new CiudadesFrame();
+				temp.setLocationRelativeTo(null);
+				temp.setResizable(false);
 				temp.setVisible(true);
 			}
 		});
