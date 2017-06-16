@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import org.junit.Test;
 
@@ -39,6 +40,9 @@ public class CompraFrameTest {
 	Component tablaCompra;
 	Component btnBuscarArticulos;
 	Component btnRealizarCompra;
+	Component btnCambiarDesc;
+	Component txtCambiardesc;
+	Component txtTotalDescuento;
 	
 	
 	//Componentes de AgregarProductoDialog//
@@ -59,6 +63,9 @@ public class CompraFrameTest {
 		this.tablaCompra = Utilidades.buscarElemento(componentesCompraFrame, c -> c.getName() != null && c.getName().equals("tabla"));
 		this.btnBuscarArticulos = Utilidades.buscarElemento(componentesCompraFrame, c -> c.getName() != null && c.getName().equals("btnBuscarArticulos"));
 		this.btnRealizarCompra = Utilidades.buscarElemento(componentesCompraFrame, c -> c.getName() != null && c.getName().equals("btnRealizarCompra"));
+		this.btnCambiarDesc = Utilidades.buscarElemento(componentesCompraFrame, c -> c.getName() != null && c.getName().equals("btnCambiarDesc"));
+		this.txtCambiardesc = Utilidades.buscarElemento(componentesCompraFrame, c -> c.getName() != null && c.getName().equals("txtCambiardesc"));
+		this.txtTotalDescuento = Utilidades.buscarElemento(componentesCompraFrame, c -> c.getName() != null && c.getName().equals("txtTotalDescuento"));
 		
 		frmAgregarProducto = frmCompra.getAgregarProductoDialog();
 		Utilidades.getAllComponents(frmAgregarProducto, componentesAgregarProductoDialog);
@@ -67,6 +74,34 @@ public class CompraFrameTest {
 		this.btnCerrar = Utilidades.buscarElemento(componentesAgregarProductoDialog, c -> c.getName() != null && c.getName().equals("btnCerrar"));
 	}
 
+	@Test
+	public void testCambiarDescuento() {
+		frmCompra.setVisible(true);
+		
+		RobotFingers rob = new RobotFingers();
+		
+		//Clic y escribir en txtCambiardesc//
+		rob.moveToComponentCenterAnimated(txtCambiardesc, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(txtCambiardesc);
+		rob.writeString("7");
+		rob.delay(lag);
+		
+		//Clilc en btnCambiarDesc//
+		rob.moveToComponentCenterAnimated(btnCambiarDesc, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(btnCambiarDesc);
+		rob.delay(lag);
+		
+		float cambiarDescuento = Float.parseFloat(((JTextField)txtCambiardesc).getText().replaceAll(",", "."));
+		float totalDescuento = Float.parseFloat(((JTextField)txtTotalDescuento).getText().replaceAll(",", "."));
+		
+		//Si los campos txtCambiardesc y txtTotalDescuento, entonces lo pudo cambiar//
+		assertEquals(cambiarDescuento, totalDescuento, 2);
+		
+		frmCompra.dispose();
+	}
+	
 	@Test
 	public void testBuscarArticulos() {
 		
@@ -90,13 +125,15 @@ public class CompraFrameTest {
 		
 		RobotFingers rob = new RobotFingers();
 		
-		rob.moveToComponentAnimated(btnRealizarCompra, velocity);
-		rob.leftClickComponent(btnRealizarCompra);
+		rob.moveToComponentCenterAnimated(btnRealizarCompra, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(btnRealizarCompra);
 		rob.delay(lag);
 		
 		Point location = frmCompra.getLocationOnScreen();
 		Point btnYesPosition = new Point(((int)location.getX()+550), ((int)location.getY()+300));
 		rob.moveToAnimated(btnYesPosition, velocity);
+		rob.delay(lag);
 		rob.leftClick(btnYesPosition);
 		rob.delay(lag);
 		
@@ -134,8 +171,9 @@ public class CompraFrameTest {
 			frmCompra.setVisible(true);
 			
 			//Clic a btnBuscarArticulos//
-			rob.moveToComponentAnimated(btnBuscarArticulos, velocity);
-			rob.leftClickComponent(btnBuscarArticulos);
+			rob.moveToComponentCenterAnimated(btnBuscarArticulos, velocity);
+			rob.delay(lag);
+			rob.leftClickComponentCenter(btnBuscarArticulos);
 			rob.delay(lag);
 			
 			//Autoseleccionar el producto de prueba//
@@ -150,14 +188,15 @@ public class CompraFrameTest {
 			rob.delay(lag);
 			
 			//Clic en agregar//
-			rob.moveToComponentAnimated(btnAgregar_frmAgergarProducto, velocity);
-			rob.leftClickComponent(btnAgregar_frmAgergarProducto);
+			rob.moveToComponentCenterAnimated(btnAgregar_frmAgergarProducto, velocity);
+			rob.delay(lag);
+			rob.leftClickComponentCenter(btnAgregar_frmAgergarProducto);
 			rob.delay(lag);
 			
 			//Clic en cerrar//
-			rob.moveToComponentAnimated(btnCerrar, velocity);
+			rob.moveToComponentCenterAnimated(btnCerrar, velocity);
 			rob.delay(lag);
-			rob.leftClickComponent(btnCerrar);
+			rob.leftClickComponentCenter(btnCerrar);
 			rob.delay(lag);
 	}
 	

@@ -142,6 +142,7 @@ public class CompraFrame extends JFrame {
 		contentPane.add(lblTotal);
 		
 		txtCambiardesc = new JTextField();
+		txtCambiardesc.setName("txtCambiardesc");
 		txtCambiardesc.setBounds(168, 52, 86, 25);
 		contentPane.add(txtCambiardesc);
 		txtCambiardesc.setColumns(10);
@@ -154,6 +155,7 @@ public class CompraFrame extends JFrame {
 		txtTotalImpuestos.setText(String.format("%.2f", compra.getImpuestos()));
 		
 		txtTotalDescuento = new JTextField();
+		txtTotalDescuento.setName("txtTotalDescuento");
 		txtTotalDescuento.setBounds(124, 245, 86, 25);
 		contentPane.add(txtTotalDescuento);
 		txtTotalDescuento.setColumns(10);
@@ -168,6 +170,7 @@ public class CompraFrame extends JFrame {
 		txtTotal.setText(String.format("%.2f", compra.getTotal()));
 		
 		JButton btnCambiarDesc = new JButton("Cambiar descuento");
+		btnCambiarDesc.setName("btnCambiarDesc");
 		btnCambiarDesc.setBounds(10, 52, 148, 23);
 		contentPane.add(btnCambiarDesc);
 		btnCambiarDesc.addActionListener(new ActionListener() {
