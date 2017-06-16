@@ -54,7 +54,7 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 	private JButton btnCancelar;
 	public   JButton btnGuardar;
 	public   JButton btnNuevo;
-	private JButton btnModificar;
+	 public JButton btnModificar;
 	private JButton btnAnterior;
 	private JButton btnPrimero;
 	private JButton btnBuscar;
