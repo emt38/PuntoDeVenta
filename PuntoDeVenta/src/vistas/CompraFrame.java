@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -45,6 +47,7 @@ public class CompraFrame extends JFrame {
 	private JTextField txtTotal = new JTextField();
 	private JTextField txtCambiardesc = new JTextField();
 	private JButton btnRealizarCompra;
+	AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
 	
 	Suplidor suplidor = new Suplidor();
 	
@@ -57,7 +60,7 @@ public class CompraFrame extends JFrame {
 	private JButton btnVaciarArticulos;
 	
 	
-	private void ReloadAll() {
+	public void ReloadAll() {
 		if( suplidores.size() > 0 ){	
 			cbxSuplidores = new JComboBox<ComboItem>();
 			for(Suplidor supl: suplidores){
@@ -122,6 +125,7 @@ public class CompraFrame extends JFrame {
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
 		scrollPane = new JScrollPane(tabla);
+		tabla.setName("tabla");
 		scrollPane.setBounds(10, 86, 536, 112);
 		contentPane.add(scrollPane);
 		
@@ -187,7 +191,6 @@ public class CompraFrame extends JFrame {
 					compra.retirarArticulo(art);
 				}
 				
-				AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
 				agregarProducto.setModal(true);
 				agregarProducto.setVisible(true);
 				agregarProducto.setResizable(false);
@@ -209,6 +212,7 @@ public class CompraFrame extends JFrame {
 				int opcion =JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir?","Alerta!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 				if (opcion == 0){
+					AgregarProductoDialog.vaciarArticulosSeleccionados();
 					CompraFrame.this.dispose();
 				}
 			}
@@ -235,7 +239,7 @@ public class CompraFrame extends JFrame {
 							ReloadAll();
 							compra.efectuar();
 							
-							AgregarProductoDialog.getArticulosSeleccionados().clear();
+							AgregarProductoDialog.vaciarArticulosSeleccionados();
 							
 							CompraFrame.this.dispose();
 							JOptionPane.showMessageDialog(null, "La compra se ha realizado correctamente!");
@@ -264,7 +268,7 @@ public class CompraFrame extends JFrame {
 					compra.retirarArticulo(art);
 				}
 				
-				AgregarProductoDialog.getArticulosSeleccionados().clear();
+				AgregarProductoDialog.vaciarArticulosSeleccionados();
 				
 				tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
 				tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
@@ -275,7 +279,7 @@ public class CompraFrame extends JFrame {
 		btnVaciarArticulos.setBounds(407, 53, 139, 23);
 		contentPane.add(btnVaciarArticulos);
 		
-		//////
+		//////Para eliminar articulos////
 		  int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
 		  InputMap inputMap = tabla.getInputMap(condition);
 		  ActionMap actionMap = tabla.getActionMap();
@@ -307,6 +311,10 @@ public class CompraFrame extends JFrame {
 		     }
 		  });
 
+	}
+	
+	public AgregarProductoDialog getAgregarProductoDialog(){
+		return this.agregarProducto;
 	}
 	
 	public static boolean isFloat(String cadena){

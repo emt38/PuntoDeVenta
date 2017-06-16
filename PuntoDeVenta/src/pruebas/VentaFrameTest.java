@@ -204,10 +204,11 @@ public class VentaFrameTest {
 			rob.leftClick(ancho, alto);
 
 			//Verificar si existe una venta realizada con el producto de prueba//
-			ResultSet resultado = Utilidades.ejecutarQuery("SELECT COUNT(*) AS numFilas FROM (SELECT * FROM ventasdetalle WHERE idventa = (SELECT idventa FROM posdb.ventasencabezado ORDER BY fecha DESC LIMIT 1) AND idproducto = (select idproducto FROM productos WHERE codigo = 'QWE123')) AS venta;", state);
-			int numeroDeFilas = resultado.getInt("numRows");
+			ResultSet resultado = Utilidades.ejecutarQuery("SELECT COUNT(*) AS numFilas FROM (SELECT * FROM ventasdetalle WHERE idventa = (SELECT idventa FROM posdb.ventasencabezado ORDER BY fecha DESC LIMIT 1) AND idproducto = (select idproducto FROM productos WHERE codigo = 'QWE123' LIMIT 1)) AS venta;", state);
+			resultado.first();
+			int numeroDeFilas = resultado.getInt("numFilas");
 			
-			//Si existe al menos una fila con el producto de prueba, entonces si se realizo la compra//
+			//Si existe al menos una fila con el producto de prueba, entonces si se realizo la venta//
 			assertTrue(numeroDeFilas>0);
 		}
 		catch(SQLException e){
