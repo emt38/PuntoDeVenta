@@ -129,6 +129,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(label);
 		
 		txtNombreCompleto = new JTextField();
+		txtNombreCompleto.setName("txtNombreCompleto");
 		txtNombreCompleto.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -143,6 +144,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		txtNombreCompleto.setColumns(10);
 		
 		txtNombreUsuario = new JTextField();
+		txtNombreUsuario.setName("txtNombreUsuario");
 		txtNombreUsuario.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -173,6 +175,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(lblRepitaContrasea);
 		
 		txtClave = new JPasswordField();
+		txtClave.setName("txtClave");
 		txtClave.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				model.setHashClave(String.valueOf(txtClave.getPassword()));
@@ -186,6 +189,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(txtClave);
 		
 		txtConfirmacion = new JPasswordField();
+		txtConfirmacion.setName("txtConfirmacion");
 		txtConfirmacion.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -207,6 +211,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(lblRegistroDeUsuarios);
 		
 		JButton btnLimpiar = new JButton("Limpiar Campos");
+		btnLimpiar.setName("btnLimpiar");
 		btnLimpiar.setIcon(null);
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -223,6 +228,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(btnLimpiar);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setName("btnAgregar");
 		btnAgregar.setEnabled(false);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -258,6 +264,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(btnAgregar);
 		
 		cbTipoUsuario.setModel(new DefaultComboBoxModel(TipoUsuario.values()));
+		cbTipoUsuario.setName("cbTipoUsuario");
 		cbTipoUsuario.setBounds(145, 221, 186, 31);
 		getContentPane().add(cbTipoUsuario);
 		
@@ -270,6 +277,7 @@ public class RegistroUsuariosFrame extends JFrame {
 		getContentPane().add(lblTipo);
 		
 		btnInfo = new JButton("");
+		btnInfo.setName("btnInfo");
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(RegistroUsuariosFrame.this, errores.toArray(new String[0]));

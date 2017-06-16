@@ -21,6 +21,7 @@ import principal.Utilidades;
 import vistas.ListadoUsuariosFrame;
 import vistas.LoginDialog;
 import vistas.ReestablecerClaveDialog;
+import vistas.RegistroUsuariosFrame;
 
 public class UsuariosFramesTest {
 	
@@ -176,6 +177,63 @@ public class UsuariosFramesTest {
 		respaldo.setSalesClave(sales);
 		respaldo.actualizar();
 		consulta.setVisible(false);
+	}
+	
+	@Test
+	public void testAgregarUsuario() {
+		RegistroUsuariosFrame mantenimiento = new RegistroUsuariosFrame();
+		mantenimiento.setVisible(true);
+		List<Component> components = new ArrayList<>();
+		Utilidades.getAllComponents(mantenimiento, components);
+		
+		Component txtNombreCompleto = Utilidades.buscarElemento(components, c -> c.getName() != null && c.getName().equals("txtNombreCompleto") );
+		Component txtClave = Utilidades.buscarElemento(components, c -> c.getName() != null && c.getName().equals("txtClave") );
+		Component txtConfirmacion = Utilidades.buscarElemento(components, c -> c.getName() != null && c.getName().equals("txtConfirmacion") );
+		Component btnAgregar = Utilidades.buscarElemento(components, c -> c.getName() != null && c.getName().equals("btnAgregar") );
+		//Component cbTipoUsuario = Utilidades.buscarElemento(components, c -> c.getName() != null && c.getName().equals("cbTipoUsuario") );
+		Component txtNombreUsuario = Utilidades.buscarElemento(components, c -> c.getName() != null && c.getName().equals("txtNombreUsuario") );
+		
+		RobotFingers rob = new RobotFingers();
+		
+		rob.moveToComponentAnimated(txtNombreCompleto, velocity);
+		rob.leftClickComponent(txtNombreCompleto);
+		rob.delay(lag);
+		rob.writeString("Hola, mi nombre es dagoberto");
+		rob.delay(lag);
+		
+		rob.moveToComponentAnimated(txtNombreUsuario, velocity);
+		rob.leftClickComponent(txtNombreUsuario);
+		rob.delay(lag);
+		rob.writeString("DagoRankiadoPrueba");
+		rob.delay(lag);
+		
+		rob.moveToComponentAnimated(txtClave, velocity);
+		rob.leftClickComponent(txtClave);
+		rob.delay(lag);
+		rob.writeString("A123456789");
+		rob.delay(lag);
+		
+		rob.moveToComponentAnimated(txtConfirmacion, velocity);
+		rob.leftClickComponent(txtConfirmacion);
+		rob.delay(lag);
+		rob.writeString("A123456789");
+		rob.delay(lag);
+		
+		rob.moveToComponentAnimated(btnAgregar, velocity);
+		rob.leftClickComponent(btnAgregar);
+		rob.delay(lag);
+		rob.writeString("\n");
+		rob.delay(lag * 2);
+		rob.writeString("\n");
+		rob.delay(lag * 4);
+		
+		assertFalse(mantenimiento.isVisible());
+		
+		List<Usuario> comp = new Usuario().listar(String.format("WHERE nombreusuario='%s'", "DagoRankiadoPrueba"));
+		assertTrue(comp.size() > 0);
+		
+		Usuario u = comp.get(0);
+		u.eliminar();
 	}
 	
 	@Test
