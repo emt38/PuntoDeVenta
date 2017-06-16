@@ -35,15 +35,15 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 	private JSeparator separator;
 	private JSeparator separator_1;
 	private JTextField txtCodigo;
-	private JTextField txtNombre;
-	private JTextField txtApellido;
-	private JTextField txtDireccion;
-	private JTextField txtIdentificacion;
-	private JTextField txtCelular;
+	public JTextField txtNombre;
+	public JTextField txtApellido;
+	public JTextField txtDireccion;
+	public JTextField txtIdentificacion;
+	public JTextField txtCelular;
 	private JTextField txtTelefono;
 	private JTextField txtEmpresa;
 	private JTextField txtRnc;
-	private JComboBox cmbSexo;
+	public JComboBox cmbSexo;
 	private boolean modificar = false;
 	private Suplidor objSuplidor;
 	public static Suplidor objSuplidorObtenido;
@@ -53,9 +53,9 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 	// Declaracion de Botones Y LABEL
 	private JButton btnSALIR;
 	private JButton btnCancelar;
-	private JButton btnGuardar;
-	private JButton btnNuevo;
-	private JButton btnModificar;
+	public JButton btnGuardar;
+	public JButton btnNuevo;
+	public JButton btnModificar;
 	private JButton btnAnterior;
 	private JButton btnPrimero;
 	private JButton btnBuscar;

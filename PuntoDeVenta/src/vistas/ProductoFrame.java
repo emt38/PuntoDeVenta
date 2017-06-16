@@ -37,9 +37,9 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 	// Declaracion de Botones
 	private JButton btnSALIR;
 	private JButton btnCancelar;
-	private JButton btnGuardar;
-	private JButton btnNuevo;
-	private JButton btnModificar;
+	public JButton btnGuardar;
+	public JButton btnNuevo;
+	public JButton btnModificar;
 	private JButton btnAnterior;
 	private JButton btnPrimero;
 	private JButton btnBuscar;
@@ -48,15 +48,15 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 	private JButton btnEliminar;
 	private JTextField txtCodigoProdu;
 	private JLabel lblDescripcion;
-	private JTextField txtDescripcion;
+	public JTextField txtDescripcion;
 	private JLabel lblPrecio;
-	private JTextField txtPrecio;
+	public JTextField txtPrecio;
 	private JLabel lblCosto;
-	private JTextField txtCosto;
+	public JTextField txtCosto;
 	private JLabel lblTimpuesto;
-	private JTextField txtTasaImpuesto;
+	public JTextField txtTasaImpuesto;
 	private JLabel lblStock;
-	private JTextField txtStock;
+	public JTextField txtStock;
 	// OTROS
 	private ArrayList<Producto> misProductos;
 	private int conteo = 0;
