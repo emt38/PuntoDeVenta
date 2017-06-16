@@ -52,7 +52,7 @@ public class CompraFrameTest {
 	
 	public CompraFrameTest(){
 		producto = new Producto(0, codigo, "Producto de prueba para ventaFrame", 10, 0f, 18f, 1f);
-		//insertar el producto de prueba//
+		//insertar el producto de prueba. Se insertara cada vez que se llame a un @Test, el constructor siempre se llama cada vez que se llama a un @Test//
 		InsertSQL("insert into productos(codigo, descripcion, costo, precio, tasaImpuesto) values('" + producto.getCodigo() + "', '" + producto.getDescripcion() + "', " + producto.getCosto() + ", " + producto.getPrecio() + ", " + producto.getTasaImpuesto() + ");");
 		frmCompra = new CompraFrame();
 		
@@ -98,6 +98,10 @@ public class CompraFrameTest {
 		
 		//Si los campos txtCambiardesc y txtTotalDescuento, entonces lo pudo cambiar//
 		assertEquals(cambiarDescuento, totalDescuento, 2);
+		
+		//Para borrar el producto de prueba//
+		producto.setId(new Producto().listar("WHERE codigo = '" + codigo + "'").get(0).getId());
+		producto.eliminar();
 		
 		frmCompra.dispose();
 	}
