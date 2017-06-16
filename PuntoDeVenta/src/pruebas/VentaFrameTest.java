@@ -84,8 +84,9 @@ public class VentaFrameTest {
 		frmVenta.setVisible(true);
 		
 		//Clic a btnBuscarArticulos//
-		rob.moveToComponentAnimated(btnBuscarArticulos, velocity);
-		rob.leftClickComponent(btnBuscarArticulos); 
+		rob.moveToComponentCenterAnimated(btnBuscarArticulos, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(btnBuscarArticulos); 
 		rob.delay(lag);
 
 		
@@ -93,18 +94,20 @@ public class VentaFrameTest {
 		Point location = tablaAgrProct.getLocationOnScreen();
 		Point primerafila = new Point(((int)location.getX() + 10), ((int)location.getY() + 5));
 		rob.moveToAnimated(primerafila, velocity);
+		rob.delay(lag);
 		rob.leftClick(primerafila);
 		rob.delay(lag);
 		
 		//Clic en agregar//
-		rob.moveToComponentAnimated(btnAgregar_frmAgergarProducto, velocity);
-		rob.leftClickComponent(btnAgregar_frmAgergarProducto);
+		rob.moveToComponentCenterAnimated(btnAgregar_frmAgergarProducto, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(btnAgregar_frmAgergarProducto);
 		rob.delay(lag);
 		
 		//Clic en cerrar//
-		rob.moveToComponentAnimated(btnCerrar, velocity);
+		rob.moveToComponentCenterAnimated(btnCerrar, velocity);
 		rob.delay(lag);
-		rob.leftClickComponent(btnCerrar);
+		rob.leftClickComponentCenter(btnCerrar);
 		rob.delay(lag);
 		
 		//Si la tabla tiene mas de una fila, entonces lo pudo agregar.//
@@ -124,15 +127,18 @@ public class VentaFrameTest {
 		
 		RobotFingers rob = new RobotFingers();
 		
-		rob.moveToComponentAnimated(btnVaciarArticulos, velocity);
-		rob.leftClickComponent(btnVaciarArticulos);
+		rob.moveToComponentCenterAnimated(btnVaciarArticulos, velocity);
 		rob.delay(lag);
-		rob.moveToComponentAnimated(txtAgregar, velocity);
-		rob.leftClickComponent(txtAgregar);
+		rob.leftClickComponentCenter(btnVaciarArticulos);
+		rob.delay(lag);
+		rob.moveToComponentCenterAnimated(txtAgregar, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(txtAgregar);
 		rob.writeString(codigo);
 		rob.delay(lag);
-		rob.moveToComponentAnimated(btnAgregar_frmVenta, velocity);
-		rob.leftClickComponent(btnAgregar_frmVenta);
+		rob.moveToComponentCenterAnimated(btnAgregar_frmVenta, velocity);
+		rob.delay(lag);
+		rob.leftClickComponentCenter(btnAgregar_frmVenta);
 		rob.delay(lag*2);
 		
 		Producto tempProduct = new Producto().listar("Where p.codigo = '" + codigo + "'").get(0);
@@ -168,15 +174,18 @@ public class VentaFrameTest {
 			RobotFingers rob = new RobotFingers();
 			
 			//Clicl en vaciar articulos//
-			rob.moveToComponentAnimated(btnVaciarArticulos, velocity);
-			rob.leftClickComponent(btnVaciarArticulos);
+			rob.moveToComponentCenterAnimated(btnVaciarArticulos, velocity);
 			rob.delay(lag);
-			rob.moveToComponentAnimated(txtAgregar, velocity);
-			rob.leftClickComponent(txtAgregar);
+			rob.leftClickComponentCenter(btnVaciarArticulos);
+			rob.delay(lag);
+			rob.moveToComponentCenterAnimated(txtAgregar, velocity);
+			rob.delay(lag);
+			rob.leftClickComponentCenter(txtAgregar);
 			rob.writeString(codigo);
 			rob.delay(lag);
-			rob.moveToComponentAnimated(btnAgregar_frmVenta, velocity);
-			rob.leftClickComponent(btnAgregar_frmVenta);
+			rob.moveToComponentCenterAnimated(btnAgregar_frmVenta, velocity);
+			rob.delay(lag);
+			rob.leftClickComponentCenter(btnAgregar_frmVenta);
 			rob.delay(lag*2);
 			
 			//Para aumentar +1 el precio del producto para poder pagarlo//
@@ -184,29 +193,32 @@ public class VentaFrameTest {
 			efectivorecibido++;
 			
 			//Clic y escribir en el campo Efectivo recibido//
-			rob.moveToComponentAnimated(txtEfectivoRecibido, velocity);
-			rob.leftClickComponent(txtEfectivoRecibido);
+			rob.moveToComponentCenterAnimated(txtEfectivoRecibido, velocity);
+			rob.delay(lag);
+			rob.leftClickComponentCenter(txtEfectivoRecibido);
 			rob.delay(lag);
 			rob.writeString(Float.toString(efectivorecibido));
 			rob.writeString("\n");
 			
 			//Clic en Realizar venta//
-			rob.moveToComponentAnimated(btnRealizarVenta, velocity);
-			rob.leftClickComponent(btnRealizarVenta);
+			rob.moveToComponentCenterAnimated(btnRealizarVenta, velocity);
+			rob.delay(lag);
+			rob.leftClickComponentCenter(btnRealizarVenta);
 			rob.delay(lag);
 			
 			//Clic en Si//
 			Point location = frmVenta.getLocationOnScreen();
 			Point btnYesPosition = new Point(((int)location.getX()+300), ((int)location.getY()+300));
 			rob.moveToAnimated(btnYesPosition, velocity);
+			rob.delay(lag);
 			rob.leftClick(btnYesPosition);
 			rob.delay(lag);
 			
 			//Clic en Acceptar//
 			int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
 			int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2) + 30;
-			rob.moveTo(ancho, alto);
-			rob.delay(lag);
+			rob.moveToAnimated(ancho, alto, velocity);
+			rob.delay(lag*2);
 			rob.leftClick(ancho, alto);
 
 			//Verificar si existe una venta realizada con el producto de prueba//
