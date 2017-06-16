@@ -28,6 +28,67 @@ public class UsuariosFramesTest {
 	private int lag = 500;
 	
 	@Test
+	public void testEliminarUsuario() {
+		try {
+			List<Usuario> temp = new Usuario().listar("WHERE nombreusuario='UsPruebaLogin'");
+			
+			if(temp.size() < 1) {
+				Usuario model = new Usuario();
+				model.setNombreUsuario("UsPruebaLogin");
+				model.setHashClave("ClaveDePrueba123CHECK");
+				model.setSalesClave(Utilidades.generarSales());
+				model.setHashClave(Utilidades.generarHash(model.getHashClave(), model.getSalesClave()));
+				model.setTipo(TipoUsuario.Cajero);
+				model.setTienda(new Tienda().listar().get(0));
+				model.setNombreCompleto("UsuarioTest");
+				model.insertar();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		ListadoUsuariosFrame consulta = new ListadoUsuariosFrame();	
+		List<Component> componentes = new ArrayList<>();
+		Utilidades.getAllComponents(consulta, componentes);
+		
+		JTable tblUsuarios = (JTable)Utilidades.buscarElemento(componentes, c -> c.getName() != null && c.getName().equals("tblUsuarios") );
+		Component btnEliminar = Utilidades.buscarElemento(componentes, c -> c.getName() != null && c.getName().equals("btnEliminar") );
+		
+		
+		consulta.setVisible(true);
+		
+		List<Usuario> users = consulta.getUsuarios();
+		
+		int x = 0;
+		
+		for(x = 0; x < users.size(); x++) {
+			if(users.get(x).getNombreUsuario().equals("UsPruebaLogin"))
+				break;
+		}
+		
+		RobotFingers rob = new RobotFingers();
+		Point targetRow = tblUsuarios.getLocationOnScreen();
+		targetRow.setLocation(targetRow.x + tblUsuarios.getWidth() / 2, targetRow.y + (tblUsuarios.getRowHeight()) * (x+1) - tblUsuarios.getRowHeight() / 2);
+		rob.moveToAnimated(targetRow, velocity);
+		rob.leftClick(targetRow);
+		rob.delay(lag);
+		Usuario selected = consulta.getUsuarios().get(tblUsuarios.getSelectedRow());
+		rob.delay(lag);
+		rob.moveToComponentAnimated(btnEliminar, velocity);
+		rob.delay(lag);
+		rob.leftClickComponent(btnEliminar);
+		rob.delay(lag);
+		Point dialogPos = MouseInfo.getPointerInfo().getLocation();
+		dialogPos.setLocation(dialogPos.x - 50, dialogPos.y + 180);
+		rob.moveToAnimated(dialogPos, velocity);
+		rob.leftClick(dialogPos);
+		rob.delay(lag * 4);
+ 		Usuario comprobacion = new Usuario().buscar(selected.getId());
+ 		consulta.setVisible(false);
+ 		assertTrue(comprobacion == null);
+	}
+	
+	@Test
 	public void testReestablecerClave() {
 		try {
 			List<Usuario> temp = new Usuario().listar("WHERE nombreusuario='UsPruebaLogin'");
