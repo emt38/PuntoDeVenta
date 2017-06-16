@@ -76,7 +76,7 @@ public class ClienteFrameTest  {
 		rob.moveToComponentAnimated(frameCliente.btnGuardar, velocity);
 		rob.leftClickComponentCenter(frameCliente.btnGuardar);
 		rob.delay(lag);
-		
+		rob.writeString("\n");
 	}
 	/*@Test
 	public void UpdateTest() {

@@ -77,8 +77,12 @@ public class SuplidorFrameTest  {
 		
 		rob.moveToComponentAnimated(frameSuplidor.btnGuardar, velocity);
 		rob.leftClickComponentCenter(frameSuplidor.btnGuardar);
+		rob.delay(lag * 2);
+		rob.leftClick(650,385);
+		rob.delay(lag * 2);
+		rob.writeString("\n");
 		rob.delay(lag);
-		
+		frameSuplidor.setVisible(false);
 	}
 	/*@Test
 	public void UpdateTest() {

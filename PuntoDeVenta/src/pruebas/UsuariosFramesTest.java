@@ -83,7 +83,9 @@ public class UsuariosFramesTest {
 		dialogPos.setLocation(dialogPos.x - 50, dialogPos.y + 180);
 		rob.moveToAnimated(dialogPos, velocity);
 		rob.leftClick(dialogPos);
-		rob.delay(lag * 4);
+		rob.delay(lag * 2);
+		rob.writeString("\n");
+		rob.delay(lag * 2);
  		Usuario comprobacion = new Usuario().buscar(selected.getId());
  		consulta.setVisible(false);
  		assertTrue(comprobacion == null);
@@ -271,6 +273,9 @@ public class UsuariosFramesTest {
 		
 		rob.moveToComponentAnimated(reBtnReestablecer, velocity);
 		rob.leftClickComponent(reBtnReestablecer);
-		rob.delay(lag * 4);
+		rob.delay(lag * 2);
+		rob.writeString("\n");
+		rob.delay(lag * 2);
+		re.setVisible(false);
 	}
 }

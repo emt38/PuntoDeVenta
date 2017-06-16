@@ -42,6 +42,8 @@ public class CiudadesFrameTest {
 		miRobot.delay(2000);
 		
 		miRobot.leftClick(650,385);
+		miRobot.delay(1000);
+		miRobot.writeString("\n");
 		
 		List<Pais> temp = new Pais().listar("LIMIT 0,1");
 		assertNotEquals("No existen elementos para realizar la prueba", temp.size(), 0);

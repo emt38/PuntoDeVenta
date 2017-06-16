@@ -17,7 +17,7 @@ import principal.Utilidades;
 import vistas.LoginDialog;
 import principal.Program;
 
-public class LoginDialogPrueba {
+public class LoginDialogTest {
 	
 	private int velocity = 4;
 	private int lag = 500;
@@ -121,7 +121,9 @@ public class LoginDialogPrueba {
 		rob.moveToComponentAnimated(bLogin, velocity);
 		rob.leftClickComponent(bLogin);
 		rob.delay(lag * 2);
-		
+		rob.writeString("\n");
+		rob.delay(lag);
+		login.setVisible(false);
 		Usuario user = login.getLoggedUser();
 		
 		assertTrue(user == null);

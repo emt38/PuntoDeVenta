@@ -246,6 +246,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(label_3);
 		
 		btnFinalizar = new JButton("Agregar");
+		btnFinalizar.setName("btnFinalizar");
 		btnFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -297,6 +298,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(btnFinalizar);
 		
 		txtNombre = new JTextField();
+		txtNombre.setName("txtNombre");
 		txtNombre.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -308,6 +310,7 @@ public class MantenimientoTiendas extends JDialog {
 		txtNombre.setColumns(10);
 		
 		txtSlogan = new JTextField();
+		txtSlogan.setName("txtSlogan");
 		txtSlogan.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -319,6 +322,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(txtSlogan);
 		
 		txtDireccion = new JTextField();
+		txtDireccion.setName("txtDireccion");
 		txtDireccion.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -330,6 +334,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(txtDireccion);
 		
 		cbCiudad = new JComboBox<>();
+		cbCiudad.setName("cbCiudad");
 		cbCiudad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tienda.setCiudad((Ciudad)cbCiudad.getSelectedItem());
@@ -346,6 +351,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(lblPas);
 		
 		cbPais = new JComboBox<>();
+		cbPais.setName("cbPais");
 		cbPais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Pais temp = (Pais)cbPais.getSelectedItem();
@@ -371,6 +377,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(lblProvinciaOEstado);
 		
 		cbProvincia = new JComboBox<>();
+		cbProvincia.setName("cbProvincia");
 		cbProvincia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(cbProvincia.getSelectedIndex() != -1) {
@@ -388,6 +395,7 @@ public class MantenimientoTiendas extends JDialog {
 		getContentPane().add(cbProvincia);
 		
 		btnLimpiarCampos = new JButton("Limpiar Campos");
+		btnLimpiarCampos.setName("btnLimpiarCampos");
 		btnLimpiarCampos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(back != null) {
