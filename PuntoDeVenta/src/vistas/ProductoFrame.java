@@ -283,7 +283,7 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 		btnEliminar.setBounds(380, 217, 101, 31);
 		contentPane.add(btnEliminar);
 
-		btnModificar = new JButton("EDITAR");
+		btnModificar = new JButton("MODIFICAR");
 		btnModificar.setBounds(97, 217, 101, 31);
 		contentPane.add(btnModificar);
 		txtCodigoId = new JTextField();

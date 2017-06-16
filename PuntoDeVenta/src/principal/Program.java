@@ -14,7 +14,7 @@ import modelos.*;
 
 public class Program {
 	public static String getDBServer() {
-		return "jdbc:mysql://127.0.0.1/posdb";
+		return "jdbc:mysql://localhost:3306/posdb";
 	}
 	
 	public static String getDBUser() {

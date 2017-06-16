@@ -34,15 +34,15 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 	private JSeparator separator;
 	private JSeparator separator_1;
 	private JTextField txtCodigo;
-	private JTextField txtNombre;
-	private JTextField txtApellido;
-	private JTextField txtDireccion;
-	private JTextField txtIdentificacion;
-	private JTextField txtCelular;
+	public  JTextField txtNombre = new JTextField();
+	public  JTextField txtApellido= new JTextField();
+	public  JTextField txtDireccion= new JTextField();
+	public  JTextField txtIdentificacion= new JTextField();
+	public  JTextField txtCelular= new JTextField();
 	private JTextField txtTelefono;
 	private JTextField txtFechaIngreso;
 	private JTextField txtTasaDescuento;
-	private JComboBox cmbSexo;
+	public  JComboBox cmbSexo= new JComboBox();
 	private boolean modificar = false;
 	private Cliente objCliente;
 	public static Cliente objClienteObtenido;
@@ -52,8 +52,8 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 	// Declaracion de Botones Y LABEL
 	private JButton btnSALIR;
 	private JButton btnCancelar;
-	private JButton btnGuardar;
-	private JButton btnNuevo;
+	public   JButton btnGuardar;
+	public   JButton btnNuevo;
 	private JButton btnModificar;
 	private JButton btnAnterior;
 	private JButton btnPrimero;
@@ -90,6 +90,8 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 				try {
 					
 					ClienteFrame frame = new ClienteFrame();
+					
+				
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

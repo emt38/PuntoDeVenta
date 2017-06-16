@@ -249,7 +249,7 @@ public class SuplidoresFrame extends JFrame implements WindowFocusListener {
 		txtTelefono.setText("");
 		cmbSexo.setSelectedIndex(0);
 	}
-
+	
 	public SuplidoresFrame() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(SuplidoresFrame.class.getResource("/Iconos_E_Imagenes/GENTE.JPG")));

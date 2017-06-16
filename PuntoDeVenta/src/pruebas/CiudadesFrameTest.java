@@ -33,7 +33,7 @@ public class CiudadesFrameTest {
 		miRobot.leftClickComponent(CiudadesFrame.getComboBoxPais());
 		CiudadesFrame.getComboBoxPais().setSelectedItem("");
 		miRobot.writeString("Dinamarca");
-		miRobot.delay(2000);
+	 	miRobot.delay(2000);
 		miRobot.moveToComponentAnimated(CiudadesFrame.getBtnGuardar(), 5);
 		miRobot.leftClickComponent(CiudadesFrame.getBtnGuardar());
 		miRobot.delay(2000);
