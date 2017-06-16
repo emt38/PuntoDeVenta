@@ -67,7 +67,7 @@ public class VentaFrameTest {
 		this.txtTotal = Utilidades.buscarElemento(componentesVentaFrame, c -> c.getName() != null && c.getName().equals("txtTotal"));
 		this.btnRealizarVenta = Utilidades.buscarElemento(componentesVentaFrame, c -> c.getName() != null && c.getName().equals("btnRealizarVenta"));
 		
-		frmAgregarProducto = new AgregarProductoDialog((JTable)tablaVenta);
+		frmAgregarProducto = frmVenta.getAgregarProductoDialog();
 		Utilidades.getAllComponents(frmAgregarProducto, componentesAgregarProductoDialog);
 		this.tablaAgrProct = Utilidades.buscarElemento(componentesAgregarProductoDialog, c -> c.getName() != null && c.getName().equals("tabla"));
 		this.btnAgregar_frmAgergarProducto = Utilidades.buscarElemento(componentesAgregarProductoDialog, c -> c.getName() != null && c.getName().equals("btnAgregar"));
@@ -85,7 +85,7 @@ public class VentaFrameTest {
 		
 		//Clic a btnBuscarArticulos//
 		rob.moveToComponentAnimated(btnBuscarArticulos, velocity);
-		frmAgregarProducto.setVisible(true); //Debe de haber una instancia y estar visible para obtener la localizacion en pantalla de "tablaAgrProct" 
+		rob.leftClickComponent(btnBuscarArticulos); 
 		rob.delay(lag);
 
 		

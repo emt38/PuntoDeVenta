@@ -39,7 +39,7 @@ import javax.swing.SwingConstants;
 public class VentaFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTable tabla;
+	private JTable tabla = new JTable();;
 	private JScrollPane scrollPane;
 	private JLabel lblTotalImpuesto;
 	private JLabel lblTotalDescuento;
@@ -52,6 +52,7 @@ public class VentaFrame extends JFrame {
 	private JTextField txtEfectivoRecibido = new JTextField();
 	private JTextField txtCambioDevuelto = new JTextField();
 	private Venta venta = new Venta();
+	AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
 	
 	String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 	
@@ -212,7 +213,7 @@ public class VentaFrame extends JFrame {
 					venta.retirarArticulo(art);
 				}
 				
-				AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
+				
 				agregarProducto.setModal(true);
 				agregarProducto.setVisible(true);
 				agregarProducto.setResizable(false);
@@ -385,6 +386,10 @@ public class VentaFrame extends JFrame {
 		     }
 		  });
 
+	}
+	
+	public AgregarProductoDialog getAgregarProductoDialog(){
+		return this.agregarProducto;
 	}
 	
 	public static boolean isFloat(String cadena){
