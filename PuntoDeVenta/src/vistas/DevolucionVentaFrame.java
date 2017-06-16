@@ -130,6 +130,7 @@ public class DevolucionVentaFrame extends JFrame {
 		getContentPane().add(lblNewLabel);
 		
 		JTextField txtVenta = new JTextField();
+		txtVenta.setName("txtVenta");
 		txtVenta.setBounds(73, 25, 81, 28);
 		txtVenta.addKeyListener(new KeyAdapter() {
 			@Override
@@ -142,6 +143,7 @@ public class DevolucionVentaFrame extends JFrame {
 		getContentPane().add(txtVenta);
 		
 		JButton btnCargar = new JButton("Cargar");
+		btnCargar.setName("btnCargar");
 		btnCargar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String txt = txtVenta.getText();
@@ -182,6 +184,7 @@ public class DevolucionVentaFrame extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		tblVenta = new JTable();
+		tblVenta.setName("tblVenta");
 		tblVenta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -206,6 +209,7 @@ public class DevolucionVentaFrame extends JFrame {
 		scrollPane.setViewportView(tblVenta);
 		
 		btnDevolver = new JButton("Devolver Art\u00EDculo \u2193");
+		btnDevolver.setName("btnDevolver");
 		btnDevolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Articulo ref = devolucion.getVenta().getArticulos().get(tblVenta.getSelectedRow());
@@ -228,6 +232,7 @@ public class DevolucionVentaFrame extends JFrame {
 		getContentPane().add(scrollPane_1);
 		
 		tblDevolucion = new JTable();
+		tblDevolucion.setName("tblDevolucion");
 		tblDevolucion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -262,6 +267,7 @@ public class DevolucionVentaFrame extends JFrame {
 		scrollPane_1.setViewportView(tblDevolucion);
 		
 		txtCantidad = new JTextField();
+		txtCantidad.setName("txtCantidad");
 		txtCantidad.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -279,6 +285,8 @@ public class DevolucionVentaFrame extends JFrame {
 		getContentPane().add(lblCantidad);
 		
 		btnProcesarDevolucion = new JButton("Procesar Devoluci\u00F3n");
+		btnProcesarDevolucion.setName("btnProcesarDevolucion");
+		btnProcesarDevolucion.setName("btnProcesarDevolucion");
 		btnProcesarDevolucion.setEnabled(false);
 		btnProcesarDevolucion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -308,6 +316,7 @@ public class DevolucionVentaFrame extends JFrame {
 		getContentPane().add(lblMontoDevuelto);
 		
 		btnRetornar = new JButton("Retornar Art\u00EDculo \u2191");
+		btnRetornar.setName("btnRetornar");
 		btnRetornar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(tblDevolucion.getSelectedRow() != -1) {
