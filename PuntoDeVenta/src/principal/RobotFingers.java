@@ -39,6 +39,12 @@ public class RobotFingers {
 		leftClick(location);
 	}
 	
+	public void leftClickComponentCenter(Component target) {
+		Point location = target.getLocationOnScreen();
+		location.setLocation(location.x + target.getWidth() / 2, location.y + target.getHeight() / 2);
+		leftClick(location);
+	}
+	
 	public void rightClick(int x, int y) {
 		rob.mouseMove(x, y);
 		rob.mousePress(InputEvent.BUTTON2_DOWN_MASK);
@@ -54,8 +60,20 @@ public class RobotFingers {
 		leftClick(location);
 	}
 	
+	public void rightClickComponentCenter(Component target) {
+		Point location = target.getLocationOnScreen();
+		location.setLocation(location.x + target.getWidth() / 2, location.y + target.getHeight() / 2);
+		leftClick(location);
+	}
+	
 	public void moveToComponentAnimated(Component target, int pixelSpeed) {
 		Point location = target.getLocationOnScreen();
+		moveToAnimated(location, pixelSpeed);
+	}
+	
+	public void moveToComponentCenterAnimated(Component target, int pixelSpeed) {
+		Point location = target.getLocationOnScreen();
+		location.setLocation(location.x + target.getWidth() / 2, location.y + target.getHeight() / 2);
 		moveToAnimated(location, pixelSpeed);
 	}
 	
@@ -115,6 +133,12 @@ public class RobotFingers {
 		moveTo(location);
 	}
 	
+	public void moveToComponentCenter(Component target) {
+		Point location = target.getLocationOnScreen();
+		location.setLocation(location.x + target.getWidth() / 2, location.y + target.getHeight() / 2);
+		moveTo(location);
+	}
+	
 	public void wheelClick(int x, int y) {
 		rob.mouseMove(x, y);
 		rob.mousePress(InputEvent.BUTTON3_DOWN_MASK);
@@ -127,6 +151,12 @@ public class RobotFingers {
 	
 	public void wheelClickComponent(Component target) {
 		Point location = target.getLocationOnScreen();
+		leftClick(location);
+	}
+	
+	public void wheelClickComponentCenter(Component target) {
+		Point location = target.getLocationOnScreen();
+		location.setLocation(location.x + target.getWidth() / 2, location.y + target.getHeight() / 2);
 		leftClick(location);
 	}
 	
