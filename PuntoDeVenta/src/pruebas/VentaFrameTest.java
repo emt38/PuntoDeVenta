@@ -167,6 +167,7 @@ public class VentaFrameTest {
 			
 			RobotFingers rob = new RobotFingers();
 			
+			//Clicl en vaciar articulos//
 			rob.moveToComponentAnimated(btnVaciarArticulos, velocity);
 			rob.leftClickComponent(btnVaciarArticulos);
 			rob.delay(lag);
@@ -178,25 +179,30 @@ public class VentaFrameTest {
 			rob.leftClickComponent(btnAgregar_frmVenta);
 			rob.delay(lag*2);
 			
+			//Para aumentar +1 el precio del producto para poder pagarlo//
 			float efectivorecibido = Float.parseFloat(((JTextField)txtTotal).getText().replaceAll(",", "."));
 			efectivorecibido++;
 			
+			//Clic y escribir en el campo Efectivo recibido//
 			rob.moveToComponentAnimated(txtEfectivoRecibido, velocity);
 			rob.leftClickComponent(txtEfectivoRecibido);
 			rob.delay(lag);
 			rob.writeString(Float.toString(efectivorecibido));
 			rob.writeString("\n");
 			
+			//Clic en Realizar venta//
 			rob.moveToComponentAnimated(btnRealizarVenta, velocity);
 			rob.leftClickComponent(btnRealizarVenta);
 			rob.delay(lag);
 			
+			//Clic en Si//
 			Point location = frmVenta.getLocationOnScreen();
 			Point btnYesPosition = new Point(((int)location.getX()+300), ((int)location.getY()+300));
 			rob.moveToAnimated(btnYesPosition, velocity);
 			rob.leftClick(btnYesPosition);
 			rob.delay(lag);
 			
+			//Clic en Acceptar//
 			int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
 			int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2) + 30;
 			rob.moveTo(ancho, alto);
