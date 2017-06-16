@@ -54,7 +54,7 @@ public class VentaFrame extends JFrame {
 	private JTextField txtEfectivoRecibido = new JTextField();
 	private JTextField txtCambioDevuelto = new JTextField();
 	private Venta venta = new Venta();
-	AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
+	AgregarProductoDialog agregarProducto;
 	
 	String[] columnas = {"Cantidad", "Producto", "Costo", "Impuestos", "Subtotal"};
 	
@@ -130,6 +130,8 @@ public class VentaFrame extends JFrame {
 		contentPane.add(scrollPane);
 		
 		ReloadAll();
+		
+		agregarProducto = new AgregarProductoDialog(tabla);
 		
 		cbbxClientes.setBounds(458, 11, 167, 25);
 		contentPane.add(cbbxClientes);

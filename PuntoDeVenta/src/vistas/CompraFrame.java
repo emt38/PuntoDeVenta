@@ -47,7 +47,7 @@ public class CompraFrame extends JFrame {
 	private JTextField txtTotal = new JTextField();
 	private JTextField txtCambiardesc = new JTextField();
 	private JButton btnRealizarCompra;
-	AgregarProductoDialog agregarProducto = new AgregarProductoDialog(tabla);
+	AgregarProductoDialog agregarProducto;
 	
 	Suplidor suplidor = new Suplidor();
 	
@@ -128,6 +128,8 @@ public class CompraFrame extends JFrame {
 		tabla.setName("tabla");
 		scrollPane.setBounds(10, 86, 536, 112);
 		contentPane.add(scrollPane);
+		
+		agregarProducto = new AgregarProductoDialog(tabla);
 		
 		lblTotalImpuesto = new JLabel("Total impuesto: ");
 		lblTotalImpuesto.setBounds(10, 216, 104, 14);

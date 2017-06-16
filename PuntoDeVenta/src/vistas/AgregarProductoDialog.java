@@ -76,13 +76,16 @@ public class AgregarProductoDialog extends JDialog{
 		List<String> metodosBusqueda = new ArrayList<>();
 		metodosBusqueda.add("Id");
 		metodosBusqueda.add("Descripcion");
+		metodosBusqueda.add("Codigo");
 		
 		JComboBox cbbxMetodoBusqueda = new JComboBox(metodosBusqueda.toArray());
+		cbbxMetodoBusqueda.setName("cbbxMetodoBusqueda");
 		lblMetodoBusqueda.setLabelFor(cbbxMetodoBusqueda);
 		cbbxMetodoBusqueda.setBounds(10, 34, 111, 23);
 		contentPane.add(cbbxMetodoBusqueda);
 		
 		txtBusqueda = new JTextField();
+		txtBusqueda.setName("txtBusqueda");
 		txtBusqueda.setBounds(131, 34, 86, 25);
 		contentPane.add(txtBusqueda);
 		txtBusqueda.setColumns(10);
@@ -117,28 +120,27 @@ public class AgregarProductoDialog extends JDialog{
 		Articulo articulo = new Articulo();
 		
 		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.setName("btnFiltrar");
 		btnFiltrar.setBounds(418, 27, 101, 39);
 		contentPane.add(btnFiltrar);
 		getRootPane().setDefaultButton(btnFiltrar);
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				List<Producto> tempProductos = new Producto().listar();
+				List<Producto> tempProductos = new ArrayList<Producto>();
 					
-				if(!(txtBusqueda.getText() == "")){
+				if(!(txtBusqueda.getText().equals(""))){
 					if(cbbxMetodoBusqueda.getSelectedItem() == "Id"){
 						if(CompraFrame.isInt(txtBusqueda.getText())){
 							tempProductos = new Producto().listar("WHERE p.idproducto = " + txtBusqueda.getText());
 						}
 					}else if(cbbxMetodoBusqueda.getSelectedItem() == "Descripcion"){
-						tempProductos = new Producto().listar("WHERE descripcion LIKE '%" + txtBusqueda.getText() + "%' OR codigo LIKE  '%" + txtBusqueda.getText() + "%' ");
+						tempProductos = new Producto().listar("WHERE descripcion LIKE '%" + txtBusqueda.getText() + "%' ");
+					}else if(cbbxMetodoBusqueda.getSelectedItem() == "Codigo"){
+						tempProductos = new Producto().listar("WHERE codigo LIKE  '%" + txtBusqueda.getText() + "%' ");
 					}
 				}
 				else{
 					tempProductos = new Producto().listar();
-				}
-				
-				if (tempProductos.size()==0){
-					return;
 				}
 				
 				productos = tempProductos;
@@ -158,6 +160,8 @@ public class AgregarProductoDialog extends JDialog{
 				};
 				
 				tabla.setModel(modelo);
+				tabla.getColumnModel().getColumn(0).setPreferredWidth(76);
+				tabla.getColumnModel().getColumn(1).setPreferredWidth(323);
 			}
 		});
 		
