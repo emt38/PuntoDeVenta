@@ -15,6 +15,7 @@ import principal.Utilidades;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -39,6 +40,11 @@ public class ListadoUsuariosFrame extends JFrame {
 	private JTable tblUsuarios;
 	private Usuario usuario;
 	private List<Usuario> usuarios;
+	
+	public List<Usuario> getUsuarios() {
+		return new ArrayList<>(usuarios);
+	}
+	
 	private JButton btnReestablecerContrasea;
 	private JButton btnEliminar;
 	
@@ -156,6 +162,7 @@ public class ListadoUsuariosFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnRegistrar = new JButton("Registrar Usuarios");
+		btnRegistrar.setName("btnRegistrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistroUsuariosFrame temp = new RegistroUsuariosFrame();
@@ -169,6 +176,7 @@ public class ListadoUsuariosFrame extends JFrame {
 		Object[][] datos = Utilidades.listToBidiArray(usuarios, columnas);
 		
 		tblUsuarios = new JTable();
+		tblUsuarios.setName("tblUsuarios");
 		tblUsuarios.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -208,6 +216,7 @@ public class ListadoUsuariosFrame extends JFrame {
 		contentPane.add(scrollPane);
 		
 		btnReestablecerContrasea = new JButton("Reestablecer Contrase\u00F1a");
+		btnReestablecerContrasea.setName("btnReestablecerContrasea");
 		btnReestablecerContrasea.setEnabled(false);
 		btnReestablecerContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -224,6 +233,7 @@ public class ListadoUsuariosFrame extends JFrame {
 		contentPane.add(btnReestablecerContrasea);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setName("btnEliminar");
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

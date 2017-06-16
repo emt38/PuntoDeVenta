@@ -59,11 +59,13 @@ public class ReestablecerClaveDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public ReestablecerClaveDialog() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Reestablecer Contrase\u00F1a");
 		setBounds(100, 100, 368, 201);
 		getContentPane().setLayout(null);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setName("btnCancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ReestablecerClaveDialog.this.dispose();
@@ -73,6 +75,7 @@ public class ReestablecerClaveDialog extends JDialog {
 		getContentPane().add(btnCancelar);
 		
 		JButton btnReestablecer = new JButton("Reestablecer");
+		btnReestablecer.setName("btnReestablecer");
 		btnReestablecer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(pfClave.getPassword().length < 6) {
@@ -115,11 +118,13 @@ public class ReestablecerClaveDialog extends JDialog {
 		getContentPane().add(lblConfirmar);
 		
 		pfClave = new JPasswordField();
+		pfClave.setName("pfClave");
 		pfClave.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		pfClave.setBounds(104, 23, 238, 25);
 		getContentPane().add(pfClave);
 		
 		pfConfirmacion = new JPasswordField();
+		pfConfirmacion.setName("pfConfirmacion");
 		pfConfirmacion.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		pfConfirmacion.setBounds(104, 58, 238, 25);
 		getContentPane().add(pfConfirmacion);

@@ -22,9 +22,6 @@ public class LoginDialogPrueba {
 	private int velocity = 4;
 	private int lag = 500;
 	
-	/**
-	 * 
-	 */
 	@Test
 	public void testLogin() {
 
