@@ -474,9 +474,7 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 				if (ValidarCampos()) {
 
 					if (modificar) {
-						opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea actualizar el cliente?",
-								"Actualizacion de Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-						if (opcion == 0) {
+						
 							objCliente = new Cliente();
 							objCliente.setId(Integer.parseInt(txtCodigo.getText()));
 							objCliente.setApellido(txtApellido.getText());
@@ -504,11 +502,9 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 							conteo = 0;
 							misClientes = null;
 							mostrarRegistros();
-						}
+						
 					} else {
-						opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea registrar el cliente?",
-								"Registro de Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-						if (opcion == 0) {
+						
 							objCliente.setApellido(txtApellido.getText());
 							objCliente.setCelular(txtCelular.getText());
 							objCliente.setDireccion(txtDireccion.getText());
@@ -533,7 +529,7 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 							misClientes = null;
 							mostrarRegistros();
 
-						}
+						
 					}
 				}
 

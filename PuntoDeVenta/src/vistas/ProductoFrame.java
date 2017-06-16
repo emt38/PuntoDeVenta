@@ -392,9 +392,7 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 						if (ValidarCampos()) {
 
 							if (modificar) {
-								opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea actualizar el cliente?",
-										"Actualizacion de Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-								if (opcion == 0) {
+								
 									objProducto = new Producto();
 									objProducto.setId(Integer.parseInt(txtCodigoId.getText()));
 									objProducto.setCodigo((txtCodigoProdu.getText()));
@@ -411,11 +409,9 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 									conteo = 0;
 									misProductos = null;
 									mostrarRegistros();
-								}
+								
 							} else {
-								opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea registrar el cliente?",
-										"Registro de Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-								if (opcion == 0) {
+								
 									objProducto = new Producto();									 
 									objProducto.setCodigo((txtCodigoProdu.getText()));
 									objProducto.setCosto(Float.parseFloat(txtCosto.getText()));
@@ -431,7 +427,7 @@ public class ProductoFrame extends JFrame implements WindowFocusListener {
 									misProductos = null;
 									mostrarRegistros();
 
-								}
+								
 							}
 						}
 
