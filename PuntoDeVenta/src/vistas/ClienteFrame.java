@@ -451,7 +451,7 @@ public class ClienteFrame extends JFrame implements WindowFocusListener  {
 			public void actionPerformed(ActionEvent e) {
 				limpiarCampos();
 				habilitarEdicion();
-
+				txtTasaDescuento.setText("0.0");
 			}
 		});
 		btnSALIR.addActionListener(new ActionListener() {
