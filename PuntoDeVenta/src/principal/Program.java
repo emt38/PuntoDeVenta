@@ -22,7 +22,7 @@ public class Program {
 	}
 	
 	public static String getDBPassword() {
-		return "";
+		return "root";
 	}
 	
 	public static Usuario getLoggedUser() {

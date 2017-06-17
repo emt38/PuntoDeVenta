@@ -30,6 +30,9 @@ public class RobotFingers {
 		rob.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 	}
 	
+	public void mousePress(Point location) {
+		rob.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+	}
 	public void leftClick(Point location) {
 		leftClick(location.x, location.y);
 	}
@@ -181,5 +184,15 @@ public class RobotFingers {
 	
 	public void setDelayInterval(int delay) {
 		rob.setAutoDelay(delay);
+	}
+
+	public void mouseMove(int x, int y) {
+		// TODO Auto-generated method stub
+		rob.mouseMove(x, y);
+	}
+
+	public void mousePress(int x, int y) {
+		// TODO Auto-generated method stub
+		//rob.mos(x, y);
 	}
 }

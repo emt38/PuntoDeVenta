@@ -1,10 +1,13 @@
 package vistas;
 import java.sql.Connection;
+import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Robot;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +24,47 @@ import javax.swing.table.DefaultTableModel;
 import modelos.Articulo;
 import modelos.Producto;
 import principal.ConnectionDB;
+import principal.RobotFingers;
 import principal.Utilidades;
 import reportes.AbstractJasperReports;
 public class ReportesFrame extends JFrame{
 	
+	private RobotFingers robotFingers = new RobotFingers();
 	private Connection conn;
 	JPanel panel = new JPanel();
+	static JButton btnGenerarCompras = new JButton("Reporte de Compras");
+	static JButton btnGenerarVentas = new JButton("Reporte de Ventas");
+	static JButton btnGenerarUtilidades = new JButton("Reporte de Utilidades");	
+	JButton btnExportarCompras = new JButton("Exportar Compras PDF");	
+	JButton btnExportarVentas = new JButton("Exportar Ventas PDF");
+	JButton btnExportarUtilidades = new JButton("Exportar Utilidades PDF");
+	JButton btnIniciarPruebasRobot = new JButton("Iniciar Pruebas Robot");
+	
 	public ReportesFrame(Connection _conn) {
 		this.conn = _conn;
 		initComponents();
 	}
+
+	private void IniciarPrueba(JButton btn){
+		Robot robot;
+		try {
+			robot = new Robot();
+			robot.delay(2000);
+			int x = btn.getLocation().x +75;
+			int y = btn.getLocation().y + 45;
+			robot.mouseMove(x, y);
+
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+		    robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
 	private void initComponents()
 	{
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 370, 164);
 		getContentPane().setLayout(null);
@@ -40,71 +72,58 @@ public class ReportesFrame extends JFrame{
 		getContentPane().setLayout(null);
 		this.setSize(new Dimension(475,250));
 
-
-		JButton btnGenerarCompras = new JButton("Reporte de Compras");
 		btnGenerarCompras.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
 				AbstractJasperReports.createReport(conn, "src/Compras.jasper");
 				AbstractJasperReports.showViewer();
-			}
+				
+				AbstractJasperReports.createReport(conn, "src/Ventas.jasper");
+				AbstractJasperReports.showViewer();
+				
+				AbstractJasperReports.createReport(conn, "src/Utilidades.jasper");
+				AbstractJasperReports.showViewer();
+					}
 		});
 		btnGenerarCompras.setBounds(44, 31, 175, 46);
 		getContentPane().add(btnGenerarCompras);
 		
-		JButton btnGenerarVentas = new JButton("Reporte de Ventas");
 		btnGenerarVentas.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-
-				AbstractJasperReports.createReport(conn, "src/Ventas.jasper");
-				AbstractJasperReports.showViewer();
+					AbstractJasperReports.createReport(conn, "src/Ventas.jasper");
+					AbstractJasperReports.showViewer();
 			}
 		});
 		btnGenerarVentas.setBounds(44, 75, 175, 46);
 		getContentPane().add(btnGenerarVentas);
 		
-		JButton btnGenerarUtilidades = new JButton("Reporte de Utilidades");
 		btnGenerarUtilidades.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.createReport(conn, "src/Utilidades.jasper");
-				AbstractJasperReports.showViewer();
+					AbstractJasperReports.createReport(conn, "src/Utilidades.jasper");
+					AbstractJasperReports.showViewer();
+					
+					AbstractJasperReports.createReport(conn, "src/Ventas.jasper");
+					AbstractJasperReports.showViewer();
+					
+					AbstractJasperReports.createReport(conn, "src/Utilidades.jasper");
+					AbstractJasperReports.showViewer();
 			}
 		});
 		btnGenerarUtilidades.setBounds(44, 119, 175, 46);
 		getContentPane().add(btnGenerarUtilidades);
-		
-		
-		
-		JButton btnExportarCompras = new JButton("Exportar Compras PDF");
-		btnExportarCompras.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "src/reporteCompras.pdf" );
-			}
-		});
-		btnExportarCompras.setBounds(220, 31, 171, 46);
-		getContentPane().add(btnExportarCompras);
-		
-		JButton btnExportarVentas = new JButton("Exportar Ventas PDF");
-		btnExportarVentas.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "src/reporteVentas.pdf" );
-			}
-		});
-		btnExportarVentas.setBounds(220, 75, 171, 46);
-		getContentPane().add(btnExportarVentas);
-		
-		JButton btnExportarUtilidades = new JButton("Exportar Utilidades PDF");
-		btnExportarUtilidades.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) {
-				AbstractJasperReports.exportToPDF( "src/reporteUtilidades.pdf" );
-			}
-		});
-		btnExportarUtilidades.setBounds(220, 119, 171, 46);
-		getContentPane().add(btnExportarUtilidades);
+	}
+
+	public static Component getBtnCompras(){
+		return btnGenerarCompras;
+	}
+	
+	public static Component getBtnVentas(){
+		return btnGenerarVentas;
+	}
+	
+	public static Component getBtnUtilidades(){
+		return btnGenerarUtilidades;
 	}
 }
